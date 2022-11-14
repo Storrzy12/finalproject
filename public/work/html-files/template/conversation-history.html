@@ -101,9 +101,6 @@
 								<a href="companies.html"><i class="feather-database"></i> <span>Companies</span></a>
 							</li>
 							<li> 
-								<a href="calendar.html"><i class="feather-calendar"></i> <span>Calendar</span></a>
-							</li>
-							<li> 
 								<a href="task-list.html"><i class="feather-check-square"></i> <span>Task List</span></a>
 							</li>
 							<li> 
@@ -147,11 +144,17 @@
 									<!-- Form -->
 									<form action="#" class="invoices-settings-form">
 										<div class="row align-items-center form-group">
-											<label for="name" class="col-sm-3 col-form-label input-label">Company OR Contact</label>
+											<label for="name" class="col-sm-3 col-form-label input-label">Company/Contact</label>
 											<div class="col-sm-9">
 												<div class="col-sm-9">
 													<input type="text" class="form-control">
 												</div>
+											</div>
+										</div>
+										<div class="row align-items-center form-group">
+											<label for="time" class="col-sm-3 col-form-label input-label">Date</label>
+											<div class="col-sm-9">
+												<input type="date" class="form-control">
 											</div>
 										</div>
 										<div class="row align-items-center form-group">
@@ -186,6 +189,7 @@
 													<thead>
 														<tr>
 															<th>Company OR Contact</th>
+															<th>Date</th>
 															<th>Call start time</th>
 															<th>Call end time</th>
 														</tr>
@@ -195,9 +199,8 @@
 															<td class="checkBox">
 																Test
 															</td>
-															<td>
-																9:00PM
-															</td>
+															<td>05/16/2020</td>
+															<td>9:00PM</td>
 															<td>10:00PM</td>
 														</tr>
 													</tbody>
