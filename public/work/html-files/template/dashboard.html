@@ -37,7 +37,7 @@
     </head>
     <body >
 		<!-- Main Wrapper -->
-        <div class="main-wrapper">
+        <div class="main-wrapper" id = "wrapmain">
 		
 			<!-- Header -->
             <div class="header" id="heading">
@@ -87,22 +87,22 @@
 							
 					
 							<li> 
-								<a href="dashboard.html"><i class="feather-grid"></i> <span>Dashboard</span></a>
+								<a href="dashboard.html"><i class="feather-grid clicklink"></i> <span>Dashboard</span></a>
 							</li>
 							<li> 
-								<a href="contacts.html"><i class="feather-user"></i> <span>Contacts</span></a>
+								<a onclick="contacts_page()"><i class="feather-user clicklink"></i> <span>Contacts</span></a>
 							</li>
 							<li> 
-								<a href="companies.html"><i class="feather-database"></i> <span>Companies</span></a>
+								<a onclick="get_companies()"><i class="feather-database clicklink"></i> <span>Companies</span></a>
 							</li>
 							<li> 
-								<a href="task-list.html"><i class="feather-check-square"></i> <span>Task List</span></a>
+								<a onclick="task_list_page()"><i class="feather-check-square clicklink"></i> <span>Task List</span></a>
 							</li>
 							<li> 
-								<a href="conversation-history.html"><i class="feather-smartphone"></i> <span>Conversation History</span></a>
+								<a onclick="conversation_history()"><i class="feather-smartphone clicklink"></i> <span>Conversation History</span></a>
 							</li>
 							<li> 
-								<a href="quick-notes.html"><i class="feather-calendar"></i> <span>Quick Notes</span></a>
+								<a onclick="quick_notes()"><i class="feather-calendar clicklink"></i> <span>Quick Notes</span></a>
 							</li>							
 							
 						</ul>
@@ -112,7 +112,7 @@
 			<!-- /Sidebar -->
 			
 			<!-- Page Wrapper -->
-            <div class="page-wrapper">
+            <div class="page-wrapper" id = "wrapper2">
                 <div class="content container-fluid">
 
 					<div class="crms-title row bg-white">
@@ -199,7 +199,7 @@
 						</tbody>
 					</table>
 				</div>
-			</div>
+			</div>		
 			<!-- /Page Wrapper -->
 		
         </div>
@@ -232,6 +232,10 @@
 
 		<!-- Custom JS -->
 		<script src="assets/js/app.js"></script>
+
+		<!--Project JS-->
+		<script src="assets/js/project.js"></script>
+
 
     </body>
 </html> 
