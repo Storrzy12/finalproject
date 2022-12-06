@@ -790,6 +790,17 @@ function add_contact(){
 	let desc = document.querySelector('#cont_desc');
 	let notes = document.querySelector('#cont_notes');
 
+	let post_stuff = {
+		name:name,
+		org:org,
+		title:title,
+		email:email,
+		phone:phone,
+		address:address,
+		desc:desc,
+		notes:notes,
+	}
+
 	db.collection('Contacts').add(post_stuff).then(() => {
 		submitPostForm.reset();
 		

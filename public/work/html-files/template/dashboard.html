@@ -4,6 +4,7 @@
         <meta charset="utf-8">
         <title>Dashboard</title>
 		
+
 		<!-- Favicon -->
         <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.png">
 		
@@ -299,35 +300,18 @@
 		</div><!-- modal -->
 		 
 
-		<!-- jQuery -->
-        <script src="assets/js/jquery-3.6.0.min.js"></script>
-		
-		<!-- Bootstrap Core JS -->
-        <script src="assets/js/bootstrap.bundle.min.js"></script>
-		
-		<!-- Slimscroll JS -->
-		<script src="assets/js/jquery.slimscroll.min.js"></script>
+		<!-- Insert these scripts at the bottom of the HTML, but before you use any Firebase services -->
 
-        <!-- Feather Icon JS -->
-		<script src="assets/js/feather.min.js"></script>
+		<!-- Firebase App (the core Firebase SDK) is always required and must be listed first -->
+		<script src="https://www.gstatic.com/firebasejs/8.3.1/firebase-app.js"></script>
 
-        <!-- ckeditor JS -->
-	    <script src="assets/js/ckeditor.js"></script>
+		<!-- If you enabled Analytics in your project, add the Firebase SDK for Analytics -->
+		<script src="https://www.gstatic.com/firebasejs/8.3.1/firebase-analytics.js"></script>
+		<script src="https://www.gstatic.com/firebasejs/8.3.1/firebase-storage.js"></script>
 
-		<!-- Select 2 -->
-		<script src="assets/js/select2.min.js"></script>
-
-        <!-- Bootstrap Tagsinput JS -->
-        <script src="assets/plugins/bootstrap-tagsinput/js/bootstrap-tagsinput.js"></script>
-      
-		<!-- theme JS -->
-		<script src="assets/js/theme-settings.js"></script>
-
-		<!-- Custom JS -->
-		<script src="assets/js/app.js"></script>
-
-		<!--Project JS-->
-		<script src="assets/js/project.js"></script>
+		<!-- Add Firebase products that you want to use -->
+		<script src="https://www.gstatic.com/firebasejs/8.3.1/firebase-auth.js"></script>
+		<script src="https://www.gstatic.com/firebasejs/8.3.1/firebase-firestore.js"></script>
 
 		<script>
 			// TODO
@@ -349,12 +333,42 @@
 			firebase.initializeApp(firebaseConfig);
 			// define authentication variable
 			let auth = firebase.auth();
-			let db = firebase.firestore();
+			const db = firebase.firestore();
 	
 			// define a storage reference
 			let ref = firebase.storage().ref();
 		</script>
 		<!-- make sure to add your own js file as the last line in index.html file -->
+
+				<!-- jQuery -->
+				<script src="assets/js/jquery-3.6.0.min.js"></script>
+		
+				<!-- Bootstrap Core JS -->
+				<script src="assets/js/bootstrap.bundle.min.js"></script>
+				
+				<!-- Slimscroll JS -->
+				<script src="assets/js/jquery.slimscroll.min.js"></script>
+		
+				<!-- Feather Icon JS -->
+				<script src="assets/js/feather.min.js"></script>
+		
+				<!-- ckeditor JS -->
+				<script src="assets/js/ckeditor.js"></script>
+		
+				<!-- Select 2 -->
+				<script src="assets/js/select2.min.js"></script>
+		
+				<!-- Bootstrap Tagsinput JS -->
+				<script src="assets/plugins/bootstrap-tagsinput/js/bootstrap-tagsinput.js"></script>
+			  
+				<!-- theme JS -->
+				<script src="assets/js/theme-settings.js"></script>
+		
+				<!-- Custom JS -->
+				<script src="assets/js/app.js"></script>
+		
+				<!--Project JS-->
+				<script src="assets/js/project.js"></script>
 
     </body>
 </html> 
