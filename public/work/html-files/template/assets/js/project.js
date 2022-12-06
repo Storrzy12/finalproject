@@ -802,7 +802,7 @@ function add_contact(){
 	}
 
 	db.collection('Contacts').add(post_stuff).then(() => {
-		submitPostForm.reset();
+		contactForm.reset();
 		
 	})
 
