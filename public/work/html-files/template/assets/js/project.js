@@ -775,3 +775,26 @@ function quick_notes(){
 
     `
 }
+
+
+// let contactForm = document.querySelector('#cont_form');
+// contactForm.addEventListener('submit', (e)=>{
+// 	console.log("hi")
+function add_contact(){
+	let name = document.querySelector('#cont_name');
+	let org = document.querySelector('#cont_org');
+	let title = document.querySelector('#cont_title');
+	let email = document.querySelector('#cont_email');
+	let phone = document.querySelector('#cont_phone');
+	let address = document.querySelector('#cont_address');
+	let desc = document.querySelector('#cont_desc');
+	let notes = document.querySelector('#cont_notes');
+
+	db.collection('Contacts').add(post_stuff).then(() => {
+		submitPostForm.reset();
+		
+	})
+
+
+
+}
