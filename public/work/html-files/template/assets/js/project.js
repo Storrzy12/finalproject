@@ -86,62 +86,62 @@ function contacts_page(){
 						<div class="modal-body">
 							<div class="row">
 						        <div class="col-md-12">
-						            <form>
-						            	<h4>Name & Occupation</h4>
-						            	<div class="form-group row">
-				                            <div class="col-md-12"><label class="col-form-label">Name <span class="text-danger">*</span></label></div>
+								<form id = "cont_form">
+								<h4>Name & Occupation</h4>
+								<div class="form-group row">
+									<div class="col-md-12"><label class="col-form-label">Name <span class="text-danger">*</span></label></div>
 
-				                            <div class="col-md-4">
-				                                <input class="form-control" type="text" placeholder="First Last" name="prefix-name">
-				                            </div>
-				                        </div>
-						                <div class="form-group row">
-											<div class="col-sm-6">
-												<label class="col-form-label">Organization</label>
-                            					<input type="text" class="form-control"  name="Organization" placeholder="Organization">
-											</div>
-											<div class="col-sm-6">
-												<label class="col-form-label">Title</label>
-                            					<input type="text" class="form-control"  name="title" placeholder="Title">
-											</div>
-										</div>			            
-										<h4>Contact Details</h4>
-										<div class="form-group row">
-											<div class="col-sm-6">
-												<label class="col-form-label">Email</label>
-                            					<input type="text" class="form-control"  name="email" placeholder="Email">
-											</div>
-										</div>
-										<div class="form-group row">
-											<div class="col-sm-6">
-												<label class="col-form-label">Phone</label>
-                            					<input type="text" class="form-control" name="phone" placeholder="Phone">
-											</div>
-										<h4>Address Information</h4>
-										<div class="form-group row">
-											<div class="col-sm-6">
-												<label class="col-form-label">Mailing Address</label>
-                            					<textarea class="form-control" rows="3" name="mailing-address" placeholder="Address"></textarea>
-											</div>
-										</div>							
-										<h4>Description Information</h4>
-										<div class="form-group row">
-											<div class="col-sm-12">
-												<label class="col-form-label">Description </label>
-				                            	<textarea class="form-control" rows="3" id="description" placeholder="Description"></textarea>
-											</div>
-										</div>
-										<h4>Notes</h4>
-										<div class="form-group row">
-											<div class="col-sm-12">
-												<label class="col-form-label">Notes </label>
-				                            	<textarea class="form-control" rows="3" id="description" placeholder="Notes"></textarea>
-											</div>
-										</div>
-						                <div class="text-center py-3">
-						                	<button type="button" class="border-0 btn btn-primary btn-gradient-primary btn-rounded">Save</button>&nbsp;&nbsp;
-						                </div>
-						            </form>
+									<div class="col-md-4">
+										<input class="form-control" type="text" placeholder="First Last" name="prefix-name" id = "cont_name">
+									</div>
+								</div>
+								<div class="form-group row">
+									<div class="col-sm-6">
+										<label class="col-form-label">Organization</label>
+										<input type="text" class="form-control"  name="Organization" placeholder="Organization" id= "cont_org">
+									</div>
+									<div class="col-sm-6">
+										<label class="col-form-label">Title</label>
+										<input type="text" class="form-control"  name="title" placeholder="Title" id = "cont_title">
+									</div>
+								</div>			            
+								<h4>Contact Details</h4>
+								<div class="form-group row">
+									<div class="col-sm-6">
+										<label class="col-form-label">Email</label>
+										<input type="text" class="form-control"  name="email" placeholder="Email" id = "cont_email">
+									</div>
+								</div>
+								<div class="form-group row">
+									<div class="col-sm-6">
+										<label class="col-form-label">Phone</label>
+										<input type="text" class="form-control" name="phone" placeholder="Phone" id = "cont_phone">
+									</div>
+								<h4>Address Information</h4>
+								<div class="form-group row">
+									<div class="col-sm-6">
+										<label class="col-form-label">Mailing Address</label>
+										<textarea class="form-control" rows="3" name="mailing-address" placeholder="Address" id = "cont_address"></textarea>
+									</div>
+								</div>							
+								<h4>Description Information</h4>
+								<div class="form-group row">
+									<div class="col-sm-12">
+										<label class="col-form-label">Description </label>
+										<textarea class="form-control" rows="3" id="cont_desc" placeholder="Description"></textarea>
+									</div>
+								</div>
+								<h4>Notes</h4>
+								<div class="form-group row">
+									<div class="col-sm-12">
+										<label class="col-form-label">Notes </label>
+										<textarea class="form-control" rows="3"placeholder="Notes" id = "cont_notes"></textarea>
+									</div>
+								</div>
+								<div class="text-center py-3">
+									<button type="button" class="border-0 btn btn-primary btn-gradient-primary btn-rounded" onclick="add_contact()">Save</button>&nbsp;&nbsp;
+								</div>
+							</form>
 						        </div>
 							</div>
 
@@ -777,23 +777,42 @@ function quick_notes(){
 }
 
 
-// let contactForm = document.querySelector('#cont_form');
+let contactForm = document.querySelector('#cont_form');
+console.log(contactForm);
 // contactForm.addEventListener('submit', (e)=>{
 // 	console.log("hi")
 function add_contact(){
-	let name = document.querySelector('#cont_name');
-	let org = document.querySelector('#cont_org');
-	let title = document.querySelector('#cont_title');
-	let email = document.querySelector('#cont_email');
-	let phone = document.querySelector('#cont_phone');
-	let address = document.querySelector('#cont_address');
-	let desc = document.querySelector('#cont_desc');
-	let notes = document.querySelector('#cont_notes');
+	let name = document.querySelector('#cont_name').value;
+	let org = document.querySelector('#cont_org').value;
+	let title = document.querySelector('#cont_title').value;
+	let email = document.querySelector('#cont_email').value;
+	let phone = document.querySelector('#cont_phone').value;
+	let address = document.querySelector('#cont_address').value;
+	let desc = document.querySelector('#cont_desc').value;
+	let notes = document.querySelector('#cont_notes').value;
+
+
+	let post_stuff = {
+		company_ID: 1,
+		company_name: org,
+		contact_name: name,
+		description: desc,
+		email: email,
+		mailing_address: address,
+		notes: notes,
+		phone_num: phone,
+		title: title
+
+	}
+
+	console.log(post_stuff)
+
 
 	db.collection('Contacts').add(post_stuff).then(() => {
-		submitPostForm.reset();
-		
+		// alert(contactForm);
+		contactForm.reset()
 	})
+	
 
 
 

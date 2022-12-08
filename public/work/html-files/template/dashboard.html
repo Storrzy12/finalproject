@@ -128,17 +128,7 @@
                 		</div>
                 	</div>
 					<div class="row mt-4">
-						<div class="page-header pt-3 mb-0 ">
-							<div class="row">
-								<div class="col text-end">
-									<ul class="list-inline-item ps-0">
-										<li class="list-inline-item">
-											<button class="add btn btn-gradient-primary font-weight-bold text-white todo-list-add-btn btn-rounded" id="add-task" data-bs-toggle="modal" data-bs-target="#add_company">New Contact</button>
-										</li>
-									</ul>
-								</div>
-							</div>
-						</div>
+						
 						
 						
 								<div class="row">
@@ -219,85 +209,49 @@
 		
         </div>
 		<!-- /Main Wrapper -->
-		<!-- Modal -->
-		<div class="modal right fade" id="add_company" tabindex="-1" role="dialog" aria-modal="true">
-			<div class="modal-dialog" role="document">
-				<button type="button" class="close md-close" data-bs-dismiss="modal" aria-label="Close"> </button>
-				<div class="modal-content">
-
-					<div class="modal-header">
-						<h4 class="modal-title text-center">Add Contact</h4>
-						<button type="button" class="btn-close xs-close" data-bs-dismiss="modal"></button>
-					  </div>
-
-					<div class="modal-body">
-						<div class="row">
-							<div class="col-md-12">
-								<form id = "cont_form">
-									<h4>Name & Occupation</h4>
-									<div class="form-group row">
-										<div class="col-md-12"><label class="col-form-label">Name <span class="text-danger">*</span></label></div>
-
-										<div class="col-md-4">
-											<input class="form-control" type="text" placeholder="First Last" name="prefix-name" id = "cont_name">
-										</div>
-									</div>
-									<div class="form-group row">
-										<div class="col-sm-6">
-											<label class="col-form-label">Organization</label>
-											<input type="text" class="form-control"  name="Organization" placeholder="Organization" id= "cont_org">
-										</div>
-										<div class="col-sm-6">
-											<label class="col-form-label">Title</label>
-											<input type="text" class="form-control"  name="title" placeholder="Title" id = "cont_title">
-										</div>
-									</div>			            
-									<h4>Contact Details</h4>
-									<div class="form-group row">
-										<div class="col-sm-6">
-											<label class="col-form-label">Email</label>
-											<input type="text" class="form-control"  name="email" placeholder="Email" id = "cont_email">
-										</div>
-									</div>
-									<div class="form-group row">
-										<div class="col-sm-6">
-											<label class="col-form-label">Phone</label>
-											<input type="text" class="form-control" name="phone" placeholder="Phone" id = "cont_phone">
-										</div>
-									<h4>Address Information</h4>
-									<div class="form-group row">
-										<div class="col-sm-6">
-											<label class="col-form-label">Mailing Address</label>
-											<textarea class="form-control" rows="3" name="mailing-address" placeholder="Address" id = "cont_address"></textarea>
-										</div>
-									</div>							
-									<h4>Description Information</h4>
-									<div class="form-group row">
-										<div class="col-sm-12">
-											<label class="col-form-label">Description </label>
-											<textarea class="form-control" rows="3" id="description" placeholder="Description" id = "cont_desc"></textarea>
-										</div>
-									</div>
-									<h4>Notes</h4>
-									<div class="form-group row">
-										<div class="col-sm-12">
-											<label class="col-form-label">Notes </label>
-											<textarea class="form-control" rows="3" id="description" placeholder="Notes" id = "cont_notes"></textarea>
-										</div>
-									</div>
-									<div class="text-center py-3">
-										<button type="button" class="border-0 btn btn-primary btn-gradient-primary btn-rounded" onclick="add_contact()">Save</button>&nbsp;&nbsp;
-									</div>
-								</form>
-							</div>
-						</div>
-
-					</div>
-
-				</div><!-- modal-content -->
-			</div><!-- modal-dialog -->
-		</div><!-- modal -->
+		
+		
 		 
+
+	<script src="https://www.gstatic.com/firebasejs/8.3.1/firebase-app.js"></script>
+
+    <!-- If you enabled Analytics in your project, add the Firebase SDK for Analytics -->
+    <script src="https://www.gstatic.com/firebasejs/8.3.1/firebase-analytics.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.3.1/firebase-storage.js"></script>
+
+    <!-- Add Firebase products that you want to use -->
+    <script src="https://www.gstatic.com/firebasejs/8.3.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.3.1/firebase-firestore.js"></script>
+
+
+		<script>
+			// TODO
+			// Copy **only** your firebaseConfig from Google Firebae and add it below
+	
+			// Your web app's Firebase configuration 
+	
+			const firebaseConfig = {
+			apiKey: "AIzaSyBJesdsgsXdg3eNXzNWT4epx1q_X4mf4bM",
+			authDomain: "schultz-bernstein-b16ab.firebaseapp.com",
+			projectId: "schultz-bernstein-b16ab",
+			storageBucket: "schultz-bernstein-b16ab.appspot.com",
+			messagingSenderId: "772452220920",
+			appId: "1:772452220920:web:5044c4790d017bd5baa00d"
+			};
+	
+	
+			// Initialize Firebase
+			firebase.initializeApp(firebaseConfig);
+			// define authentication variable
+			let auth = firebase.auth();
+			let db = firebase.firestore();
+	
+			// define a storage reference
+			let ref = firebase.storage().ref();
+		</script>
+		<!-- make sure to add your own js file as the last line in index.html file -->
+
+
 
 		<!-- jQuery -->
         <script src="assets/js/jquery-3.6.0.min.js"></script>
@@ -328,33 +282,5 @@
 
 		<!--Project JS-->
 		<script src="assets/js/project.js"></script>
-
-		<script>
-			// TODO
-			// Copy **only** your firebaseConfig from Google Firebae and add it below
-	
-			// Your web app's Firebase configuration 
-	
-			const firebaseConfig = {
-			apiKey: "AIzaSyBJesdsgsXdg3eNXzNWT4epx1q_X4mf4bM",
-			authDomain: "schultz-bernstein-b16ab.firebaseapp.com",
-			projectId: "schultz-bernstein-b16ab",
-			storageBucket: "schultz-bernstein-b16ab.appspot.com",
-			messagingSenderId: "772452220920",
-			appId: "1:772452220920:web:5044c4790d017bd5baa00d"
-			};
-	
-	
-			// Initialize Firebase
-			firebase.initializeApp(firebaseConfig);
-			// define authentication variable
-			let auth = firebase.auth();
-			let db = firebase.firestore();
-	
-			// define a storage reference
-			let ref = firebase.storage().ref();
-		</script>
-		<!-- make sure to add your own js file as the last line in index.html file -->
-
     </body>
 </html> 
