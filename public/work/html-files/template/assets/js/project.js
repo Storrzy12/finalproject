@@ -1,6 +1,6 @@
 //contacts
-function contacts_page(){
-    wrapper2.innerHTML = `
+function contacts_page() {
+  wrapper2.innerHTML = `
 			
     <!-- Page Content -->
                 <div class="content container-fluid">
@@ -155,11 +155,11 @@ function contacts_page(){
 
 
 
-`}
+`;
+}
 
-
-function get_companies(){
-    wrapper2.innerHTML = `<div class="content container-fluid">
+function get_companies() {
+  wrapper2.innerHTML = `<div class="content container-fluid">
 
     <div class="crms-title row bg-white">
         <div class="col">
@@ -370,14 +370,11 @@ function get_companies(){
 
 
 
-`
-
-
+`;
 }
 
-function task_list_page(){
-    wrapper2.innerHTML = 
-    `
+function task_list_page() {
+  wrapper2.innerHTML = `
                 <div class="content container-fluid">
 					<div class="crms-title row bg-white">
                 		<div class="col  p-0">
@@ -541,14 +538,11 @@ function task_list_page(){
                     </div>
                 </div>
 
-    `
-
-
-
+    `;
 }
 
-function conversation_history(){
-    wrapper2.innerHTML = `
+function conversation_history() {
+  wrapper2.innerHTML = `
     <div class="content container-fluid">
 
                 	<div class="crms-title row bg-white">
@@ -648,15 +642,11 @@ function conversation_history(){
     
     
     
-    `
-
-
+    `;
 }
 
-
-
-function quick_notes(){
-    wrapper2.innerHTML = `
+function quick_notes() {
+  wrapper2.innerHTML = `
 
     <div class="content container-fluid">
 					<div class="crms-title row bg-white">
@@ -773,47 +763,44 @@ function quick_notes(){
             </div>
 
 
-    `
+    `;
 }
 
+let companyForm = document.querySelector("#comp_form");
+console.log(companyForm);
 
-let contactForm = document.querySelector('#cont_form');
+let contactForm = document.querySelector("#cont_form");
 console.log(contactForm);
 // contactForm.addEventListener('submit', (e)=>{
 // 	console.log("hi")
-function add_contact(){
-	let name = document.querySelector('#cont_name').value;
-	let org = document.querySelector('#cont_org').value;
-	let title = document.querySelector('#cont_title').value;
-	let email = document.querySelector('#cont_email').value;
-	let phone = document.querySelector('#cont_phone').value;
-	let address = document.querySelector('#cont_address').value;
-	let desc = document.querySelector('#cont_desc').value;
-	let notes = document.querySelector('#cont_notes').value;
+function add_contact() {
+  let name = document.querySelector("#cont_name").value;
+  let org = document.querySelector("#cont_org").value;
+  let title = document.querySelector("#cont_title").value;
+  let email = document.querySelector("#cont_email").value;
+  let phone = document.querySelector("#cont_phone").value;
+  let address = document.querySelector("#cont_address").value;
+  let desc = document.querySelector("#cont_desc").value;
+  let notes = document.querySelector("#cont_notes").value;
 
+  let post_stuff = {
+    company_ID: 1,
+    company_name: org,
+    contact_name: name,
+    description: desc,
+    email: email,
+    mailing_address: address,
+    notes: notes,
+    phone_num: phone,
+    title: title,
+  };
 
-	let post_stuff = {
-		company_ID: 1,
-		company_name: org,
-		contact_name: name,
-		description: desc,
-		email: email,
-		mailing_address: address,
-		notes: notes,
-		phone_num: phone,
-		title: title
+  console.log(post_stuff);
 
-	}
-
-	console.log(post_stuff)
-
-
-	db.collection('Contacts').add(post_stuff).then(() => {
-		// alert(contactForm);
-		contactForm.reset()
-	})
-	
-
-
-
+  db.collection("Contacts")
+    .add(post_stuff)
+    .then(() => {
+      // alert(contactForm);
+      contactForm.reset();
+    });
 }
