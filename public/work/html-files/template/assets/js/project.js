@@ -571,36 +571,36 @@ function conversation_history(){
 								<div class="card-body">
 								
 									<!-- Form -->
-									<form action="#" class="invoices-settings-form">
+									<form action="#" class="invoices-settings-form" id = "convo_form">
 										<div class="row align-items-center form-group">
 											<label for="name" class="col-sm-3 col-form-label input-label">Company/Contact</label>
 											<div class="col-sm-9">
 												<div class="col-sm-9">
-													<input type="text" class="form-control">
+													<input type="text" class="form-control" id ="comp_cont">
 												</div>
 											</div>
 										</div>
 										<div class="row align-items-center form-group">
 											<label for="time" class="col-sm-3 col-form-label input-label">Date</label>
 											<div class="col-sm-9">
-												<input type="date" class="form-control">
+												<input type="date" class="form-control" id = "convo_date">
 											</div>
 										</div>
 										<div class="row align-items-center form-group">
 											<label for="time" class="col-sm-3 col-form-label input-label">Call start time</label>
 											<div class="col-sm-9">
-												<input type="time" class="form-control">
+												<input type="time" class="form-control" id = "start_time">
 											</div>
 										</div>
 										<div class="row align-items-center form-group">
 											<label for="time" class="col-sm-3 col-form-label input-label">Call end time</label>
 											<div class="col-sm-9">
-												<input type="time" class="form-control">
+												<input type="time" class="form-control" id = "end_time">
 											</div>
 										</div>
 										<div class="invoice-setting-btn text-end">
 											<button type="submit" class="btn cancel-btn me-2">Cancel</button>
-											<button type="submit" class="btn btn-primary">Save Call</button>
+											<button type="submit" class="btn btn-primary" onclick = "add_convo()">Save Call</button>
 										</div>
 									</form>
 									<!-- /Form -->
@@ -777,11 +777,11 @@ function quick_notes(){
 }
 
 
-let contactForm = document.querySelector('#cont_form');
 console.log(contactForm);
 // contactForm.addEventListener('submit', (e)=>{
 // 	console.log("hi")
 function add_contact(){
+	let contactForm = document.querySelector('#cont_form');
 	let name = document.querySelector('#cont_name').value;
 	let org = document.querySelector('#cont_org').value;
 	let title = document.querySelector('#cont_title').value;
@@ -809,11 +809,41 @@ function add_contact(){
 
 
 	db.collection('Contacts').add(post_stuff).then(() => {
-		// alert(contactForm);
 		contactForm.reset()
+
 	})
-	
-
-
 
 }
+
+
+
+function add_convo(){
+	console.log("hi")
+	let convo_form = document.querySelector('#convo_form');
+	let call_start = document.querySelector('#start_time').value;
+	let call_end = document.querySelector('#end_time').value;
+	let date = document.querySelector('#convo_date').value;
+	console.log(convo_form)
+	let post_stuff = {
+		comp_id: "",
+		cont_id: "",
+		call_start: call_start,
+		call_end: call_end,
+		date: date
+
+	}
+	console.log(post_stuff)
+
+	db.collection('Conversation').add(post_stuff).then(() => {
+		// alert(contactForm);
+		// location.reload()
+		// setTimeout(() => {
+		// 	conversation_history()
+		// }, 1500);
+
+		convo_form.reset()
+	})
+
+}
+
+
