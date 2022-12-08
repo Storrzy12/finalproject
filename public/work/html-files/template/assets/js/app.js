@@ -791,26 +791,27 @@ function draggableInit() {
 
 }
 
+let submitQuickNotes = document.querySelector("#submitQuickNotes")
+console.log(submitQuickNotes)
 // Quick Notes Data
-// submitQuickNotes.addEventListener('submit', (e) => {
-//     e.preventDefault();
+submitQuickNotes.addEventListener('click', (e) => {
+    e.preventDefault();
+    let company_id = document.querySelector('#company_id').value;
+    let date = document.querySelector('#date').value;
+    let comments = document.querySelector('#comments').value;
+    let file = document.querySelector('#file').value;
 
-//     let company_id = document.querySelector('#company_id').value;
-//     let date = document.querySelector('#date').value;
-//     let comments = document.querySelector('#comments').value;
-//     let file = document.querySelector('#file').value;
+    let quickNotes_detail = {
+        company_id : company_id,
+        date : date,
+        comments : comments,
+        file : file,
+    }
 
-//     let quickNotes_detail = {
-//         company_id : company_id,
-//         date : date,
-//         comments : comments,
-//         file : file,
-//     }
+    console.log(quickNotes_detail);
 
-//     console.log(quickNotes_detail);
-
-//     db.collection('Notes').add(quickNotes_detail)
-// })
+    db.collection('Notes').add(quickNotes_detail)
+})
 
 //console.log(firebase)
  

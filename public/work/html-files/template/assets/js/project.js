@@ -697,7 +697,7 @@ function quick_notes(){
                                                 </div>
                                             </div>
                                             <div class="submit-section">
-                                                <button class="submit-btn btn-primary btn-blog" type="submit">Submit</button>
+                                                <button class="submit-btn btn-primary btn-blog" type="submit" id="submitQuickNotes">Submit</button>
                                             </div>
                                         </form>
                                     </div>
