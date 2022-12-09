@@ -290,12 +290,12 @@ function get_companies() {
 						<div class="modal-body">
 							<div class="row">
 						        <div class="col-md-12">
-						            <form>
+						            <form id = "comp_form">
 						            	<h4>Organization Name</h4>
 						            	<div class="form-group row">
 				                            <div class="col-md-12">
 				                            	<label class="col-form-label">Organization Name <span class="text-danger">*</span></label>
-                              					<input class="form-control" type="text" placeholder="Organization Name" name="organization" >
+                              					<input class="form-control" type="text" placeholder="Organization Name" name="organization" id = "comp_name">
 				                            </div>
 				                        </div>			            
 										<h4>Organization Contact Details</h4>
@@ -303,19 +303,19 @@ function get_companies() {
 										<div class="form-group row">
 											<div class="col-sm-6">
 												<label class="col-form-label">Phone</label>
-                            					<input type="text" class="form-control" name="phone" placeholder="Phone">
+                            					<input type="text" class="form-control" name="phone" placeholder="Phone" id = "comp_phone">
 											</div>
 										</div>
 										<div class="form-group row">
 											<div class="col-sm-6">
 												<label class="col-form-label">Website</label>
-                            					<input type="text" class="form-control" name="website" placeholder="Website">
+                            					<input type="text" class="form-control" name="website" placeholder="Website" id = "comp_website">
 											</div>
 										</div>
 										<div class="form-group row">
 											<div class="col-sm-6">
 												<label class="col-form-label">Email Domains</label>
-                            					<input type="text" class="form-control"  name="domains" placeholder="Email Domains">
+                            					<input type="text" class="form-control"  name="domains" placeholder="Email Domains" id = "comp_emailDom">
 											</div>
 											
 										</div>
@@ -323,20 +323,20 @@ function get_companies() {
 										<div class="form-group row">
 											<div class="col-sm-6">
 												<label class="col-form-label">Billing Address</label>
-                            					<textarea class="form-control" rows="3" name="billing-address" placeholder="Billing Address"></textarea>
+                            					<textarea class="form-control" rows="3" name="billing-address" placeholder="Billing Address" id = "comp_billAdd"></textarea>
 											</div>
 										</div>
 										<div class="form-group row">
 											<div class="col-sm-6">
 												<label class="col-form-label">Shipping Address</label>
-                            					<textarea class="form-control" rows="3" name="shipping-address" placeholder="Shipping Address"></textarea>
+                            					<textarea class="form-control" rows="3" name="shipping-address" placeholder="Shipping Address" id = "comp_shipAdd"></textarea>
 											</div>
 										</div>							
 										<h4>Description Information</h4>
 										<div class="form-group row">
 											<div class="col-sm-12">
 												<label class="col-form-label">Description </label>
-				                            	<textarea class="form-control" rows="3" id="description" placeholder="Description"></textarea>
+				                            	<textarea class="form-control" rows="3" id="description" placeholder="Description" id = "comp_desc"></textarea>
 											</div>
 										</div>
 										<h4>Pictures</h4>
@@ -344,7 +344,7 @@ function get_companies() {
 											<div class="change-photo-btn">
 												<div>
 												<p>Add Photo</p></div>
-												<input type="file" class="upload">
+												<input type="file" class="upload" id = "comp_pics">
 											</div>
 										</div>
 										<h4>Documents</h4>
@@ -352,11 +352,11 @@ function get_companies() {
 											<div class="change-photo-btn">
 												<div>
 												<p>Add Document</p></div>
-												<input type="file" class="upload">
+												<input type="file" class="upload" id = "comp_docs">
 											</div>
 										</div>
 						                <div class="text-center py-3">
-						                	<button type="button" class="border-0 btn btn-primary btn-gradient-primary btn-rounded">Save</button>&nbsp;&nbsp;
+						                	<button type="button" class="border-0 btn btn-primary btn-gradient-primary btn-rounded" onclick="add_company()">Save</button>&nbsp;&nbsp;
 						                </div>
 						            </form>
 						        </div>
@@ -766,9 +766,6 @@ function quick_notes() {
     `;
 }
 
-let companyForm = document.querySelector("#comp_form");
-console.log(companyForm);
-
 let contactForm = document.querySelector("#cont_form");
 console.log(contactForm);
 // contactForm.addEventListener('submit', (e)=>{
@@ -802,5 +799,40 @@ function add_contact() {
     .then(() => {
       // alert(contactForm);
       contactForm.reset();
+    });
+}
+
+let companyForm = document.querySelector("#comp_form");
+console.log(companyForm);
+
+function add_company() {
+  let compName = document.querySelector("#comp_name").value;
+  let phone = document.querySelector("#comp_phone").value;
+  let compWebsite = document.querySelector("#comp_website").value;
+  let emailDomain = document.querySelector("#comp_emailDomain").value;
+  let billAdd = document.querySelector("#comp_billAdd").value;
+  let shipAdd = document.querySelector("#comp_shipAdd").value;
+  let desc = document.querySelector("#comp_desc").value;
+  let pics = document.querySelector("#comp_pics").value;
+  let docs = document.querySelector("#comp_docs").value;
+
+  let post_moreStuff = {
+    billing_address: billAdd,
+    description: desc,
+    email_domain: emailDomain,
+    files: docs,
+    name: compName,
+    phone_num: phone,
+    photos: pics,
+    shipping_address: shipAdd,
+    website: compWebsite,
+  };
+
+  console.log(post_moreStuff);
+
+  db.collection("Company")
+    .add(post_moreStuff)
+    .then(() => {
+      companyForm.reset();
     });
 }
