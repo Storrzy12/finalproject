@@ -154,16 +154,16 @@ function contacts_page() {
 
 
 `;
-display_contacts()
-org_dropdown()
+  display_contacts();
+  org_dropdown();
 }
 
-function display_contacts(){
-	var contactref = db.collection("Contacts");
-	contactref.get().then((response)=>{
-		let docs = response.docs
-		docs.forEach(doc =>{
-			contacts_table.innerHTML+=`
+function display_contacts() {
+  var contactref = db.collection("Contacts");
+  contactref.get().then((response) => {
+    let docs = response.docs;
+    docs.forEach((doc) => {
+      contacts_table.innerHTML += `
 			<tr>	
 				<td>${doc.data().contact_name}</td>
 				<td>${doc.data().company_name}</td>
@@ -174,35 +174,23 @@ function display_contacts(){
 				<td>${doc.data().description}</td>
 				
 	</tr>
-		`
-			
-
-	})
-	})
-
-
+		`;
+    });
+  });
 }
 
-function org_dropdown(){
-	
-	var companyref = db.collection("Company");
-	companyref.get().then((response)=>{
-		let docs = response.docs
-		docs.forEach(doc =>{
-			
-			cont_org.innerHTML+=`
+function org_dropdown() {
+  var companyref = db.collection("Company");
+  companyref.get().then((response) => {
+    let docs = response.docs;
+    docs.forEach((doc) => {
+      cont_org.innerHTML += `
 			<option value="${doc.data().name}">${doc.data().name}</option>
 		
-		`	
-
-	})
-	})
-
+		`;
+    });
+  });
 }
-
-
-
-
 
 function get_companies() {
   wrapper2.innerHTML = `<div class="content container-fluid">
@@ -410,15 +398,15 @@ function get_companies() {
 
 
 `;
-display_companies()
+  display_companies();
 }
 
-function display_companies(){
-	var companyref = db.collection("Company");
-	companyref.get().then((response)=>{
-		let docs = response.docs
-		docs.forEach(doc =>{
-			company_table.innerHTML+=`
+function display_companies() {
+  var companyref = db.collection("Company");
+  companyref.get().then((response) => {
+    let docs = response.docs;
+    docs.forEach((doc) => {
+      company_table.innerHTML += `
 			<tr>	
 				<td>${doc.data().name}</td>
 				<td>${doc.data().phone_num}</td>
@@ -429,18 +417,10 @@ function display_companies(){
 				<td>${doc.data().description}</td>
 				
 	</tr>
-		`
-		
-		
-
-	})
-	})
-
-
+		`;
+    });
+  });
 }
-
-
-
 
 function task_list_page() {
   wrapper2.innerHTML = `
@@ -610,9 +590,6 @@ function task_list_page() {
     `;
 }
 
-
-
-
 function conversation_history() {
   wrapper2.innerHTML = `
     <div class="content container-fluid">
@@ -715,29 +692,24 @@ function conversation_history() {
     
     
     `;
-	display_convo_history()
+  display_convo_history();
 }
-function display_convo_history(){
-	var convoref = db.collection("Conversation");
-	convoref.get().then((response)=>{
-		let docs = response.docs
-		docs.forEach(doc =>{
-			convo_table.innerHTML+=`
+function display_convo_history() {
+  var convoref = db.collection("Conversation");
+  convoref.get().then((response) => {
+    let docs = response.docs;
+    docs.forEach((doc) => {
+      convo_table.innerHTML += `
 			<tr>	
 				<td>${doc.data().client_name}</td>
 				<td>${doc.data().date}</td>
 				<td>${doc.data().call_start}</td>
 				<td>${doc.data().call_end}</td>
 	</tr>
-		`
-			
-
-	})
-	})
-
-
+		`;
+    });
+  });
 }
-
 
 function quick_notes() {
   wrapper2.innerHTML = `
@@ -758,17 +730,17 @@ function quick_notes() {
                                         <h4 class="card-title">Add note</h4>
                                     </div>
                                     <div class="card-body">
-                                        <form>
+                                        <form action="#" class="invoices-settings-form" id = "notes_form">
                                             <div class="form-floating mb-3">
-                                                <input type="text" class="form-control" id="floatingInput" placeholder="Enter your name">
+                                                <input type="text" class="form-control" placeholder="Enter your name" id = "notes_name">
                                                 <label for="floatingInput">Company/contact name</label>
                                               </div>
                                             <div class="form-floating mb-3">
-                                                <input type="date" class="form-control" id="floatingInput" placeholder="name@example.com">
+                                                <input type="date" class="form-control" placeholder="name@example.com" id = "notes_date">
                                                 <label for="floatingInput">Date<span class="text-danger">*</span></label>
                                               </div>
                                             <div class="form-group">
-                                                <textarea rows="4" class="form-control bg-grey" placeholder="Comments"></textarea>
+                                                <textarea rows="4" class="form-control bg-grey" placeholder="Comments" id = "notes_comments"></textarea>
                                             </div>
 											<div class="col-lg-12 col-md-12">
                                                 <div class="form-group">
@@ -776,12 +748,12 @@ function quick_notes() {
                                                     <div class="change-photo-btn">
                                                         <div>
                                                         <p>Add File</p></div>
-                                                        <input type="file" class="upload">
+                                                        <input type="file" class="upload" id = "notes_file">
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="submit-section">
-                                                <button class="submit-btn btn-primary btn-blog" type="submit">Submit</button>
+                                                <button class="submit-btn btn-primary btn-blog" type="submit" onclick = "add_notes()">Submit</button>
                                             </div>
                                         </form>
                                     </div>
@@ -860,39 +832,38 @@ function quick_notes() {
     `;
 }
 
-
 // contactForm.addEventListener('submit', (e)=>{
 // 	console.log("hi")
-function add_contact(){
-	let contactForm = document.querySelector("#cont_form")
-  	let name = document.querySelector("#cont_name").value;
-  	let org = document.querySelector("#cont_org").value;
-  	let title = document.querySelector("#cont_title").value;
-  	let email = document.querySelector("#cont_email").value;
-  	let phone = document.querySelector("#cont_phone").value;
-  	let address = document.querySelector("#cont_address").value;
-  	let desc = document.querySelector("#cont_desc").value;
-  	let notes = document.querySelector("#cont_notes").value;
+function add_contact() {
+  let contactForm = document.querySelector("#cont_form");
+  let name = document.querySelector("#cont_name").value;
+  let org = document.querySelector("#cont_org").value;
+  let title = document.querySelector("#cont_title").value;
+  let email = document.querySelector("#cont_email").value;
+  let phone = document.querySelector("#cont_phone").value;
+  let address = document.querySelector("#cont_address").value;
+  let desc = document.querySelector("#cont_desc").value;
+  let notes = document.querySelector("#cont_notes").value;
 
-  	let post_stuff = {
-    	contact_id: 1,
-    	company_name: org,
-    	contact_name: name,
-    	description: desc,
-    	email: email,
-    	mailing_address: address,
-    	notes: notes,
-    	phone_num: phone,
-    	title: title,
+  let post_stuff = {
+    contact_id: 1,
+    company_name: org,
+    contact_name: name,
+    description: desc,
+    email: email,
+    mailing_address: address,
+    notes: notes,
+    phone_num: phone,
+    title: title,
   };
 
-  	console.log(post_stuff);
-	db.collection('Contacts').add(post_stuff).then(() => {
-		contactForm.reset()
-	})
-
+  console.log(post_stuff);
+  db.collection("Contacts")
+    .add(post_stuff)
+    .then(() => {
+      contactForm.reset();
+    });
 }
-
 
 function add_company() {
   let companyForm = document.querySelector("#comp_form");
@@ -927,34 +898,48 @@ function add_company() {
     });
 }
 
+function add_convo() {
+  let convo_form = document.querySelector("#convo_form");
+  let call_start = document.querySelector("#start_time").value;
+  let call_end = document.querySelector("#end_time").value;
+  let client = document.querySelector("#company_or_contact").value;
+  let date = document.querySelector("#convo_date").value;
+  let post_stuff = {
+    comp_id: "",
+    cont_id: "",
+    client_name: client,
+    call_start: call_start,
+    call_end: call_end,
+    date: date,
+  };
 
-
-function add_convo(){
-	let convo_form = document.querySelector('#convo_form');
-	let call_start = document.querySelector('#start_time').value;
-	let call_end = document.querySelector('#end_time').value;
-	let client = document.querySelector('#company_or_contact').value;
-	let date = document.querySelector('#convo_date').value;
-	let post_stuff = {
-		comp_id: "",
-		cont_id: "",
-		client_name: client,
-		call_start: call_start,
-		call_end: call_end,
-		date: date
-
-	}
-
-	db.collection('Conversation').add(post_stuff).then(() => {
-		convo_form.reset()
-	})
-
+  db.collection("Conversation")
+    .add(post_stuff)
+    .then(() => {
+      convo_form.reset();
+    });
 }
 
+function add_notes() {
+  let notes_form = document.querySelector("#notes_form");
+  let name = document.querySelector("#notes_name").value;
+  let noteDate = document.querySelector("#notes_date").value;
+  let cmnts = document.querySelector("#notes_comments").value;
+  let noteFile = document.querySelector("#notes_file").value;
 
+  let post_moreStuff = {
+    company_id: "",
+    comments: cmnts,
+    company_name: name,
+    date: noteDate,
+    file: noteFile,
+  };
 
-
-
-
+  db.collection("Notes")
+    .add(post_moreStuff)
+    .then(() => {
+      notes_form.reset();
+    });
+}
 
 // <input type="text" class="form-control"  name="Organization" placeholder="Organization" id= "cont_org">
