@@ -37,14 +37,8 @@ function contacts_page() {
 								<div class="card-body">
 									<div class="table-responsive">
 										<table class="table table-striped table-nowrap custom-table mb-0 datatable">
-											<thead>
+											<thead id = "contacts_table">
 												<tr>
-													<th class="checkBox">
-														<label class="container-checkbox">
-														  	<input type="checkbox">
-														  	<span class="checkmark"></span>
-														</label>
-													</th>
 													<th>Name</th>
 													<th>Organization</th>
 													<th>Title</th>
@@ -53,6 +47,8 @@ function contacts_page() {
 													<th>Mailing Address</th>
 													<th>Description</th>
 												</tr>
+								
+												
 											</thead>						
 											</tbody>
 										</table>
@@ -98,7 +94,9 @@ function contacts_page() {
 								<div class="form-group row">
 									<div class="col-sm-6">
 										<label class="col-form-label">Organization</label>
-										<input type="text" class="form-control"  name="Organization" placeholder="Organization" id= "cont_org">
+										<select class ="form-control" id = cont_org>
+											<option value=""></option>
+									  	</select>
 									</div>
 									<div class="col-sm-6">
 										<label class="col-form-label">Title</label>
@@ -156,7 +154,55 @@ function contacts_page() {
 
 
 `;
+display_contacts()
+org_dropdown()
 }
+
+function display_contacts(){
+	var contactref = db.collection("Contacts");
+	contactref.get().then((response)=>{
+		let docs = response.docs
+		docs.forEach(doc =>{
+			contacts_table.innerHTML+=`
+			<tr>	
+				<td>${doc.data().contact_name}</td>
+				<td>${doc.data().company_name}</td>
+				<td>${doc.data().title}</td>
+				<td>${doc.data().email}</td>
+				<td>${doc.data().phone_num}</td>
+				<td>${doc.data().mailing_address}</td>
+				<td>${doc.data().description}</td>
+				
+	</tr>
+		`
+			
+
+	})
+	})
+
+
+}
+
+function org_dropdown(){
+	
+	var companyref = db.collection("Company");
+	companyref.get().then((response)=>{
+		let docs = response.docs
+		docs.forEach(doc =>{
+			
+			cont_org.innerHTML+=`
+			<option value="${doc.data().name}">${doc.data().name}</option>
+		
+		`	
+
+	})
+	})
+
+}
+
+
+
+
 
 function get_companies() {
   wrapper2.innerHTML = `<div class="content container-fluid">
@@ -193,14 +239,8 @@ function get_companies() {
                 <div class="card-body">
                     <div class="table-responsive">
                         <table class="table table-striped table-nowrap custom-table mb-0 datatable">
-                            <thead>
+                            <thead id = "company_table">
                                 <tr>
-                                    <th class="checkBox">
-                                        <label class="container-checkbox">
-                                              <input type="checkbox">
-                                              <span class="checkmark"></span>
-                                        </label>
-                                    </th>
                                     <th>Company</th>
                                     <th>Phone</th>
                                     <th>Website</th>
@@ -369,9 +409,38 @@ function get_companies() {
 			</div><!-- modal -->
 
 
-
 `;
+display_companies()
 }
+
+function display_companies(){
+	var companyref = db.collection("Company");
+	companyref.get().then((response)=>{
+		let docs = response.docs
+		docs.forEach(doc =>{
+			company_table.innerHTML+=`
+			<tr>	
+				<td>${doc.data().name}</td>
+				<td>${doc.data().phone_num}</td>
+				<td>${doc.data().website}</td>
+				<td>${doc.data().email}</td>
+				<td>${doc.data().billing_address}</td>
+				<td>${doc.data().shipping_address}</td>
+				<td>${doc.data().description}</td>
+				
+	</tr>
+		`
+		
+		
+
+	})
+	})
+
+
+}
+
+
+
 
 function task_list_page() {
   wrapper2.innerHTML = `
@@ -460,7 +529,7 @@ function task_list_page() {
 											<div class="card-body">
 												<div class="table-responsive">
 													<table class="table table-striped table-nowrap custom-table mb-0 datatable">
-														<thead>
+														<thead id = "tasktable">
 															<tr>
 																</th>
 																<th>Task</th>
@@ -541,6 +610,9 @@ function task_list_page() {
     `;
 }
 
+
+
+
 function conversation_history() {
   wrapper2.innerHTML = `
     <div class="content container-fluid">
@@ -570,7 +642,7 @@ function conversation_history() {
 											<label for="name" class="col-sm-3 col-form-label input-label">Company/Contact</label>
 											<div class="col-sm-9">
 												<div class="col-sm-9">
-													<input type="text" class="form-control" id ="comp_cont">
+													<input type="text" class="form-control" id ="company_or_contact">
 												</div>
 											</div>
 										</div>
@@ -609,7 +681,7 @@ function conversation_history() {
 										<div class="card-body">
 											<div class="table-responsive">
 												<table class="table table-striped table-nowrap">
-													<thead>
+													<thead id = "convo_table">
 														<tr>
 															<th>Company OR Contact</th>
 															<th>Date</th>
@@ -643,7 +715,29 @@ function conversation_history() {
     
     
     `;
+	display_convo_history()
 }
+function display_convo_history(){
+	var convoref = db.collection("Conversation");
+	convoref.get().then((response)=>{
+		let docs = response.docs
+		docs.forEach(doc =>{
+			convo_table.innerHTML+=`
+			<tr>	
+				<td>${doc.data().client_name}</td>
+				<td>${doc.data().date}</td>
+				<td>${doc.data().call_start}</td>
+				<td>${doc.data().call_end}</td>
+	</tr>
+		`
+			
+
+	})
+	})
+
+
+}
+
 
 function quick_notes() {
   wrapper2.innerHTML = `
@@ -781,7 +875,7 @@ function add_contact(){
   	let notes = document.querySelector("#cont_notes").value;
 
   	let post_stuff = {
-    	company_ID: 1,
+    	contact_id: 1,
     	company_name: org,
     	contact_name: name,
     	description: desc,
@@ -799,11 +893,9 @@ function add_contact(){
 
 }
 
-let companyForm = document.querySelector("#comp_form");
-console.log(companyForm);
 
 function add_company() {
-	console.log("hi")
+  let companyForm = document.querySelector("#comp_form");
   let compName = document.querySelector("#comp_name").value;
   let phone = document.querySelector("#comp_phone").value;
   let compWebsite = document.querySelector("#comp_website").value;
@@ -838,32 +930,31 @@ function add_company() {
 
 
 function add_convo(){
-	console.log("hi")
 	let convo_form = document.querySelector('#convo_form');
 	let call_start = document.querySelector('#start_time').value;
 	let call_end = document.querySelector('#end_time').value;
+	let client = document.querySelector('#company_or_contact').value;
 	let date = document.querySelector('#convo_date').value;
-	console.log(convo_form)
 	let post_stuff = {
 		comp_id: "",
 		cont_id: "",
+		client_name: client,
 		call_start: call_start,
 		call_end: call_end,
 		date: date
 
 	}
-	console.log(post_stuff)
 
 	db.collection('Conversation').add(post_stuff).then(() => {
-		// alert(contactForm);
-		// location.reload()
-		// setTimeout(() => {
-		// 	conversation_history()
-		// }, 1500);
-
 		convo_form.reset()
 	})
 
 }
 
 
+
+
+
+
+
+// <input type="text" class="form-control"  name="Organization" placeholder="Organization" id= "cont_org">
