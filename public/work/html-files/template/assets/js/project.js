@@ -336,7 +336,7 @@ function get_companies() {
 										<div class="form-group row">
 											<div class="col-sm-12">
 												<label class="col-form-label">Description </label>
-				                            	<textarea class="form-control" rows="3" id="description" placeholder="Description" id = "comp_desc"></textarea>
+				                            	<textarea class="form-control" rows="3" id="comp_desc" placeholder="Description"></textarea>
 											</div>
 										</div>
 										<h4>Pictures</h4>
@@ -766,95 +766,48 @@ function quick_notes() {
     `;
 }
 
-let contactForm = document.querySelector("#cont_form");
-console.log(contactForm);
-// contactForm.addEventListener('submit', (e)=>{
-// 	console.log("hi")
-function add_contact() {
-  let name = document.querySelector("#cont_name").value;
-  let org = document.querySelector("#cont_org").value;
-  let title = document.querySelector("#cont_title").value;
-  let email = document.querySelector("#cont_email").value;
-  let phone = document.querySelector("#cont_phone").value;
-  let address = document.querySelector("#cont_address").value;
-  let desc = document.querySelector("#cont_desc").value;
-  let notes = document.querySelector("#cont_notes").value;
 
-  let post_stuff = {
-    company_ID: 1,
-    company_name: org,
-    contact_name: name,
-    description: desc,
-    email: email,
-    mailing_address: address,
-    notes: notes,
-    phone_num: phone,
-    title: title,
-  };
-
-  console.log(post_stuff);
-
-console.log(contactForm);
 // contactForm.addEventListener('submit', (e)=>{
 // 	console.log("hi")
 function add_contact(){
-	let contactForm = document.querySelector('#cont_form');
-	let name = document.querySelector('#cont_name').value;
-	let org = document.querySelector('#cont_org').value;
-	let title = document.querySelector('#cont_title').value;
-	let email = document.querySelector('#cont_email').value;
-	let phone = document.querySelector('#cont_phone').value;
-	let address = document.querySelector('#cont_address').value;
-	let desc = document.querySelector('#cont_desc').value;
-	let notes = document.querySelector('#cont_notes').value;
-function add_contact() {
-  let name = document.querySelector("#cont_name").value;
-  let org = document.querySelector("#cont_org").value;
-  let title = document.querySelector("#cont_title").value;
-  let email = document.querySelector("#cont_email").value;
-  let phone = document.querySelector("#cont_phone").value;
-  let address = document.querySelector("#cont_address").value;
-  let desc = document.querySelector("#cont_desc").value;
-  let notes = document.querySelector("#cont_notes").value;
+	let contactForm = document.querySelector("#cont_form")
+  	let name = document.querySelector("#cont_name").value;
+  	let org = document.querySelector("#cont_org").value;
+  	let title = document.querySelector("#cont_title").value;
+  	let email = document.querySelector("#cont_email").value;
+  	let phone = document.querySelector("#cont_phone").value;
+  	let address = document.querySelector("#cont_address").value;
+  	let desc = document.querySelector("#cont_desc").value;
+  	let notes = document.querySelector("#cont_notes").value;
 
-  let post_stuff = {
-    company_ID: 1,
-    company_name: org,
-    contact_name: name,
-    description: desc,
-    email: email,
-    mailing_address: address,
-    notes: notes,
-    phone_num: phone,
-    title: title,
+  	let post_stuff = {
+    	company_ID: 1,
+    	company_name: org,
+    	contact_name: name,
+    	description: desc,
+    	email: email,
+    	mailing_address: address,
+    	notes: notes,
+    	phone_num: phone,
+    	title: title,
   };
 
-  console.log(post_stuff);
-
-	console.log(post_stuff)
-
-
+  	console.log(post_stuff);
 	db.collection('Contacts').add(post_stuff).then(() => {
 		contactForm.reset()
-
 	})
 
-  db.collection("Contacts")
-    .add(post_stuff)
-    .then(() => {
-      // alert(contactForm);
-      contactForm.reset();
-    });
 }
 
 let companyForm = document.querySelector("#comp_form");
 console.log(companyForm);
 
 function add_company() {
+	console.log("hi")
   let compName = document.querySelector("#comp_name").value;
   let phone = document.querySelector("#comp_phone").value;
   let compWebsite = document.querySelector("#comp_website").value;
-  let emailDomain = document.querySelector("#comp_emailDomain").value;
+  let emailDomain = document.querySelector("#comp_emailDom").value;
   let billAdd = document.querySelector("#comp_billAdd").value;
   let shipAdd = document.querySelector("#comp_shipAdd").value;
   let desc = document.querySelector("#comp_desc").value;
