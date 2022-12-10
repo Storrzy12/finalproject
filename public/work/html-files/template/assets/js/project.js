@@ -767,7 +767,7 @@ function quick_notes() {
 												<div class="card-body">
 													<div class="table-responsive">
 														<table class="table table-striped table-nowrap custom-table mb-0 datatable">
-															<thead>
+															<thead id = "quick_notes_table">
 																<tr>
 																	</th>
 																	<th>Company/contact name</th>
@@ -782,10 +782,10 @@ function quick_notes() {
 																		Test
 																	</td>
 																	<td>
-																		9:00PM
+																		9/16/22
 																	</td>
 																	<td>
-																		10:00PM
+																		Any Comments
 																	</td>
 																	<td>
 																		Link to file
@@ -830,6 +830,23 @@ function quick_notes() {
 
 
     `;
+  display_quick_notes();
+}
+function display_quick_notes() {
+  var notesref = db.collection("Notes");
+  notesref.get().then((response) => {
+    let docs = response.docs;
+    docs.forEach((doc) => {
+      quick_notes_table.innerHTML += `
+			  <tr>	
+				  <td>${doc.data().company_name}</td>
+				  <td>${doc.data().date}</td>
+				  <td>${doc.data().comments}</td>
+				  <td>${doc.data().file}</td>
+	  </tr>
+		  `;
+    });
+  });
 }
 
 // contactForm.addEventListener('submit', (e)=>{
