@@ -154,43 +154,38 @@ function contacts_page() {
 
 
 `;
-  display_contacts();
-  org_dropdown();
-}
-
-function display_contacts() {
-  var contactref = db.collection("Contacts");
-  contactref.get().then((response) => {
-    let docs = response.docs;
-    docs.forEach((doc) => {
-      contacts_table.innerHTML += `
-			<tr>	
-				<td>${doc.data().contact_name}</td>
-				<td>${doc.data().company_name}</td>
-				<td>${doc.data().title}</td>
-				<td>${doc.data().email}</td>
-				<td>${doc.data().phone_num}</td>
-				<td>${doc.data().mailing_address}</td>
-				<td>${doc.data().description}</td>
-				
-	</tr>
-		`;
-    });
+var contactref = db.collection("Contacts");
+contactref.get().then((response) => {
+  let docs = response.docs;
+  docs.forEach((doc) => {
+	contacts_table.innerHTML += `
+		  <tr>	
+			  <td>${doc.data().contact_name}</td>
+			  <td>${doc.data().company_name}</td>
+			  <td>${doc.data().title}</td>
+			  <td>${doc.data().email}</td>
+			  <td>${doc.data().phone_num}</td>
+			  <td>${doc.data().mailing_address}</td>
+			  <td>${doc.data().description}</td>
+			  
+  </tr>
+	  `;
   });
-}
+});
 
-function org_dropdown() {
-  var companyref = db.collection("Company");
-  companyref.get().then((response) => {
-    let docs = response.docs;
-    docs.forEach((doc) => {
-      cont_org.innerHTML += `
+	var companyref = db.collection("Company");
+	let sorted_company = companyref.orderBy("name")
+	sorted_company.get().then((response) => {
+   		let docs = response.docs;
+    	docs.forEach((doc) => {
+      	cont_org.innerHTML += `
 			<option value="${doc.data().name}">${doc.data().name}</option>
 		
 		`;
     });
   });
 }
+
 
 function get_companies() {
   wrapper2.innerHTML = `<div class="content container-fluid">
@@ -398,29 +393,26 @@ function get_companies() {
 
 
 `;
-  display_companies();
+var companyref = db.collection("Company");
+companyref.get().then((response) => {
+  let docs = response.docs;
+  docs.forEach((doc) => {
+	company_table.innerHTML += `
+		  <tr>	
+			  <td>${doc.data().name}</td>
+			  <td>${doc.data().phone_num}</td>
+			  <td>${doc.data().website}</td>
+			  <td>${doc.data().email}</td>
+			  <td>${doc.data().billing_address}</td>
+			  <td>${doc.data().shipping_address}</td>
+			  <td>${doc.data().description}</td>
+			  
+  </tr>
+	  `;
+  });
+});
 }
 
-function display_companies() {
-  var companyref = db.collection("Company");
-  companyref.get().then((response) => {
-    let docs = response.docs;
-    docs.forEach((doc) => {
-      company_table.innerHTML += `
-			<tr>	
-				<td>${doc.data().name}</td>
-				<td>${doc.data().phone_num}</td>
-				<td>${doc.data().website}</td>
-				<td>${doc.data().email}</td>
-				<td>${doc.data().billing_address}</td>
-				<td>${doc.data().shipping_address}</td>
-				<td>${doc.data().description}</td>
-				
-	</tr>
-		`;
-    });
-  });
-}
 
 function task_list_page() {
   wrapper2.innerHTML = `
@@ -616,11 +608,21 @@ function conversation_history() {
 									<!-- Form -->
 									<form action="#" class="invoices-settings-form" id = "convo_form">
 										<div class="row align-items-center form-group">
-											<label for="name" class="col-sm-3 col-form-label input-label">Company/Contact</label>
+											<label for="name" class="col-sm-3 col-form-label input-label">Company</label>
 											<div class="col-sm-9">
-												<div class="col-sm-9">
-													<input type="text" class="form-control" id ="company_or_contact">
-												</div>
+
+											<select class ="form-control" id = "convo_company">
+												<option value=""></option>
+									  		</select>
+												
+											</div>
+										</div>
+										<div class="row align-items-center form-group">
+											<label for="name" class="col-sm-3 col-form-label input-label">Contact</label>
+											<div class="col-sm-9">
+											<select class ="form-control" id = "convo_contact">
+												<option value=""></option>
+										  	</select>
 											</div>
 										</div>
 										<div class="row align-items-center form-group">
@@ -660,7 +662,8 @@ function conversation_history() {
 												<table class="table table-striped table-nowrap">
 													<thead id = "convo_table">
 														<tr>
-															<th>Company OR Contact</th>
+															<th>Company</th>
+															<th>Contact</th>
 															<th>Date</th>
 															<th>Call start time</th>
 															<th>Call end time</th>
@@ -692,24 +695,59 @@ function conversation_history() {
     
     
     `;
-  display_convo_history();
-}
-function display_convo_history() {
-  var convoref = db.collection("Conversation");
-  convoref.get().then((response) => {
-    let docs = response.docs;
-    docs.forEach((doc) => {
-      convo_table.innerHTML += `
-			<tr>	
-				<td>${doc.data().client_name}</td>
-				<td>${doc.data().date}</td>
-				<td>${doc.data().call_start}</td>
-				<td>${doc.data().call_end}</td>
-	</tr>
+	var convoref = db.collection("Conversation");
+	var sorted_convos = convoref.orderBy("Date", "desc")
+	convoref.get().then((response) => {
+	  let docs = response.docs;
+	  docs.forEach((doc) => {
+		convo_table.innerHTML += `
+			  <tr>	
+				  <td>${doc.data().company}</td>
+				  <td>${doc.data().contact}</td>
+				  <td>${doc.data().date}</td>
+				  <td>${doc.data().call_start}</td>
+				  <td>${doc.data().call_end}</td>
+	  </tr>
+		  `;
+	  });
+	});
+
+	var companyref = db.collection("Company");
+	let sorted_company = companyref.orderBy("name")
+	sorted_company.get().then((response) => {
+   		let docs = response.docs;
+    	docs.forEach((doc) => {
+      	convo_company.innerHTML += `
+			<option value="${doc.data().name}">${doc.data().name}</option>
+		
 		`;
     });
   });
+
+  	
+
+
+	var contactref = db.collection("Contacts");
+  	let sorted_contacts = contactref.orderBy("contact_name")
+	  sorted_contacts.get().then((response) => {
+   		let docs = response.docs;
+    	docs.forEach((doc) => {
+      	convo_contact.innerHTML += `
+			<option value="${doc.data().contact_name}">${doc.data().contact_name}</option>
+		
+		`;
+    });
+  });
+
+
+
+
 }
+
+{/* <div class="col-sm-9">
+													<input type="text" class="form-control" id ="convo_company">
+												</div> */}
+
 
 function quick_notes() {
   wrapper2.innerHTML = `
@@ -919,12 +957,14 @@ function add_convo() {
   let convo_form = document.querySelector("#convo_form");
   let call_start = document.querySelector("#start_time").value;
   let call_end = document.querySelector("#end_time").value;
-  let client = document.querySelector("#company_or_contact").value;
+  let convo_company = document.querySelector("#convo_company").value;
+  let convo_contact = document.querySelector("#convo_contact").value;
   let date = document.querySelector("#convo_date").value;
   let post_stuff = {
     comp_id: "",
     cont_id: "",
-    client_name: client,
+	company: convo_company,
+    contact: convo_contact,
     call_start: call_start,
     call_end: call_end,
     date: date,
