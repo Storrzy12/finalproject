@@ -154,11 +154,11 @@ function contacts_page() {
 
 
 `;
-var contactref = db.collection("Contacts");
-contactref.get().then((response) => {
-  let docs = response.docs;
-  docs.forEach((doc) => {
-	contacts_table.innerHTML += `
+  var contactref = db.collection("Contacts");
+  contactref.get().then((response) => {
+    let docs = response.docs;
+    docs.forEach((doc) => {
+      contacts_table.innerHTML += `
 		  <tr>	
 			  <td>${doc.data().contact_name}</td>
 			  <td>${doc.data().company_name}</td>
@@ -170,22 +170,21 @@ contactref.get().then((response) => {
 			  
   </tr>
 	  `;
+    });
   });
-});
 
-	var companyref = db.collection("Company");
-	let sorted_company = companyref.orderBy("name")
-	sorted_company.get().then((response) => {
-   		let docs = response.docs;
-    	docs.forEach((doc) => {
-      	cont_org.innerHTML += `
+  var companyref = db.collection("Company");
+  let sorted_company = companyref.orderBy("name");
+  sorted_company.get().then((response) => {
+    let docs = response.docs;
+    docs.forEach((doc) => {
+      cont_org.innerHTML += `
 			<option value="${doc.data().name}">${doc.data().name}</option>
 		
 		`;
     });
   });
 }
-
 
 function get_companies() {
   wrapper2.innerHTML = `<div class="content container-fluid">
@@ -393,11 +392,11 @@ function get_companies() {
 
 
 `;
-var companyref = db.collection("Company");
-companyref.get().then((response) => {
-  let docs = response.docs;
-  docs.forEach((doc) => {
-	company_table.innerHTML += `
+  var companyref = db.collection("Company");
+  companyref.get().then((response) => {
+    let docs = response.docs;
+    docs.forEach((doc) => {
+      company_table.innerHTML += `
 		  <tr>	
 			  <td>${doc.data().name}</td>
 			  <td>${doc.data().phone_num}</td>
@@ -409,10 +408,9 @@ companyref.get().then((response) => {
 			  
   </tr>
 	  `;
+    });
   });
-});
 }
-
 
 function task_list_page() {
   wrapper2.innerHTML = `
@@ -431,28 +429,29 @@ function task_list_page() {
                                 <div class="card-body">
                                     <div class="bank-inner-details">
                                         <div class="row">
+										<form id = "task_form">
                                             <div class="col-lg-12 col-md-12">
                                                 <div class="form-group">
                                                     <label>Task<span class="text-danger">*</span></label>
-                                                    <input type="text" class="form-control" >
+                                                    <input type="text" class="form-control" id ="task_name">
                                                 </div>
                                             </div>
 											<div class="col-lg-12 col-md-12">
 												<div class="form-group modal-select-box">
 													<label>Client</label>
-													<input type="text" class="form-control" >
+													<input type="text" class="form-control" id ="task_client_name" >
 												</div>
 											</div>
 											<div class="col-lg-12 col-md-12">
 												<div class="form-group">
 													<label>Date</label>
-                                                    <input type="date" class="form-control" >
+                                                    <input type="date" class="form-control" id = "task_date">
 												</div>
 											</div>
 											<div class="col-lg-12 col-md-12">
 												<div class="form-group">
 													<label>Location</label>
-                                                    <input type="text" class="form-control" >
+                                                    <input type="text" class="form-control" id = "task_location">
 												</div>
 											</div>
                                             <div class="col-lg-12 col-md-12">
@@ -461,7 +460,7 @@ function task_list_page() {
                                                     <div class="change-photo-btn">
                                                         <div>
                                                         <p>Add Image</p></div>
-                                                        <input type="file" class="upload">
+                                                        <input type="file" class="upload" id = "task_img">
                                                     </div>
                                                 </div>
                                             </div>
@@ -471,26 +470,26 @@ function task_list_page() {
                                                     <div class="change-photo-btn">
                                                         <div>
                                                         <p>Add File</p></div>
-                                                        <input type="file" class="upload">
+                                                        <input type="file" class="upload" id = "task_file" >
                                                     </div>
                                                 </div>
                                             </div>
 											<div class="form-group">
-                                                <textarea rows="4" class="form-control bg-grey" placeholder="Note1"></textarea>
+                                                <textarea rows="4" class="form-control bg-grey" placeholder="Note1" id = "task_note1"></textarea>
                                             </div>
 											<div class="form-group">
-                                                <textarea rows="4" class="form-control bg-grey" placeholder="Note2"></textarea>
+                                                <textarea rows="4" class="form-control bg-grey" placeholder="Note2" id = "task_note2"></textarea>
                                             </div>
 											<div class="form-group">
-                                                <textarea rows="4" class="form-control bg-grey" placeholder="Note3"></textarea>
+                                                <textarea rows="4" class="form-control bg-grey" placeholder="Note3" id = "task_note3"></textarea>
                                             </div>
-											
+											</form>
                                         </div>
                                     </div>
                                 </div>
                                 <div class=" blog-categories-btn pt-0">
                                     <div class="bank-details-btn ">
-                                        <a href="blog.html" class="btn btn-primary me-2">Add Task</a>
+                                        <a href="blog.html" class="btn btn-primary me-2" id = "add_task()">Add Task</a>
                                     </div>
                                 </div>
                             </div> 
@@ -695,12 +694,12 @@ function conversation_history() {
     
     
     `;
-	var convoref = db.collection("Conversation");
-	var sorted_convos = convoref.orderBy("Date", "desc")
-	convoref.get().then((response) => {
-	  let docs = response.docs;
-	  docs.forEach((doc) => {
-		convo_table.innerHTML += `
+  var convoref = db.collection("Conversation");
+  var sorted_convos = convoref.orderBy("Date", "desc");
+  convoref.get().then((response) => {
+    let docs = response.docs;
+    docs.forEach((doc) => {
+      convo_table.innerHTML += `
 			  <tr>	
 				  <td>${doc.data().company}</td>
 				  <td>${doc.data().contact}</td>
@@ -709,45 +708,39 @@ function conversation_history() {
 				  <td>${doc.data().call_end}</td>
 	  </tr>
 		  `;
-	  });
-	});
+    });
+  });
 
-	var companyref = db.collection("Company");
-	let sorted_company = companyref.orderBy("name")
-	sorted_company.get().then((response) => {
-   		let docs = response.docs;
-    	docs.forEach((doc) => {
-      	convo_company.innerHTML += `
+  var companyref = db.collection("Company");
+  let sorted_company = companyref.orderBy("name");
+  sorted_company.get().then((response) => {
+    let docs = response.docs;
+    docs.forEach((doc) => {
+      convo_company.innerHTML += `
 			<option value="${doc.data().name}">${doc.data().name}</option>
 		
 		`;
     });
   });
 
-  	
-
-
-	var contactref = db.collection("Contacts");
-  	let sorted_contacts = contactref.orderBy("contact_name")
-	  sorted_contacts.get().then((response) => {
-   		let docs = response.docs;
-    	docs.forEach((doc) => {
-      	convo_contact.innerHTML += `
+  var contactref = db.collection("Contacts");
+  let sorted_contacts = contactref.orderBy("contact_name");
+  sorted_contacts.get().then((response) => {
+    let docs = response.docs;
+    docs.forEach((doc) => {
+      convo_contact.innerHTML += `
 			<option value="${doc.data().contact_name}">${doc.data().contact_name}</option>
 		
 		`;
     });
   });
-
-
-
-
 }
 
-{/* <div class="col-sm-9">
+{
+  /* <div class="col-sm-9">
 													<input type="text" class="form-control" id ="convo_company">
-												</div> */}
-
+												</div> */
+}
 
 function quick_notes() {
   wrapper2.innerHTML = `
@@ -953,6 +946,38 @@ function add_company() {
     });
 }
 
+function add_task() {
+  let task_form = document.querySelector("#task_form");
+  let task_name = document.querySelector("#task_name").value;
+  let client_name = document.querySelector("task_client_name").value;
+  let date = document.querySelector("#task_date").value;
+  let task_location = document.querySelector("#task_location").value;
+  let img = document.querySelector("#task_img").value;
+  let task_file = document.querySelector("#task_file").value;
+  let task_note1 = document.querySelector("#task_note1").value;
+  let task_note2 = document.querySelector("#task_note2").value;
+  let task_note3 = document.querySelector("#task_note3").value;
+  let post_stuff = {
+    company_id: "",
+    contact_id: "",
+    Task: task_name,
+    created_date: date,
+    file: task_file,
+    image: img,
+    location: task_location,
+    name: client_name,
+    note1: task_note1,
+    note2: task_note2,
+    note3: task_note3,
+  };
+
+  db.collection("Task")
+    .add(post_stuff)
+    .then(() => {
+      task_form.reset();
+    });
+}
+
 function add_convo() {
   let convo_form = document.querySelector("#convo_form");
   let call_start = document.querySelector("#start_time").value;
@@ -963,7 +988,7 @@ function add_convo() {
   let post_stuff = {
     comp_id: "",
     cont_id: "",
-	company: convo_company,
+    company: convo_company,
     contact: convo_contact,
     call_start: call_start,
     call_end: call_end,
