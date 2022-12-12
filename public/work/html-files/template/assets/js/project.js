@@ -755,9 +755,9 @@ function quick_notes() {
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="submit-section">
-                                                <button class="submit-btn btn-primary btn-blog" type="submit" onclick = "add_notes()">Submit</button>
-                                            </div>
+                                            <div class="text-center py-3">
+									<button type="button" class="border-0 btn btn-primary btn-gradient-primary btn-rounded" onclick="add_notes()">Submit</button>&nbsp;&nbsp;
+								</div>
                                         </form>
                                     </div>
                                 </div>
