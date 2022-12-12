@@ -39,8 +39,8 @@ function contacts_page() {
 										<table class="table table-striped table-nowrap custom-table mb-0 datatable">
 											<thead id = "contacts_table">
 												<tr>
-													<th>Name</th>
-													<th>Organization</th>
+													<th>Name <a onclick = "display_contacts_desc("email")" style="cursor: pointer;">↑</a><a style="cursor: pointer;">↓</a></th>
+													<th>Organization <a style="cursor: pointer;">↑</a><a style="cursor: pointer;">↓</a></th>
 													<th>Title</th>
 													<th>Email</th>
 													<th>Phone</th>
@@ -154,25 +154,8 @@ function contacts_page() {
 
 
 `;
-  var contactref = db.collection("Contacts");
-  contactref.get().then((response) => {
-    let docs = response.docs;
-    docs.forEach((doc) => {
-      contacts_table.innerHTML += `
-		  <tr>	
-			  <td>${doc.data().contact_name}</td>
-			  <td>${doc.data().company_name}</td>
-			  <td>${doc.data().title}</td>
-			  <td>${doc.data().email}</td>
-			  <td>${doc.data().phone_num}</td>
-			  <td>${doc.data().mailing_address}</td>
-			  <td>${doc.data().description}</td>
-			  
-  </tr>
-	  `;
-    });
-  });
-
+  
+display_contacts_asc("contact_name");
   var companyref = db.collection("Company");
   let sorted_company = companyref.orderBy("name");
   sorted_company.get().then((response) => {
@@ -184,6 +167,50 @@ function contacts_page() {
 		`;
     });
   });
+}
+
+function display_contacts_asc(thing_sorted){
+	var contactref = db.collection("Contacts");
+	let sorted_contactref = contactref.orderBy(thing_sorted, "asc")
+	sorted_contactref.get().then((response) => {
+	  let docs = response.docs;
+	  docs.forEach((doc) => {
+		contacts_table.innerHTML += `
+			<tr>	
+				<td>${doc.data().contact_name}</td>
+				<td>${doc.data().company_name}</td>
+				<td>${doc.data().title}</td>
+				<td>${doc.data().email}</td>
+				<td>${doc.data().phone_num}</td>
+				<td>${doc.data().mailing_address}</td>
+				<td>${doc.data().description}</td>
+				
+	</tr>
+		`;
+	  });
+	});
+}
+
+function display_contacts_desc(thing_sorted, way_sorted){
+	var contactref = db.collection("Contacts");
+	let sorted_contactref = contactref.orderBy(thing_sorted, way_sorted)
+	sorted_contactref.get().then((response) => {
+	  let docs = response.docs;
+	  docs.forEach((doc) => {
+		contacts_table.innerHTML += `
+			<tr>	
+				<td>${doc.data().contact_name}</td>
+				<td>${doc.data().company_name}</td>
+				<td>${doc.data().title}</td>
+				<td>${doc.data().email}</td>
+				<td>${doc.data().phone_num}</td>
+				<td>${doc.data().mailing_address}</td>
+				<td>${doc.data().description}</td>
+				
+	</tr>
+		`;
+	  });
+	});
 }
 
 function get_companies() {
@@ -392,25 +419,36 @@ function get_companies() {
 
 
 `;
-  var companyref = db.collection("Company");
-  companyref.get().then((response) => {
-    let docs = response.docs;
-    docs.forEach((doc) => {
-      company_table.innerHTML += `
-		  <tr>	
-			  <td>${doc.data().name}</td>
-			  <td>${doc.data().phone_num}</td>
-			  <td>${doc.data().website}</td>
-			  <td>${doc.data().email}</td>
-			  <td>${doc.data().billing_address}</td>
-			  <td>${doc.data().shipping_address}</td>
-			  <td>${doc.data().description}</td>
-			  
-  </tr>
-	  `;
-    });
-  });
+	display_companies()
 }
+
+function display_companies(){
+	var companyref = db.collection("Company");
+	let sorted_companies = companyref.orderBy("name", "asc")
+	sorted_companies.get().then((response) => {
+	  let docs = response.docs;
+	  docs.forEach((doc) => {
+		company_table.innerHTML += `
+			<tr>	
+				<td>${doc.data().name}</td>
+				<td>${doc.data().phone_num}</td>
+				<td>${doc.data().website}</td>
+				<td>${doc.data().email}</td>
+				<td>${doc.data().billing_address}</td>
+				<td>${doc.data().shipping_address}</td>
+				<td>${doc.data().description}</td>
+				
+	</tr>
+		`;
+	  });
+	});
+
+
+
+
+}
+
+
 
 function task_list_page() {
   wrapper2.innerHTML = `
@@ -843,6 +881,17 @@ function add_contact() {
     .add(post_stuff)
     .then(() => {
       contactForm.reset();
+	  contacts_table.innerHTML=`
+	  <tr>
+													<th>Name</th>
+													<th>Organization</th>
+													<th>Title</th>
+													<th>Email</th>
+													<th>Phone</th>
+													<th>Mailing Address</th>
+													<th>Description</th>
+												</tr>`
+	  display_contacts();
     });
 }
 
@@ -876,6 +925,19 @@ function add_company() {
     .add(post_moreStuff)
     .then(() => {
       companyForm.reset();
+	  company_table.innerHTML=`
+	  <tr>
+	  <th>Company</th>
+	  <th>Phone</th>
+	  <th>Website</th>
+	  <th>Email Domains</th>
+	  <th>Billing Address</th>
+	  <th>Shipping Address</th>
+	  <th>Description Information</th>
+	  <th>Pictures</th>
+	  <th>Documents</th>
+  </tr>`;
+	display_companies()
     });
 }
 
