@@ -489,7 +489,7 @@ function task_list_page() {
                                 </div>
                                 <div class=" blog-categories-btn pt-0">
                                     <div class="bank-details-btn ">
-                                        <a href="blog.html" class="btn btn-primary me-2" id = "add_task()">Add Task</a>
+                                        <button type="button" class="border-0 btn btn-primary btn-gradient-primary btn-rounded" onclick="add_task()">Add Task</button>&nbsp;&nbsp;
                                     </div>
                                 </div>
                             </div> 
@@ -561,22 +561,6 @@ function task_list_page() {
         </div>
 		<!-- /Main Wrapper -->
 
-        <!-- Modal -->
-        <div class="modal fade confirmModal" tabindex="-1" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content p-3">
-                    <div class="modal-header border-bottom-0">
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="text-center">
-                            <h5 class="mb-3">Confirm Save Changes</h5>
-							<button type="button" class="btn btn-dark w-md" data-bs-dismiss="modal">Close</button>
-							<button type="button" class="btn btn-primary w-md" data-bs-dismiss="modal"
-							onclick="nextTab()">Save changes</button>
-                        </div>
-                    </div>
-                </div>
 
     `;
 }
