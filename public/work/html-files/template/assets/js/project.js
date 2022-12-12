@@ -470,7 +470,7 @@ function task_list_page() {
                                                     <div class="change-photo-btn">
                                                         <div>
                                                         <p>Add File</p></div>
-                                                        <input type="file" class="upload" id = "task_file" >
+                                                        <input type="file" class="upload" id = "task_file">
                                                     </div>
                                                 </div>
                                             </div>
@@ -514,37 +514,6 @@ function task_list_page() {
 																<th>Note3</th>
 															</tr>
 														</thead>
-														<tbody>
-															<tr>
-																<td>
-																	Test
-																</td>
-																<td>
-																	Nicholas
-																</td>
-																<td>
-																	10/16/2020
-																</td>
-																<td>
-																	Wisconsin
-																</td>
-																<td>
-																	Test
-																</td>
-																<td>
-																	Test
-																</td>
-																<td>
-																	Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam amet ea possimus, eum mollitia impedit atque quam asperiores, assumenda libero accusantium perspiciatis quaerat magnam suscipit distinctio inventore, illum repudiandae aut.
-																</td>
-																<td>
-																	Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit quia distinctio sint asperiores iste omnis nam iusto dolore est pariatur placeat in, consectetur officiis quidem odio nesciunt repudiandae exercitationem esse.
-																</td>
-																<td>
-																	Lorem ipsum, dolor sit amet consectetur adipisicing elit. Amet architecto ut eum porro, neque dolorum cum optio, repellat blanditiis saepe assumenda! Iusto autem dolore unde nemo corrupti, quo beatae hic.
-																</td>
-															</tr>
-														</tbody>
 													</table>
 												</div>
 											</div>
@@ -563,6 +532,25 @@ function task_list_page() {
 
 
     `;
+  var taskref = db.collection("Task");
+  taskref.get().then((response) => {
+    let docs = response.docs;
+    docs.forEach((doc) => {
+      tasktable.innerHTML += `
+				<tr>	
+					<td>${doc.data().Task}</td>
+					<td>${doc.data().created_date}</td>
+					<td>${doc.data().file}</td>
+					<td>${doc.data().image}</td>
+					<td>${doc.data().location}</td>
+					<td>${doc.data().name}</td>
+					<td>${doc.data().note1}</td>
+					<td>${doc.data().note2}</td>
+					<td>${doc.data().note3}</td>
+		</tr>
+			`;
+    });
+  });
 }
 
 function conversation_history() {
@@ -791,22 +779,6 @@ function quick_notes() {
 																	<th>Files</th>
 																</tr>
 															</thead>
-															<tbody>
-																<tr>
-																	<td>
-																		Test
-																	</td>
-																	<td>
-																		9/16/22
-																	</td>
-																	<td>
-																		Any Comments
-																	</td>
-																	<td>
-																		Link to file
-																	</td>
-																</tr>
-															</tbody>
 														</table>
 													</div>
 												</div>
@@ -824,42 +796,19 @@ function quick_notes() {
 		
         </div>
 		<!-- /Main Wrapper -->
-
-        <!-- Modal -->
-        <div class="modal fade confirmModal" tabindex="-1" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content p-3">
-                    <div class="modal-header border-bottom-0">
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="text-center">
-                            <h5 class="mb-3">Confirm Save Changes</h5>
-							<button type="button" class="btn btn-dark w-md" data-bs-dismiss="modal">Close</button>
-							<button type="button" class="btn btn-primary w-md" data-bs-dismiss="modal"
-							onclick="nextTab()">Save changes</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-
     `;
-  display_quick_notes();
-}
-function display_quick_notes() {
   var notesref = db.collection("Notes");
   notesref.get().then((response) => {
     let docs = response.docs;
     docs.forEach((doc) => {
       quick_notes_table.innerHTML += `
-			  <tr>	
-				  <td>${doc.data().company_name}</td>
-				  <td>${doc.data().date}</td>
-				  <td>${doc.data().comments}</td>
-				  <td>${doc.data().file}</td>
-	  </tr>
-		  `;
+				<tr>	
+					<td>${doc.data().company_name}</td>
+					<td>${doc.data().date}</td>
+					<td>${doc.data().comments}</td>
+					<td>${doc.data().file}</td>
+		</tr>
+			`;
     });
   });
 }
@@ -933,7 +882,7 @@ function add_company() {
 function add_task() {
   let task_form = document.querySelector("#task_form");
   let task_name = document.querySelector("#task_name").value;
-  let client_name = document.querySelector("task_client_name").value;
+  let client_name = document.querySelector("#task_client_name").value;
   let date = document.querySelector("#task_date").value;
   let task_location = document.querySelector("#task_location").value;
   let img = document.querySelector("#task_img").value;
