@@ -197,9 +197,7 @@ function contacts_page() {
 				  <td>${doc.data().email}</td>
 				  <td>${doc.data().phone_num}</td>
 				  <td>${doc.data().mailing_address}</td>
-				  <td>${doc.data().description}</td>
-				  
-				  
+				  <td>${doc.data().description}</td>	  
 	  </tr>
 		  `;
 		});
@@ -429,8 +427,6 @@ function contacts_page() {
 	<th>Documents</th>
 </tr>
 	
-	
-	
 	`
 	  var companyref = db.collection("Company");
 	  let sorted_companies = companyref.orderBy(thing_sorted, way_sorted)
@@ -552,16 +548,7 @@ function contacts_page() {
 										  <table class="table table-striped table-nowrap custom-table mb-0 datatable">
 											  <thead id = "tasktable">
 												  <tr>
-													  </th>
-													  <th>Task</th>
-													  <th>Client</th>
-													  <th>Date</th>
-													  <th>Location</th>
-													  <th>Image</th>
-													  <th>File</th>
-													  <th>Note1</th>
-													  <th>Note2</th>
-													  <th>Note3</th>
+													  
 												  </tr>
 											  </thead>
 										  </table>
@@ -582,10 +569,24 @@ function contacts_page() {
   
   
 	  `;
-	  display_tasks("name", "asc")
+	  display_tasks("created_date", "desc")
   }
   
   function display_tasks(thing_sorted, way_sorted){
+	tasktable.innerHTML =`
+<tr>
+													  </th>
+													  <th>Task</th>
+													  <th>Client<a onclick = "display_tasks('name', 'asc')" style="cursor: pointer;">↑</a><a onclick = "display_tasks('name', 'desc')" style="cursor: pointer;">↓</a></th>
+													  <th>Date<a onclick = "display_tasks('created_date', 'asc')" style="cursor: pointer;">↑</a><a onclick = "display_tasks('created_date', 'desc')" style="cursor: pointer;">↓</a></th>
+													  <th>Location</th>
+													  <th>Image</th>
+													  <th>File</th>
+													  <th>Note1</th>
+													  <th>Note2</th>
+													  <th>Note3</th>
+												  </tr>
+`
 
 		  var taskref = db.collection("Task");
 		  let sorted_taskref = taskref.orderBy(thing_sorted, way_sorted)
@@ -672,10 +673,9 @@ function contacts_page() {
 												  <input type="time" class="form-control" id = "end_time">
 											  </div>
 										  </div>
-										  <div class="invoice-setting-btn text-end">
-											  <button type="submit" class="btn cancel-btn me-2">Cancel</button>
-											  <button type="submit" class="btn btn-primary" onclick = "add_convo()">Save Call</button>
-										  </div>
+										  <div class="text-center py-3">
+									  <button type="button" class="border-0 btn btn-primary btn-gradient-primary btn-rounded" onclick="add_convo()">Save</button>&nbsp;&nbsp;
+								  </div>
 									  </form>
 									  <!-- /Form -->
 									  
@@ -691,11 +691,6 @@ function contacts_page() {
 												  <table class="table table-striped table-nowrap">
 													  <thead id = "convo_table">
 														  <tr>
-															  <th>Company</th>
-															  <th>Contact</th>
-															  <th>Date</th>
-															  <th>Call start time</th>
-															  <th>Call end time</th>
 														  </tr>
 													  </thead>
 												  
@@ -728,7 +723,6 @@ function contacts_page() {
 		  `;
 	  });
 	});
-	show_convo_history()
 	var contactref = db.collection("Contacts");
 	let sorted_contacts = contactref.orderBy("contact_name");
 	sorted_contacts.get().then((response) => {
@@ -740,12 +734,25 @@ function contacts_page() {
 		  `;
 	  });
 	});
+	show_convo_history("date", "desc")
+
   }
   
-  function show_convo_history(){
+  function show_convo_history(thing_sorted, way_sorted){
+	convo_table.innerHTML = `
+	<th>Company <a onclick = "show_convo_history('company', 'asc')" style="cursor: pointer;">↑</a><a onclick = "show_convo_history('company', 'desc')" style="cursor: pointer;">↓</a></th>
+	<th>Contact <a onclick = "show_convo_history('contact', 'asc')" style="cursor: pointer;">↑</a><a onclick = "show_convo_history('contact', 'desc')" style="cursor: pointer;">↓</a></th>
+	<th>Date <a onclick = "show_convo_history('date', 'asc')" style="cursor: pointer;">↑</a><a onclick = "show_convo_history('date', 'desc')" style="cursor: pointer;">↓</a></th>
+	<th>Call start time</th>
+	<th>Call end time</th>
+	
+	
+	
+	
+	`
 	var convoref = db.collection("Conversation");
-	var sorted_convos = convoref.orderBy("Date", "desc");
-	convoref.get().then((response) => {
+	var sorted_convos = convoref.orderBy(thing_sorted, way_sorted);
+	sorted_convos.get().then((response) => {
 	  let docs = response.docs;
 	  docs.forEach((doc) => {
 		convo_table.innerHTML += `
@@ -825,13 +832,7 @@ function contacts_page() {
 													  <div class="table-responsive">
 														  <table class="table table-striped table-nowrap custom-table mb-0 datatable">
 															  <thead id = "quick_notes_table">
-																  <tr>
-																	  </th>
-																	  <th>Company/contact name</th>
-																	  <th>Date</th>
-																	  <th>Comments</th>
-																	  <th>Files</th>
-																  </tr>
+																  
 															  </thead>
 														  </table>
 													  </div>
@@ -849,11 +850,19 @@ function contacts_page() {
 		  </div>
 		  <!-- /Main Wrapper -->
 	  `;
-	  display_notes()
+	  display_notes("date","desc")
   }
-  function display_notes(){
+  function display_notes(thing_sorted, way_sorted){
+	quick_notes_table.innerHTML = `<tr>
+	</th>
+	<th>Company/contact name <a onclick = "display_notes('company_name', 'asc')" style="cursor: pointer;">↑</a><a onclick = "display_notes('company_name', 'desc')" style="cursor: pointer;">↓</a></th>
+	<th>Date <a onclick = "display_notes('date', 'asc')" style="cursor: pointer;">↑</a><a onclick = "display_notes('date', 'desc')" style="cursor: pointer;">↓</a></th>
+	<th>Comments</th>
+	<th>Files</th>
+</tr>`
 	  var notesref = db.collection("Notes");
-	  notesref.get().then((response) => {
+	  let sorted_notes = notesref.orderBy(thing_sorted,way_sorted)
+	  sorted_notes.get().then((response) => {
 	  let docs = response.docs;
 	  docs.forEach((doc) => {
 		  quick_notes_table.innerHTML += `
@@ -991,8 +1000,8 @@ function contacts_page() {
 		tasktable.innerHTML = `<tr>
 		</th>
 		<th>Task</th>
-		<th>Client</th>
-		<th>Date</th>
+		<th>Client<a onclick = "display_tasks('name', 'asc')" style="cursor: pointer;">↑</a><a onclick = "display_tasks('name', 'desc')" style="cursor: pointer;">↓</a></th>
+		<th>Date<a onclick = "display_tasks('created_date', 'asc')" style="cursor: pointer;">↑</a><a onclick = "display_tasks('created_date', 'desc')" style="cursor: pointer;">↓</a></th>
 		<th>Location</th>
 		<th>Image</th>
 		<th>File</th>
@@ -1026,16 +1035,16 @@ function contacts_page() {
 	  .then(() => {
 		convo_form.reset();
 		convo_table.innerHTML = `
-		<tr>
-															  <th>Company</th>
-															  <th>Contact</th>
-															  <th>Date</th>
-															  <th>Call start time</th>
-															  <th>Call end time</th>
-														  </tr>
+		<th>Company <a onclick = "show_convo_history('company', 'asc')" style="cursor: pointer;">↑</a><a onclick = "show_convo_history('company', 'desc')" style="cursor: pointer;">↓</a></th>
+	<th>Contact <a onclick = "show_convo_history('contact', 'asc')" style="cursor: pointer;">↑</a><a onclick = "show_convo_history('contact', 'desc')" style="cursor: pointer;">↓</a></th>
+	<th>Date <a onclick = "show_convo_history('date', 'asc')" style="cursor: pointer;">↑</a><a onclick = "show_convo_history('date', 'desc')" style="cursor: pointer;">↓</a></th>
+	<th>Call start time</th>
+	<th>Call end time</th>
+	
+	
 		  
 		`
-		show_convo_history();
+		show_convo_history("date", "desc");
 	  });
   }
   
@@ -1060,8 +1069,8 @@ function contacts_page() {
       notes_form.reset();
 	  quick_notes_table.innerHTML = `<tr>
 	  </th>
-	  <th>Company/contact name</th>
-	  <th>Date</th>
+	  <th>Company/contact name <a onclick = "display_notes('company_name', 'asc')" style="cursor: pointer;">↑</a><a onclick = "display_notes('company_name', 'desc')" style="cursor: pointer;">↓</a></th>
+	  <th>Date <a onclick = "display_notes('date', 'asc')" style="cursor: pointer;">↑</a><a onclick = "display_notes('date', 'desc')" style="cursor: pointer;">↓</a></th>
 	  <th>Comments</th>
 	  <th>Files</th>
   </tr>`
