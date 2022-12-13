@@ -50,9 +50,15 @@
 				<!-- Logo -->
                 <div class="header-left">
                     <header text-align: center>Schultz Bernstein and Associates
-						<button id="login_button">Log In</button></a>
 					</header>
 				</div>
+
+				<div>
+					<button class="add btn btn-gradient-primary font-weight-bold text-white todo-list-add-btn btn-rounded" id="add-task" data-bs-toggle="modal" data-bs-target="#signinmodal">Log in</button>
+
+				</div>
+
+
 
 				<!-- ******THIS WAS COPIED FROM THE ADD CONTACTS INNERHTML***** -->
 				<!-- <div class="modal right fade" id="login" tabindex="-1" role="dialog" aria-modal="true">
@@ -127,6 +133,45 @@
 						</div> -->
 					</div>
 				<!-- /Logo -->
+
+				<div class="modal right fade" id="signinmodal" tabindex="-1" role="dialog" aria-modal="true">
+					<div class="modal-dialog" role="document">
+						<button type="button" class="close md-close" data-bs-dismiss="modal" aria-label="Close"> </button>
+						<div class="modal-content">
+
+							<div class="modal-body">
+								<div class="row">
+									<div class="col-md-12">
+									<form id = "signin_form">
+									
+									<div class="form-group row">
+										<div class="col-md-12"><label class="col-form-label">Email</label></div>
+	
+										<div class="col-md-4">
+											<input class="form-control" type="text" placeholder="Email" name="prefix-name" id = "user_email">
+										</div>
+									</div>
+									<div class="form-group row">
+										<div class="col-sm-6">
+											<label class="col-form-label">Password</label>
+											<input type="text" class="form-control"  name="pswrd" placeholder="User Password" id = "user_password">
+										</div>
+									</div>			            
+									<div class="signin">
+										<button class="button is-primary">Sign in</button>
+									</div>
+								</form>
+									</div>
+								</div>
+	
+							</div>
+	
+						</div><!-- modal-content -->
+					</div><!-- modal-dialog -->
+				</div><!-- modal -->
+
+
+
 				
 				<a id="toggle_btn" href="javascript:void(0);">
 					<span class="bar-icon">
