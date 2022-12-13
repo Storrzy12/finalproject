@@ -531,6 +531,7 @@ function task_list_page() {
                                     </div>
                                 </div>
                             </div> 
+						</div>
 							<div class="submit-section">
 								<div class="row">
 									<div class="col-md-12">
@@ -559,7 +560,7 @@ function task_list_page() {
 									</div>
 								</div>
 							</div>
-                        </div>
+                        
                     </div>
                 </div>			
 			</div>
@@ -570,26 +571,31 @@ function task_list_page() {
 
 
     `;
-  var taskref = db.collection("Task");
-  taskref.get().then((response) => {
-    let docs = response.docs;
-    docs.forEach((doc) => {
-      tasktable.innerHTML += `
-				<tr>	
-					<td>${doc.data().Task}</td>
-					<td>${doc.data().created_date}</td>
-					<td>${doc.data().file}</td>
-					<td>${doc.data().image}</td>
-					<td>${doc.data().location}</td>
-					<td>${doc.data().name}</td>
-					<td>${doc.data().note1}</td>
-					<td>${doc.data().note2}</td>
-					<td>${doc.data().note3}</td>
-		</tr>
-			`;
-    });
-  });
+	display_tasks()
 }
+
+function display_tasks(){
+		var taskref = db.collection("Task");
+		taskref.get().then((response) => {
+		let docs = response.docs;
+		docs.forEach((doc) => {
+		tasktable.innerHTML += `
+					<tr>	
+						<td>${doc.data().Task}</td>
+						<td>${doc.data().name}</td>
+						<td>${doc.data().created_date}</td>
+						<td>${doc.data().location}</td>
+						<td>${doc.data().file}</td>
+						<td>${doc.data().image}</td>
+						<td>${doc.data().note1}</td>
+						<td>${doc.data().note2}</td>
+						<td>${doc.data().note3}</td>
+					</tr>
+				`;
+			});
+		});
+
+	}
 
 function conversation_history() {
   wrapper2.innerHTML = `
@@ -678,16 +684,7 @@ function conversation_history() {
 															<th>Call end time</th>
 														</tr>
 													</thead>
-													<tbody>
-														<tr>
-															<td class="checkBox">
-																Test
-															</td>
-															<td>05/16/2020</td>
-															<td>9:00PM</td>
-															<td>10:00PM</td>
-														</tr>
-													</tbody>
+												
 												</table>
 											</div>
 										</div>
@@ -800,7 +797,7 @@ function quick_notes() {
                                     </div>
                                 </div>
                                 <!-- /Leave Comment -->
-                                
+							</div>    
                                 <div class="submit-section">
 									<div class="row">
 										<div class="col-md-12">
@@ -824,10 +821,8 @@ function quick_notes() {
 										</div>
 									</div>
 								</div>
-                            </div>
                         </div>
                     </div>
-            
                 </div>			
 			</div>
 			<!-- /Page Wrapper -->
@@ -835,11 +830,14 @@ function quick_notes() {
         </div>
 		<!-- /Main Wrapper -->
     `;
-  var notesref = db.collection("Notes");
-  notesref.get().then((response) => {
-    let docs = response.docs;
-    docs.forEach((doc) => {
-      quick_notes_table.innerHTML += `
+	display_notes()
+}
+function display_notes(){
+	var notesref = db.collection("Notes");
+	notesref.get().then((response) => {
+	let docs = response.docs;
+	docs.forEach((doc) => {
+		quick_notes_table.innerHTML += `
 				<tr>	
 					<td>${doc.data().company_name}</td>
 					<td>${doc.data().date}</td>
@@ -847,8 +845,8 @@ function quick_notes() {
 					<td>${doc.data().file}</td>
 		</tr>
 			`;
-    });
-  });
+	});
+	});
 }
 
 // contactForm.addEventListener('submit', (e)=>{
@@ -1020,3 +1018,4 @@ function add_notes() {
 }
 
 // <input type="text" class="form-control"  name="Organization" placeholder="Organization" id= "cont_org">
+
