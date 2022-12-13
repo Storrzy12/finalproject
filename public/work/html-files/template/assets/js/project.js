@@ -207,6 +207,7 @@ function display_contacts_desc(thing_sorted, way_sorted){
 				<td>${doc.data().mailing_address}</td>
 				<td>${doc.data().description}</td>
 				
+				
 	</tr>
 		`;
 	  });
@@ -437,6 +438,9 @@ function display_companies(){
 				<td>${doc.data().billing_address}</td>
 				<td>${doc.data().shipping_address}</td>
 				<td>${doc.data().description}</td>
+				<td>${doc.data().files}</td>
+				<td>${doc.data().photos}</td>
+				<td><button>Delete</button></td>
 				
 	</tr>
 		`;
@@ -457,7 +461,7 @@ function task_list_page() {
                 		<div class="col  p-0">
                 			<h3 class="page-title m-0">
 			                <span class="page-title-icon bg-gradient-primary text-white me-2">
-			                  <i class="feather-smartphone" aria-hidden="true"></i>
+							<i class="feather-check-square clicklink" ></i>
 			                </span> Task List </h3>
                 		</div>
                 	</div>
@@ -532,34 +536,33 @@ function task_list_page() {
                                 </div>
                             </div> 
 						</div>
-							<div class="submit-section">
-								<div class="row">
-									<div class="col-md-12">
-										<div class="card mb-0">
-											<div class="card-body">
-												<div class="table-responsive">
-													<table class="table table-striped table-nowrap custom-table mb-0 datatable">
-														<thead id = "tasktable">
-															<tr>
-																</th>
-																<th>Task</th>
-																<th>Client</th>
-																<th>Date</th>
-																<th>Location</th>
-																<th>Image</th>
-																<th>File</th>
-																<th>Note1</th>
-																<th>Note2</th>
-																<th>Note3</th>
-															</tr>
-														</thead>
-													</table>
-												</div>
-											</div>
-										</div>
+						<div class="row">
+						<div class="col-md-12">
+							<div class="card mb-0">
+								<div class="card-body">
+									<div class="table-responsive">
+										<table class="table table-striped table-nowrap custom-table mb-0 datatable">
+											<thead id = "tasktable">
+												<tr>
+													</th>
+													<th>Task</th>
+													<th>Client</th>
+													<th>Date</th>
+													<th>Location</th>
+													<th>Image</th>
+													<th>File</th>
+													<th>Note1</th>
+													<th>Note2</th>
+													<th>Note3</th>
+												</tr>
+											</thead>
+										</table>
 									</div>
 								</div>
 							</div>
+						</div>
+					</div>
+				</div>
                         
                     </div>
                 </div>			
@@ -590,6 +593,7 @@ function display_tasks(){
 						<td>${doc.data().note1}</td>
 						<td>${doc.data().note2}</td>
 						<td>${doc.data().note3}</td>
+						<td><button>Delete</button></td>
 					</tr>
 				`;
 			});
@@ -713,6 +717,8 @@ function conversation_history() {
 				  <td>${doc.data().date}</td>
 				  <td>${doc.data().call_start}</td>
 				  <td>${doc.data().call_end}</td>
+				  <td><button>Delete</button></td>
+				  
 	  </tr>
 		  `;
     });
@@ -843,6 +849,7 @@ function display_notes(){
 					<td>${doc.data().date}</td>
 					<td>${doc.data().comments}</td>
 					<td>${doc.data().file}</td>
+					<td><button>Delete</button></td>
 		</tr>
 			`;
 	});
