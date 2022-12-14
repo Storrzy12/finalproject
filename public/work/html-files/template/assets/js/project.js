@@ -1,3 +1,64 @@
+const signin_form = document.querySelector("#signin_form");
+		signin_form.addEventListener('submit', (e) => {
+            e.preventDefault()
+
+            //grab email and password
+            const login_email = document.querySelector("#user_email").value;
+            const login_password = document.querySelector("#user_password").value;
+
+            
+            auth.signInWithEmailAndPassword(login_email, login_password)
+                .then((userCredentials) => {
+                    console.log(userCredentials.user.email + " with the id " + userCredentials.user.uid +
+                        " is logged in!");
+                    signin_form.reset();
+					location.reload();
+                }).catch(err => {
+					// display error message on modal
+				
+					const error = document.querySelector('.error');
+					error.innerHTML = `<p>${err.message}</p>`;
+				  })
+        })
+
+const signoutbtn = document.querySelector("#signoutbtn");
+signoutbtn.addEventListener('click', () => {
+	auth.signOut();
+		console.log("User Signed out!");
+		location.reload()
+})
+
+
+auth.onAuthStateChanged(user => {
+	if (user) {
+	  console.log(`${user.email} is now signed in`);
+	  signinplace.innerHTML=``
+	} else {
+	  console.log('user is signed now signed out')
+	  sidebar_menu.innerHTML = ``
+	  wrapper2.innerHTML = ``
+	  signoutplace.innerHTML=``
+	
+	}
+  })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 //contacts
 function contacts_page() {
   wrapper2.innerHTML = `
