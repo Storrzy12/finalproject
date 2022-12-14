@@ -209,8 +209,9 @@ function contacts_page() {
   `;
   
 	
-  display_contacts("contact_name", "asc");
-	var companyref = db.collection("Company");
+    display_contacts("contact_name", "asc");
+
+ 	var companyref = db.collection("Company");
 	let sorted_company = companyref.orderBy("name");
 	sorted_company.get().then((response) => {
 	  let docs = response.docs;
@@ -255,12 +256,24 @@ function contacts_page() {
 				  <td>${doc.data().email}</td>
 				  <td>${doc.data().phone_num}</td>
 				  <td>${doc.data().mailing_address}</td>
-				  <td>${doc.data().description}</td>	  
+				  <td>${doc.data().description}</td>
+				  <td onclick = "delete_thing('Contacts', '${doc.id}')"><button>Delete</button></td>	  
 	  </tr>
 		  `;
 		});
 	  });
   }
+
+function delete_contact(doc_id){
+
+	db.collection(`${'Contacts'}`).doc(`${doc_id}`).delete().then(() => {
+		reset_contacts()
+		display_contacts("contact_name", "asc");
+
+	  })
+
+
+}
 
 
   function get_companies() {
@@ -513,14 +526,7 @@ function display_companies(thing_sorted, way_sorted){
   
   }
 
-function delete_thing(collection, doc_id){
 
-	db.collection(`${collection}`).doc(`${doc_id}`).delete().then(() => {
-		location.reload();
-	  })
-
-
-}
 
 
 
@@ -672,7 +678,7 @@ function display_tasks(thing_sorted, way_sorted){
 						  <td>${doc.data().note1}</td>
 						  <td>${doc.data().note2}</td>
 						  <td>${doc.data().note3}</td>
-						  <td><button>Delete</button></td>
+						  <td onclick = "delete_thing('Task', '${doc.id}')"><button>Delete</button></td>
 					  </tr>
 				  `;
 			  });
@@ -681,7 +687,9 @@ function display_tasks(thing_sorted, way_sorted){
 }
 
 
-	  function conversation_history() {
+
+
+function conversation_history() {
 		wrapper2.innerHTML = `
 		  <div class="content container-fluid">
 	  
@@ -759,8 +767,7 @@ function display_tasks(thing_sorted, way_sorted){
 												  <div class="table-responsive">
 													  <table class="table table-striped table-nowrap">
 														  <thead id = "convo_table">
-															  <tr>
-															  </tr>
+															  
 														  </thead>
 													  
 													  </table>
@@ -837,7 +844,7 @@ function show_convo_history(thing_sorted, way_sorted){
 						<td>${doc.data().date}</td>
 						<td>${doc.data().call_start}</td>
 						<td>${doc.data().call_end}</td>
-						<td><button>Delete</button></td>
+						<td onclick = "delete_thing('Conversation', '${doc.id}')"><button>Delete</button></td>
 						
 			</tr>
 				`;
@@ -848,6 +855,7 @@ function show_convo_history(thing_sorted, way_sorted){
 	
 	
 	}
+
 
 
 function quick_notes() {
@@ -907,13 +915,7 @@ function quick_notes() {
 													<div class="table-responsive">
 														<table class="table table-striped table-nowrap custom-table mb-0 datatable">
 															<thead id = "quick_notes_table">
-																<tr>
-																	</th>
-																	<th>Company/contact name</th>
-																	<th>Date</th>
-																	<th>Comments</th>
-																	<th>Files</th>
-																</tr>
+																
 															</thead>
 														</table>
 													</div>
@@ -958,12 +960,48 @@ function display_notes(thing_sorted, way_sorted){
 					  <td>${doc.data().date}</td>
 					  <td>${doc.data().comments}</td>
 					  <td>${doc.data().file}</td>
-					  <td><button>Delete</button></td>
+					  <td onclick = "delete_thing('Notes', '${doc.id}')"><button>Delete</button></td>
 		  </tr>
 			  `;
 	  });
 	  });
   }
+
+
+  function delete_thing(collection, doc_id){
+
+	db.collection(`${collection}`).doc(`${doc_id}`).delete().then(() => {
+		if(collection == "Contacts"){
+			reset_contacts()
+	 		display_contacts("contact_name", "asc");
+		}
+		else if (collection == "Company"){
+			reset_companies()
+  			display_companies("name", "asc")
+		}
+		else if (collection == "Task"){
+			reset_tasks()
+			display_tasks("created_date", "desc");
+		}
+		else if (collection == "Conversation"){
+			reset_convos()
+			show_convo_history("date", "desc");
+		}
+		else if (collection == "Notes"){
+			reset_notes()
+			display_notes("date","desc")
+		}
+
+	  })
+
+	
+
+
+}
+
+
+
+
 
 // contactForm.addEventListener('submit', (e)=>{
 // 	console.log("hi")
@@ -1132,7 +1170,7 @@ function add_notes() {
     .then(() => {
 		notes_form.reset();
 		reset_notes()
-		display_notes();
+		display_notes("date","desc")
 	});
 
     })
