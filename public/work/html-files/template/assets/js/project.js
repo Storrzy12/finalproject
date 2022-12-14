@@ -99,15 +99,7 @@ function contacts_page() {
 									  <div class="table-responsive">
 										  <table class="table table-striped table-nowrap custom-table mb-0 datatable">
 											  <thead id = "contacts_table">
-												  <tr>
-													  <th>Name <a onclick = "display_contacts('contact_name', 'asc')" style="cursor: pointer;">↑</a><a onclick = "display_contacts('contact_name', 'desc')" style="cursor: pointer;">↓</a></th>
-													  <th>Organization <a onclick = "display_contacts('company_name', 'asc')" style="cursor: pointer;">↑</a><a onclick = "display_contacts('company_name', 'desc')" style="cursor: pointer;">↓</a></th>
-													  <th>Title</th>
-													  <th>Email</th>
-													  <th>Phone</th>
-													  <th>Mailing Address</th>
-													  <th>Description</th>
-												  </tr>
+												  
 								  
 												  
 											  </thead>						
@@ -215,6 +207,7 @@ function contacts_page() {
   
   
   `;
+  
 	
   display_contacts("contact_name", "asc");
 	var companyref = db.collection("Company");
@@ -229,9 +222,8 @@ function contacts_page() {
 	  });
 	});
   }
-  
 
-  function display_contacts(thing_sorted, way_sorted){
+  function reset_contacts(){
 	contacts_table.innerHTML = `
 	<tr>
 													  <th>Name <a onclick = "display_contacts('contact_name', 'asc')" style="cursor: pointer;">↑</a><a onclick = "display_contacts('contact_name', 'desc')" style="cursor: pointer;">↓</a></th>
@@ -244,8 +236,12 @@ function contacts_page() {
 											</tr>
 	
 	
-	
 	`
+  }
+  
+
+  function display_contacts(thing_sorted, way_sorted){
+	  reset_contacts()
 	  var contactref = db.collection("Contacts");
 	  let sorted_contactref = contactref.orderBy(thing_sorted, way_sorted)
 	  sorted_contactref.get().then((response) => {
@@ -303,17 +299,7 @@ function contacts_page() {
 					  <div class="table-responsive">
 						  <table class="table table-striped table-nowrap custom-table mb-0 datatable">
 							  <thead id = "company_table">
-								  <tr>
-									  <th>Company <a onclick = "display_companies('name', 'asc')" style="cursor: pointer;">↑</a><a onclick = "display_companies('name', 'desc')" style="cursor: pointer;">↓</a></th>
-									  <th>Phone</th>
-									  <th>Website</th>
-									  <th>Email Domains</th>
-									  <th>Billing Address</th>
-									  <th>Shipping Address</th>
-									  <th>Description Information</th>
-									  <th>Pictures</th>
-									  <th>Documents</th>
-								  </tr>
+								  
 							  </thead>						
 							  </tbody>
 						  </table>
@@ -477,7 +463,7 @@ function contacts_page() {
   }
 
 
-function display_companies(thing_sorted, way_sorted){
+function reset_companies(){
 	company_table.innerHTML = `
 	<tr>
 	<th>Company <a onclick = "display_companies('name', 'asc')" style="cursor: pointer;">↑</a><a onclick = "display_companies('name', 'desc')" style="cursor: pointer;">↓</a></th>
@@ -492,6 +478,13 @@ function display_companies(thing_sorted, way_sorted){
 </tr>
 	
 	`
+
+
+}
+
+
+function display_companies(thing_sorted, way_sorted){
+	  reset_companies()
 	  var companyref = db.collection("Company");
 	  let sorted_companies = companyref.orderBy(thing_sorted, way_sorted)
 	  sorted_companies.get().then((response) => {
@@ -620,18 +613,7 @@ function task_list_page() {
 									<div class="table-responsive">
 										<table class="table table-striped table-nowrap custom-table mb-0 datatable">
 											<thead id = "tasktable">
-												<tr>
-													</th>
-													<th>Task</th>
-													<th>Client</th>
-													<th>Date</th>
-													<th>Location</th>
-													<th>Image</th>
-													<th>File</th>
-													<th>Note1</th>
-													<th>Note2</th>
-													<th>Note3</th>
-												</tr>
+											
 											</thead>
 										</table>
 									</div>
@@ -654,21 +636,25 @@ function task_list_page() {
 	display_tasks("created_date", "desc")
 }
 
-function display_tasks(thing_sorted, way_sorted){
+function reset_tasks(){
 	tasktable.innerHTML =`
-<tr>
-													  </th>
-													  <th>Task</th>
-													  <th>Client<a onclick = "display_tasks('name', 'asc')" style="cursor: pointer;">↑</a><a onclick = "display_tasks('name', 'desc')" style="cursor: pointer;">↓</a></th>
-													  <th>Date<a onclick = "display_tasks('created_date', 'asc')" style="cursor: pointer;">↑</a><a onclick = "display_tasks('created_date', 'desc')" style="cursor: pointer;">↓</a></th>
-													  <th>Location</th>
-													  <th>Image</th>
-													  <th>File</th>
-													  <th>Note1</th>
-													  <th>Note2</th>
-													  <th>Note3</th>
-												  </tr>
-`
+	<tr>
+														  </th>
+														  <th>Task</th>
+														  <th>Client<a onclick = "display_tasks('name', 'asc')" style="cursor: pointer;">↑</a><a onclick = "display_tasks('name', 'desc')" style="cursor: pointer;">↓</a></th>
+														  <th>Date<a onclick = "display_tasks('created_date', 'asc')" style="cursor: pointer;">↑</a><a onclick = "display_tasks('created_date', 'desc')" style="cursor: pointer;">↓</a></th>
+														  <th>Location</th>
+														  <th>Image</th>
+														  <th>File</th>
+														  <th>Note1</th>
+														  <th>Note2</th>
+														  <th>Note3</th>
+													  </tr>
+	`
+}
+
+function display_tasks(thing_sorted, way_sorted){
+		  reset_tasks()
 
 		  var taskref = db.collection("Task");
 		  let sorted_taskref = taskref.orderBy(thing_sorted, way_sorted)
@@ -692,7 +678,8 @@ function display_tasks(thing_sorted, way_sorted){
 			  });
 		  });
   
-	  }
+}
+
 
 	  function conversation_history() {
 		wrapper2.innerHTML = `
@@ -820,18 +807,24 @@ function display_tasks(thing_sorted, way_sorted){
 	
 	  }
 	  
+function reset_convos(){
+	convo_table.innerHTML = `
+	<th>Company <a onclick = "show_convo_history('company', 'asc')" style="cursor: pointer;">↑</a><a onclick = "show_convo_history('company', 'desc')" style="cursor: pointer;">↓</a></th>
+	<th>Contact <a onclick = "show_convo_history('contact', 'asc')" style="cursor: pointer;">↑</a><a onclick = "show_convo_history('contact', 'desc')" style="cursor: pointer;">↓</a></th>
+	<th>Date <a onclick = "show_convo_history('date', 'asc')" style="cursor: pointer;">↑</a><a onclick = "show_convo_history('date', 'desc')" style="cursor: pointer;">↓</a></th>
+	<th>Call start time</th>
+	<th>Call end time</th>
+	
+	
+	
+	
+	`
+
+
+}
+
 function show_convo_history(thing_sorted, way_sorted){
-		convo_table.innerHTML = `
-		<th>Company <a onclick = "show_convo_history('company', 'asc')" style="cursor: pointer;">↑</a><a onclick = "show_convo_history('company', 'desc')" style="cursor: pointer;">↓</a></th>
-		<th>Contact <a onclick = "show_convo_history('contact', 'asc')" style="cursor: pointer;">↑</a><a onclick = "show_convo_history('contact', 'desc')" style="cursor: pointer;">↓</a></th>
-		<th>Date <a onclick = "show_convo_history('date', 'asc')" style="cursor: pointer;">↑</a><a onclick = "show_convo_history('date', 'desc')" style="cursor: pointer;">↓</a></th>
-		<th>Call start time</th>
-		<th>Call end time</th>
-		
-		
-		
-		
-		`
+		reset_convos()
 		var convoref = db.collection("Conversation");
 		var sorted_convos = convoref.orderBy(thing_sorted, way_sorted);
 		sorted_convos.get().then((response) => {
@@ -941,8 +934,7 @@ function quick_notes() {
 	display_notes("date","desc")
 }
 
-
-function display_notes(thing_sorted, way_sorted){
+function reset_notes(){
 	quick_notes_table.innerHTML = `<tr>
 	</th>
 	<th>Company/contact name <a onclick = "display_notes('company_name', 'asc')" style="cursor: pointer;">↑</a><a onclick = "display_notes('company_name', 'desc')" style="cursor: pointer;">↓</a></th>
@@ -950,6 +942,11 @@ function display_notes(thing_sorted, way_sorted){
 	<th>Comments</th>
 	<th>Files</th>
 </tr>`
+
+}
+
+function display_notes(thing_sorted, way_sorted){
+	 reset_notes()
 	  var notesref = db.collection("Notes");
 	  let sorted_notes = notesref.orderBy(thing_sorted,way_sorted)
 	  sorted_notes.get().then((response) => {
@@ -998,16 +995,7 @@ function add_contact() {
     .add(post_stuff)
     .then(() => {
       contactForm.reset();
-	  contacts_table.innerHTML=`
-	  <tr>
-													<th>Name</th>
-													<th>Organization</th>
-													<th>Title</th>
-													<th>Email</th>
-													<th>Phone</th>
-													<th>Mailing Address</th>
-													<th>Description</th>
-												</tr>`
+	  reset_contacts()
 	  display_contacts("contact_name", "asc");
     });
 }
@@ -1042,18 +1030,7 @@ function add_company() {
     .add(post_moreStuff)
     .then(() => {
       companyForm.reset();
-	  company_table.innerHTML=`
-	  <tr>
-	  <th>Company</th>
-	  <th>Phone</th>
-	  <th>Website</th>
-	  <th>Email Domains</th>
-	  <th>Billing Address</th>
-	  <th>Shipping Address</th>
-	  <th>Description Information</th>
-	  <th>Pictures</th>
-	  <th>Documents</th>
-  </tr>`;
+	  reset_companies()
   	display_companies("name", "asc")
     });
 }
@@ -1093,18 +1070,7 @@ task
     .add(post_stuff)
     .then(() => {
 		task_form.reset();
-		tasktable.innerHTML = `<tr>
-		</th>
-		<th>Task</th>
-		<th>Client<a onclick = "display_tasks('name', 'asc')" style="cursor: pointer;">↑</a><a onclick = "display_tasks('name', 'desc')" style="cursor: pointer;">↓</a></th>
-		<th>Date<a onclick = "display_tasks('created_date', 'asc')" style="cursor: pointer;">↑</a><a onclick = "display_tasks('created_date', 'desc')" style="cursor: pointer;">↓</a></th>
-		<th>Location</th>
-		<th>Image</th>
-		<th>File</th>
-		<th>Note1</th>
-		<th>Note2</th>
-		<th>Note3</th>
-	</tr>`
+		reset_tasks()
 		display_tasks("created_date", "desc");
     });
 });
@@ -1132,16 +1098,7 @@ function add_convo() {
     .add(post_stuff)
     .then(() => {
 		convo_form.reset();
-		convo_table.innerHTML = `
-		<th>Company <a onclick = "show_convo_history('company', 'asc')" style="cursor: pointer;">↑</a><a onclick = "show_convo_history('company', 'desc')" style="cursor: pointer;">↓</a></th>
-	<th>Contact <a onclick = "show_convo_history('contact', 'asc')" style="cursor: pointer;">↑</a><a onclick = "show_convo_history('contact', 'desc')" style="cursor: pointer;">↓</a></th>
-	<th>Date <a onclick = "show_convo_history('date', 'asc')" style="cursor: pointer;">↑</a><a onclick = "show_convo_history('date', 'desc')" style="cursor: pointer;">↓</a></th>
-	<th>Call start time</th>
-	<th>Call end time</th>
-	
-	
-		  
-		`
+		reset_convos()
 		show_convo_history("date", "desc");
     });
 }
@@ -1174,13 +1131,7 @@ function add_notes() {
     .add(post_moreStuff)
     .then(() => {
 		notes_form.reset();
-		quick_notes_table.innerHTML = `<tr>
-		</th>
-		<th>Company/contact name <a onclick = "display_notes('company_name', 'asc')" style="cursor: pointer;">↑</a><a onclick = "display_notes('company_name', 'desc')" style="cursor: pointer;">↓</a></th>
-		<th>Date <a onclick = "display_notes('date', 'asc')" style="cursor: pointer;">↑</a><a onclick = "display_notes('date', 'desc')" style="cursor: pointer;">↓</a></th>
-		<th>Comments</th>
-		<th>Files</th>
-	</tr>`
+		reset_notes()
 		display_notes();
 	});
 
