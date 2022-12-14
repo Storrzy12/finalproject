@@ -61,453 +61,464 @@ auth.onAuthStateChanged(user => {
 
 //contacts
 function contacts_page() {
-  wrapper2.innerHTML = `
-			
-    <!-- Page Content -->
-                <div class="content container-fluid">
-
-                	<div class="crms-title row bg-white">
-                		<div class="col">
-                			<h3 class="page-title m-0">
-			                <span class="page-title-icon bg-gradient-primary text-white me-2">
-			                  <i class="feather-user"></i>
-			                </span> Contacts </h3>
-                		</div>
-                		<div class="col text-end">
-                		</div>
-                	</div>
-					
-					<!-- Page Header -->
-					<div class="page-header pt-3 mb-0 ">
-						<div class="row">
-							<div class="col text-end">
-								<ul class="list-inline-item ps-0">
-					                <li class="list-inline-item">
-					                    <button class="add btn btn-gradient-primary font-weight-bold text-white todo-list-add-btn btn-rounded" id="add-task" data-bs-toggle="modal" data-bs-target="#add_company">New Contact</button>
-					                </li>
-					            </ul>
-							</div>
-						</div>
-					</div>
-					<!-- /Page Header -->
-					
-					<!-- Content Starts -->
-					<div class="row">
-						<div class="col-md-12">
-							<div class="card mb-0">
-								<div class="card-body">
-									<div class="table-responsive">
-										<table class="table table-striped table-nowrap custom-table mb-0 datatable">
-											<thead id = "contacts_table">
-												<tr>
-													<th>Name <a onclick = "display_contacts_desc("email")" style="cursor: pointer;">↑</a><a style="cursor: pointer;">↓</a></th>
-													<th>Organization <a style="cursor: pointer;">↑</a><a style="cursor: pointer;">↓</a></th>
-													<th>Title</th>
-													<th>Email</th>
-													<th>Phone</th>
-													<th>Mailing Address</th>
-													<th>Description</th>
-												</tr>
-								
-												
-											</thead>						
-											</tbody>
-										</table>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-					<!-- /Content End -->
-					
-                </div>
-				<!-- /Page Content -->
-				
-            </div>
-			<!-- /Page Wrapper -->
-			
-        </div>
-		<!-- /Main Wrapper -->	
-
-		<!-- Modal -->
-			<div class="modal right fade" id="add_company" tabindex="-1" role="dialog" aria-modal="true">
-				<div class="modal-dialog" role="document">
-					<button type="button" class="close md-close" data-bs-dismiss="modal" aria-label="Close"> </button>
-					<div class="modal-content">
-
-						<div class="modal-header">
-		                    <h4 class="modal-title text-center">Add Contact</h4>
-		                    <button type="button" class="btn-close xs-close" data-bs-dismiss="modal"></button>
-		                  </div>
-
-						<div class="modal-body">
-							<div class="row">
-						        <div class="col-md-12">
-								<form id = "cont_form">
-								<h4>Name & Occupation</h4>
-								<div class="form-group row">
-									<div class="col-md-12"><label class="col-form-label">Name <span class="text-danger">*</span></label></div>
-
-									<div class="col-md-4">
-										<input class="form-control" type="text" placeholder="First Last" name="prefix-name" id = "cont_name">
-									</div>
-								</div>
-								<div class="form-group row">
-									<div class="col-sm-6">
-										<label class="col-form-label">Organization</label>
-										<select class ="form-control" id = cont_org>
-											<option value=""></option>
-									  	</select>
-									</div>
-									<div class="col-sm-6">
-										<label class="col-form-label">Title</label>
-										<input type="text" class="form-control"  name="title" placeholder="Title" id = "cont_title">
-									</div>
-								</div>			            
-								<h4>Contact Details</h4>
-								<div class="form-group row">
-									<div class="col-sm-6">
-										<label class="col-form-label">Email</label>
-										<input type="text" class="form-control"  name="email" placeholder="Email" id = "cont_email">
-									</div>
-								</div>
-								<div class="form-group row">
-									<div class="col-sm-6">
-										<label class="col-form-label">Phone</label>
-										<input type="text" class="form-control" name="phone" placeholder="Phone" id = "cont_phone">
-									</div>
-								<h4>Address Information</h4>
-								<div class="form-group row">
-									<div class="col-sm-6">
-										<label class="col-form-label">Mailing Address</label>
-										<textarea class="form-control" rows="3" name="mailing-address" placeholder="Address" id = "cont_address"></textarea>
-									</div>
-								</div>							
-								<h4>Description Information</h4>
-								<div class="form-group row">
-									<div class="col-sm-12">
-										<label class="col-form-label">Description </label>
-										<textarea class="form-control" rows="3" id="cont_desc" placeholder="Description"></textarea>
-									</div>
-								</div>
-								<h4>Notes</h4>
-								<div class="form-group row">
-									<div class="col-sm-12">
-										<label class="col-form-label">Notes </label>
-										<textarea class="form-control" rows="3"placeholder="Notes" id = "cont_notes"></textarea>
-									</div>
-								</div>
-								<div class="text-center py-3">
-									<button type="button" class="border-0 btn btn-primary btn-gradient-primary btn-rounded" onclick="add_contact()">Save</button>&nbsp;&nbsp;
-								</div>
-							</form>
-						        </div>
-							</div>
-
-						</div>
-
-					</div><!-- modal-content -->
-				</div><!-- modal-dialog -->
-			</div><!-- modal -->
-
-			
-
-
-
-`;
+	wrapper2.innerHTML = `
+			  
+	  <!-- Page Content -->
+				  <div class="content container-fluid">
   
-display_contacts_asc("contact_name");
-  var companyref = db.collection("Company");
-  let sorted_company = companyref.orderBy("name");
-  sorted_company.get().then((response) => {
-    let docs = response.docs;
-    docs.forEach((doc) => {
-      cont_org.innerHTML += `
-			<option value="${doc.data().name}">${doc.data().name}</option>
-		
-		`;
-    });
-  });
-}
-
-function display_contacts_asc(thing_sorted){
-	var contactref = db.collection("Contacts");
-	let sorted_contactref = contactref.orderBy(thing_sorted, "asc")
-	sorted_contactref.get().then((response) => {
-	  let docs = response.docs;
-	  docs.forEach((doc) => {
-		contacts_table.innerHTML += `
-			<tr>	
-				<td>${doc.data().contact_name}</td>
-				<td>${doc.data().company_name}</td>
-				<td>${doc.data().title}</td>
-				<td>${doc.data().email}</td>
-				<td>${doc.data().phone_num}</td>
-				<td>${doc.data().mailing_address}</td>
-				<td>${doc.data().description}</td>
-				
-	</tr>
-		`;
-	  });
-	});
-}
-
-function display_contacts_desc(thing_sorted, way_sorted){
-	var contactref = db.collection("Contacts");
-	let sorted_contactref = contactref.orderBy(thing_sorted, way_sorted)
-	sorted_contactref.get().then((response) => {
-	  let docs = response.docs;
-	  docs.forEach((doc) => {
-		contacts_table.innerHTML += `
-			<tr>	
-				<td>${doc.data().contact_name}</td>
-				<td>${doc.data().company_name}</td>
-				<td>${doc.data().title}</td>
-				<td>${doc.data().email}</td>
-				<td>${doc.data().phone_num}</td>
-				<td>${doc.data().mailing_address}</td>
-				<td>${doc.data().description}</td>
-				
-				
-	</tr>
-		`;
-	  });
-	});
-}
-
-function get_companies() {
-  wrapper2.innerHTML = `<div class="content container-fluid">
-
-    <div class="crms-title row bg-white">
-        <div class="col">
-            <h3 class="page-title m-0">
-            <span class="page-title-icon bg-gradient-primary text-white me-2">
-              <i class="feather-database"></i>
-            </span> Companies </h3>
-        </div>
-        <div class="col text-end">
-        </div>
-    </div>
-    
-    <!-- Page Header -->
-    <div class="page-header pt-3 mb-0 ">
-        <div class="row">
-            <div class="col text-end">
-                <ul class="list-inline-item ps-0">
-                    <li class="list-inline-item">
-                        <button class="add btn btn-gradient-primary font-weight-bold text-white todo-list-add-btn btn-rounded" id="add-task" data-bs-toggle="modal" data-bs-target="#add_company">New Company</button>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </div>
-    <!-- /Page Header -->
-    
-    <!-- Content Starts -->
-    <div class="row">
-        <div class="col-md-12">
-            <div class="card mb-0">
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="table table-striped table-nowrap custom-table mb-0 datatable">
-                            <thead id = "company_table">
-                                <tr>
-                                    <th>Company</th>
-                                    <th>Phone</th>
-                                    <th>Website</th>
-                                    <th>Email Domains</th>
-                                    <th>Billing Address</th>
-                                    <th>Shipping Address</th>
-                                    <th>Description Information</th>
-                                    <th>Pictures</th>
-                                    <th>Documents</th>
-                                </tr>
-                            </thead>						
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- /Content End -->
-    
-</div>
-<!-- /Page Content -->
-				
-            </div>
-			<!-- /Page Wrapper -->
-			
-        </div>
-		<!-- /Main Wrapper -->
-
-		<!--modal section starts here-->
-		<div class="modal fade" id="add-new-list">
-          <div class="modal-dialog">
-            <div class="modal-content">
-            
-              <!-- Modal Header -->
-              <div class="modal-header">
-                <h4 class="modal-title">Add New List View</h4>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-              </div>
-              
-              <!-- Modal body -->
-              <div class="modal-body">
-                <form class="forms-sample">
-                  <div class="form-group row">
-                    <label for="view-name" class="col-sm-4 col-form-label">New View Name</label>
-                    <div class="col-sm-8">
-                      <input type="text" class="form-control" id="view-name" placeholder="New View Name">
-                    </div>
-                  </div>
-                  <div class="form-group row pt-4">
-                    <label class="col-sm-4 col-form-label">Sharing Settings</label>
-                    <div class="col-sm-8">
-                      <div class="form-group">
-                        <div class="form-check">
-                          <label class="form-check-label">
-                            <input type="radio" class="form-check-input" name="optionsRadios" id="optionsRadios1" value=""> Just For Me <i class="input-helper"></i></label>
-                        </div><br />
-                        <div class="form-check">
-                          <label class="form-check-label">
-                            <input type="radio" class="form-check-input" name="optionsRadios" id="optionsRadios2" value="option2" checked=""> Share Filter with Everyone <i class="input-helper"></i></label>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  
-                  <div class="text-center">
-                    <button type="submit" class="btn btn-gradient-primary me-2">Submit</button>
-                  </div>
-                </form>
-              </div>
-           
-            </div>
-          </div>
-        </div>
-
-		<!-- Modal -->
-			<div class="modal right fade" id="add_company" tabindex="-1" role="dialog" aria-modal="true">
-				<div class="modal-dialog" role="document">
-					<button type="button" class="close md-close" data-bs-dismiss="modal" aria-label="Close"> </button>
-					<div class="modal-content">
-
-						<div class="modal-header">
-		                    <h4 class="modal-title text-center">Add Company</h4>
-		                    <button type="button" class="btn-close xs-close" data-bs-dismiss="modal"></button>
-		                  </div>
-
-						<div class="modal-body">
-							<div class="row">
-						        <div class="col-md-12">
-						            <form id = "comp_form">
-						            	<h4>Organization Name</h4>
-						            	<div class="form-group row">
-				                            <div class="col-md-12">
-				                            	<label class="col-form-label">Organization Name <span class="text-danger">*</span></label>
-                              					<input class="form-control" type="text" placeholder="Organization Name" name="organization" id = "comp_name">
-				                            </div>
-				                        </div>			            
-										<h4>Organization Contact Details</h4>
-										
-										<div class="form-group row">
-											<div class="col-sm-6">
-												<label class="col-form-label">Phone</label>
-                            					<input type="text" class="form-control" name="phone" placeholder="Phone" id = "comp_phone">
-											</div>
-										</div>
-										<div class="form-group row">
-											<div class="col-sm-6">
-												<label class="col-form-label">Website</label>
-                            					<input type="text" class="form-control" name="website" placeholder="Website" id = "comp_website">
-											</div>
-										</div>
-										<div class="form-group row">
-											<div class="col-sm-6">
-												<label class="col-form-label">Email Domains</label>
-                            					<input type="text" class="form-control"  name="domains" placeholder="Email Domains" id = "comp_emailDom">
-											</div>
-											
-										</div>
-										<h4>Address Information</h4>
-										<div class="form-group row">
-											<div class="col-sm-6">
-												<label class="col-form-label">Billing Address</label>
-                            					<textarea class="form-control" rows="3" name="billing-address" placeholder="Billing Address" id = "comp_billAdd"></textarea>
-											</div>
-										</div>
-										<div class="form-group row">
-											<div class="col-sm-6">
-												<label class="col-form-label">Shipping Address</label>
-                            					<textarea class="form-control" rows="3" name="shipping-address" placeholder="Shipping Address" id = "comp_shipAdd"></textarea>
-											</div>
-										</div>							
-										<h4>Description Information</h4>
-										<div class="form-group row">
-											<div class="col-sm-12">
-												<label class="col-form-label">Description </label>
-				                            	<textarea class="form-control" rows="3" id="comp_desc" placeholder="Description"></textarea>
-											</div>
-										</div>
-										<h4>Pictures</h4>
-										<div class="form-group row">
-											<div class="change-photo-btn">
-												<div>
-												<p>Add Photo</p></div>
-												<input type="file" class="upload" id = "comp_pics">
-											</div>
-										</div>
-										<h4>Documents</h4>
-										<div class="form-group row">
-											<div class="change-photo-btn">
-												<div>
-												<p>Add Document</p></div>
-												<input type="file" class="upload" id = "comp_docs">
-											</div>
-										</div>
-						                <div class="text-center py-3">
-						                	<button type="button" class="border-0 btn btn-primary btn-gradient-primary btn-rounded" onclick="add_company()">Save</button>&nbsp;&nbsp;
-						                </div>
-						            </form>
-						        </div>
+					  <div class="crms-title row bg-white">
+						  <div class="col">
+							  <h3 class="page-title m-0">
+							  <span class="page-title-icon bg-gradient-primary text-white me-2">
+								<i class="feather-user"></i>
+							  </span> Contacts </h3>
+						  </div>
+						  <div class="col text-end">
+						  </div>
+					  </div>
+					  
+					  <!-- Page Header -->
+					  <div class="page-header pt-3 mb-0 ">
+						  <div class="row">
+							  <div class="col text-end">
+								  <ul class="list-inline-item ps-0">
+									  <li class="list-inline-item">
+										  <button class="add btn btn-gradient-primary font-weight-bold text-white todo-list-add-btn btn-rounded" id="add-task" data-bs-toggle="modal" data-bs-target="#add_company">New Contact</button>
+									  </li>
+								  </ul>
+							  </div>
+						  </div>
+					  </div>
+					  <!-- /Page Header -->
+					  
+					  <!-- Content Starts -->
+					  <div class="row">
+						  <div class="col-md-12">
+							  <div class="card mb-0">
+								  <div class="card-body">
+									  <div class="table-responsive">
+										  <table class="table table-striped table-nowrap custom-table mb-0 datatable">
+											  <thead id = "contacts_table">
+												  <tr>
+													  <th>Name <a onclick = "display_contacts('contact_name', 'asc')" style="cursor: pointer;">↑</a><a onclick = "display_contacts('contact_name', 'desc')" style="cursor: pointer;">↓</a></th>
+													  <th>Organization <a onclick = "display_contacts('company_name', 'asc')" style="cursor: pointer;">↑</a><a onclick = "display_contacts('company_name', 'desc')" style="cursor: pointer;">↓</a></th>
+													  <th>Title</th>
+													  <th>Email</th>
+													  <th>Phone</th>
+													  <th>Mailing Address</th>
+													  <th>Description</th>
+												  </tr>
+								  
+												  
+											  </thead>						
+											  </tbody>
+										  </table>
+									  </div>
+								  </div>
+							  </div>
+						  </div>
+					  </div>
+					  <!-- /Content End -->
+					  
+				  </div>
+				  <!-- /Page Content -->
+				  
+			  </div>
+			  <!-- /Page Wrapper -->
+			  
+		  </div>
+		  <!-- /Main Wrapper -->	
+  
+		  <!-- Modal -->
+			  <div class="modal right fade" id="add_company" tabindex="-1" role="dialog" aria-modal="true">
+				  <div class="modal-dialog" role="document">
+					  <button type="button" class="close md-close" data-bs-dismiss="modal" aria-label="Close"> </button>
+					  <div class="modal-content">
+  
+						  <div class="modal-header">
+							  <h4 class="modal-title text-center">Add Contact</h4>
+							  <button type="button" class="btn-close xs-close" data-bs-dismiss="modal"></button>
 							</div>
-
-						</div>
-
-					</div><!-- modal-content -->
-				</div><!-- modal-dialog -->
-			</div><!-- modal -->
-
-
-`;
-	display_companies()
-}
-
-function display_companies(){
+  
+						  <div class="modal-body">
+							  <div class="row">
+								  <div class="col-md-12">
+								  <form id = "cont_form">
+								  <h4>Name & Occupation</h4>
+								  <div class="form-group row">
+									  <div class="col-md-12"><label class="col-form-label">Name <span class="text-danger">*</span></label></div>
+  
+									  <div class="col-md-4">
+										  <input class="form-control" type="text" placeholder="First Last" name="prefix-name" id = "cont_name">
+									  </div>
+								  </div>
+								  <div class="form-group row">
+									  <div class="col-sm-6">
+										  <label class="col-form-label">Organization</label>
+										  <select class ="form-control" id = cont_org>
+											  <option value=""></option>
+											</select>
+									  </div>
+									  <div class="col-sm-6">
+										  <label class="col-form-label">Title</label>
+										  <input type="text" class="form-control"  name="title" placeholder="Title" id = "cont_title">
+									  </div>
+								  </div>			            
+								  <h4>Contact Details</h4>
+								  <div class="form-group row">
+									  <div class="col-sm-6">
+										  <label class="col-form-label">Email</label>
+										  <input type="text" class="form-control"  name="email" placeholder="Email" id = "cont_email">
+									  </div>
+								  </div>
+								  <div class="form-group row">
+									  <div class="col-sm-6">
+										  <label class="col-form-label">Phone</label>
+										  <input type="text" class="form-control" name="phone" placeholder="Phone" id = "cont_phone">
+									  </div>
+								  <h4>Address Information</h4>
+								  <div class="form-group row">
+									  <div class="col-sm-6">
+										  <label class="col-form-label">Mailing Address</label>
+										  <textarea class="form-control" rows="3" name="mailing-address" placeholder="Address" id = "cont_address"></textarea>
+									  </div>
+								  </div>							
+								  <h4>Description Information</h4>
+								  <div class="form-group row">
+									  <div class="col-sm-12">
+										  <label class="col-form-label">Description </label>
+										  <textarea class="form-control" rows="3" id="cont_desc" placeholder="Description"></textarea>
+									  </div>
+								  </div>
+								  <h4>Notes</h4>
+								  <div class="form-group row">
+									  <div class="col-sm-12">
+										  <label class="col-form-label">Notes </label>
+										  <textarea class="form-control" rows="3"placeholder="Notes" id = "cont_notes"></textarea>
+									  </div>
+								  </div>
+								  <div class="text-center py-3">
+									  <button type="button" class="border-0 btn btn-primary btn-gradient-primary btn-rounded" onclick="add_contact()">Save</button>&nbsp;&nbsp;
+								  </div>
+							  </form>
+								  </div>
+							  </div>
+  
+						  </div>
+  
+					  </div><!-- modal-content -->
+				  </div><!-- modal-dialog -->
+			  </div><!-- modal -->
+  
+			  
+  
+  
+  
+  `;
+	
+  display_contacts("contact_name", "asc");
 	var companyref = db.collection("Company");
-	let sorted_companies = companyref.orderBy("name", "asc")
-	sorted_companies.get().then((response) => {
+	let sorted_company = companyref.orderBy("name");
+	sorted_company.get().then((response) => {
 	  let docs = response.docs;
 	  docs.forEach((doc) => {
-		company_table.innerHTML += `
-			<tr>	
-				<td>${doc.data().name}</td>
-				<td>${doc.data().phone_num}</td>
-				<td>${doc.data().website}</td>
-				<td>${doc.data().email}</td>
-				<td>${doc.data().billing_address}</td>
-				<td>${doc.data().shipping_address}</td>
-				<td>${doc.data().description}</td>
-				<td>${doc.data().files}</td>
-				<td>${doc.data().photos}</td>
-				<td onclick = "delete_thing('Company', '${doc.id}')"><button>Delete</button></td>
-				
-	</tr>
-		`;
+		cont_org.innerHTML += `
+			  <option value="${doc.data().name}">${doc.data().name}</option>
+		  
+		  `;
 	  });
 	});
-}
+  }
+  
+
+  function display_contacts(thing_sorted, way_sorted){
+	contacts_table.innerHTML = `
+	<tr>
+													  <th>Name <a onclick = "display_contacts('contact_name', 'asc')" style="cursor: pointer;">↑</a><a onclick = "display_contacts('contact_name', 'desc')" style="cursor: pointer;">↓</a></th>
+													  <th>Organization <a onclick = "display_contacts('company_name', 'asc')" style="cursor: pointer;">↑</a><a onclick = "display_contacts('company_name', 'desc')" style="cursor: pointer;">↓</a></th>
+													  <th>Title</th>
+													  <th>Email</th>
+													  <th>Phone</th>
+													  <th>Mailing Address</th>
+													  <th>Description</th>
+											</tr>
+	
+	
+	
+	`
+	  var contactref = db.collection("Contacts");
+	  let sorted_contactref = contactref.orderBy(thing_sorted, way_sorted)
+	  sorted_contactref.get().then((response) => {
+		let docs = response.docs;
+		docs.forEach((doc) => {
+		  contacts_table.innerHTML += `
+			  <tr>	
+				  <td>${doc.data().contact_name}</td>
+				  <td>${doc.data().company_name}</td>
+				  <td>${doc.data().title}</td>
+				  <td>${doc.data().email}</td>
+				  <td>${doc.data().phone_num}</td>
+				  <td>${doc.data().mailing_address}</td>
+				  <td>${doc.data().description}</td>	  
+	  </tr>
+		  `;
+		});
+	  });
+  }
+
+
+  function get_companies() {
+	wrapper2.innerHTML = `<div class="content container-fluid">
+  
+	  <div class="crms-title row bg-white">
+		  <div class="col">
+			  <h3 class="page-title m-0">
+			  <span class="page-title-icon bg-gradient-primary text-white me-2">
+				<i class="feather-database"></i>
+			  </span> Companies </h3>
+		  </div>
+		  <div class="col text-end">
+		  </div>
+	  </div>
+	  
+	  <!-- Page Header -->
+	  <div class="page-header pt-3 mb-0 ">
+		  <div class="row">
+			  <div class="col text-end">
+				  <ul class="list-inline-item ps-0">
+					  <li class="list-inline-item">
+						  <button class="add btn btn-gradient-primary font-weight-bold text-white todo-list-add-btn btn-rounded" id="add-task" data-bs-toggle="modal" data-bs-target="#add_company">New Company</button>
+					  </li>
+				  </ul>
+			  </div>
+		  </div>
+	  </div>
+	  <!-- /Page Header -->
+	  
+	  <!-- Content Starts -->
+	  <div class="row">
+		  <div class="col-md-12">
+			  <div class="card mb-0">
+				  <div class="card-body">
+					  <div class="table-responsive">
+						  <table class="table table-striped table-nowrap custom-table mb-0 datatable">
+							  <thead id = "company_table">
+								  <tr>
+									  <th>Company <a onclick = "display_companies('name', 'asc')" style="cursor: pointer;">↑</a><a onclick = "display_companies('name', 'desc')" style="cursor: pointer;">↓</a></th>
+									  <th>Phone</th>
+									  <th>Website</th>
+									  <th>Email Domains</th>
+									  <th>Billing Address</th>
+									  <th>Shipping Address</th>
+									  <th>Description Information</th>
+									  <th>Pictures</th>
+									  <th>Documents</th>
+								  </tr>
+							  </thead>						
+							  </tbody>
+						  </table>
+					  </div>
+				  </div>
+			  </div>
+		  </div>
+	  </div>
+	  <!-- /Content End -->
+	  
+  </div>
+  <!-- /Page Content -->
+				  
+			  </div>
+			  <!-- /Page Wrapper -->
+			  
+		  </div>
+		  <!-- /Main Wrapper -->
+  
+		  <!--modal section starts here-->
+		  <div class="modal fade" id="add-new-list">
+			<div class="modal-dialog">
+			  <div class="modal-content">
+			  
+				<!-- Modal Header -->
+				<div class="modal-header">
+				  <h4 class="modal-title">Add New List View</h4>
+				  <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+				</div>
+				
+				<!-- Modal body -->
+				<div class="modal-body">
+				  <form class="forms-sample">
+					<div class="form-group row">
+					  <label for="view-name" class="col-sm-4 col-form-label">New View Name</label>
+					  <div class="col-sm-8">
+						<input type="text" class="form-control" id="view-name" placeholder="New View Name">
+					  </div>
+					</div>
+					<div class="form-group row pt-4">
+					  <label class="col-sm-4 col-form-label">Sharing Settings</label>
+					  <div class="col-sm-8">
+						<div class="form-group">
+						  <div class="form-check">
+							<label class="form-check-label">
+							  <input type="radio" class="form-check-input" name="optionsRadios" id="optionsRadios1" value=""> Just For Me <i class="input-helper"></i></label>
+						  </div><br />
+						  <div class="form-check">
+							<label class="form-check-label">
+							  <input type="radio" class="form-check-input" name="optionsRadios" id="optionsRadios2" value="option2" checked=""> Share Filter with Everyone <i class="input-helper"></i></label>
+						  </div>
+						</div>
+					  </div>
+					</div>
+					
+					<div class="text-center">
+					  <button type="submit" class="btn btn-gradient-primary me-2">Submit</button>
+					</div>
+				  </form>
+				</div>
+			 
+			  </div>
+			</div>
+		  </div>
+  
+		  <!-- Modal -->
+			  <div class="modal right fade" id="add_company" tabindex="-1" role="dialog" aria-modal="true">
+				  <div class="modal-dialog" role="document">
+					  <button type="button" class="close md-close" data-bs-dismiss="modal" aria-label="Close"> </button>
+					  <div class="modal-content">
+  
+						  <div class="modal-header">
+							  <h4 class="modal-title text-center">Add Company</h4>
+							  <button type="button" class="btn-close xs-close" data-bs-dismiss="modal"></button>
+							</div>
+  
+						  <div class="modal-body">
+							  <div class="row">
+								  <div class="col-md-12">
+									  <form id = "comp_form">
+										  <h4>Organization Name</h4>
+										  <div class="form-group row">
+											  <div class="col-md-12">
+												  <label class="col-form-label">Organization Name <span class="text-danger">*</span></label>
+													<input class="form-control" type="text" placeholder="Organization Name" name="organization" id = "comp_name">
+											  </div>
+										  </div>			            
+										  <h4>Organization Contact Details</h4>
+										  
+										  <div class="form-group row">
+											  <div class="col-sm-6">
+												  <label class="col-form-label">Phone</label>
+												  <input type="text" class="form-control" name="phone" placeholder="Phone" id = "comp_phone">
+											  </div>
+										  </div>
+										  <div class="form-group row">
+											  <div class="col-sm-6">
+												  <label class="col-form-label">Website</label>
+												  <input type="text" class="form-control" name="website" placeholder="Website" id = "comp_website">
+											  </div>
+										  </div>
+										  <div class="form-group row">
+											  <div class="col-sm-6">
+												  <label class="col-form-label">Email Domains</label>
+												  <input type="text" class="form-control"  name="domains" placeholder="Email Domains" id = "comp_emailDom">
+											  </div>
+											  
+										  </div>
+										  <h4>Address Information</h4>
+										  <div class="form-group row">
+											  <div class="col-sm-6">
+												  <label class="col-form-label">Billing Address</label>
+												  <textarea class="form-control" rows="3" name="billing-address" placeholder="Billing Address" id = "comp_billAdd"></textarea>
+											  </div>
+										  </div>
+										  <div class="form-group row">
+											  <div class="col-sm-6">
+												  <label class="col-form-label">Shipping Address</label>
+												  <textarea class="form-control" rows="3" name="shipping-address" placeholder="Shipping Address" id = "comp_shipAdd"></textarea>
+											  </div>
+										  </div>							
+										  <h4>Description Information</h4>
+										  <div class="form-group row">
+											  <div class="col-sm-12">
+												  <label class="col-form-label">Description </label>
+												  <textarea class="form-control" rows="3" id="comp_desc" placeholder="Description"></textarea>
+											  </div>
+										  </div>
+										  <h4>Pictures</h4>
+										  <div class="form-group row">
+											  <div class="change-photo-btn">
+												  <div>
+												  <p>Add Photo</p></div>
+												  <input type="file" class="upload" id = "comp_pics">
+											  </div>
+										  </div>
+										  <h4>Documents</h4>
+										  <div class="form-group row">
+											  <div class="change-photo-btn">
+												  <div>
+												  <p>Add Document</p></div>
+												  <input type="file" class="upload" id = "comp_docs">
+											  </div>
+										  </div>
+										  <div class="text-center py-3">
+											  <button type="button" class="border-0 btn btn-primary btn-gradient-primary btn-rounded" onclick="add_company()">Save</button>&nbsp;&nbsp;
+										  </div>
+									  </form>
+								  </div>
+							  </div>
+  
+						  </div>
+  
+					  </div><!-- modal-content -->
+				  </div><!-- modal-dialog -->
+			  </div><!-- modal -->
+  
+  
+  `;
+	  display_companies("name", "asc")
+  }
+
+
+function display_companies(thing_sorted, way_sorted){
+	company_table.innerHTML = `
+	<tr>
+	<th>Company <a onclick = "display_companies('name', 'asc')" style="cursor: pointer;">↑</a><a onclick = "display_companies('name', 'desc')" style="cursor: pointer;">↓</a></th>
+	<th>Phone</th>
+	<th>Website</th>
+	<th>Email Domains</th>
+	<th>Billing Address</th>
+	<th>Shipping Address</th>
+	<th>Description Information</th>
+	<th>Pictures</th>
+	<th>Documents</th>
+</tr>
+	
+	`
+	  var companyref = db.collection("Company");
+	  let sorted_companies = companyref.orderBy(thing_sorted, way_sorted)
+	  sorted_companies.get().then((response) => {
+		let docs = response.docs;
+		docs.forEach((doc) => {
+		  company_table.innerHTML += `
+			  <tr>	
+				  <td>${doc.data().name}</td>
+				  <td>${doc.data().phone_num}</td>
+				  <td>${doc.data().website}</td>
+				  <td>${doc.data().email}</td>
+				  <td>${doc.data().billing_address}</td>
+				  <td>${doc.data().shipping_address}</td>
+				  <td>${doc.data().description}</td>
+				  <td>${doc.data().files}</td>
+				  <td>${doc.data().photos}</td>
+				  <td onclick = "delete_thing('Company', '${doc.id}')"><button>Delete</button></td>
+				  
+	  </tr>
+		  `;
+		});
+	  });
+  
+  
+  
+  
+  }
 
 function delete_thing(collection, doc_id){
 
@@ -640,186 +651,211 @@ function task_list_page() {
 
 
     `;
-	display_tasks()
+	display_tasks("created_date", "desc")
 }
 
-function display_tasks(){
-		var taskref = db.collection("Task");
-		taskref.get().then((response) => {
-		let docs = response.docs;
-		docs.forEach((doc) => {
-		tasktable.innerHTML += `
-					<tr>	
-						<td>${doc.data().Task}</td>
-						<td>${doc.data().name}</td>
-						<td>${doc.data().created_date}</td>
-						<td>${doc.data().location}</td>
-						<td>${doc.data().file}</td>
-						<td>${doc.data().image}</td>
-						<td>${doc.data().note1}</td>
-						<td>${doc.data().note2}</td>
-						<td>${doc.data().note3}</td>
-						<td><button>Delete</button></td>
-					</tr>
-				`;
-			});
-		});
+function display_tasks(thing_sorted, way_sorted){
+	tasktable.innerHTML =`
+<tr>
+													  </th>
+													  <th>Task</th>
+													  <th>Client<a onclick = "display_tasks('name', 'asc')" style="cursor: pointer;">↑</a><a onclick = "display_tasks('name', 'desc')" style="cursor: pointer;">↓</a></th>
+													  <th>Date<a onclick = "display_tasks('created_date', 'asc')" style="cursor: pointer;">↑</a><a onclick = "display_tasks('created_date', 'desc')" style="cursor: pointer;">↓</a></th>
+													  <th>Location</th>
+													  <th>Image</th>
+													  <th>File</th>
+													  <th>Note1</th>
+													  <th>Note2</th>
+													  <th>Note3</th>
+												  </tr>
+`
 
+		  var taskref = db.collection("Task");
+		  let sorted_taskref = taskref.orderBy(thing_sorted, way_sorted)
+		  sorted_taskref.get().then((response) => {
+		  let docs = response.docs;
+		  docs.forEach((doc) => {
+		  tasktable.innerHTML += `
+					  <tr>	
+						  <td>${doc.data().Task}</td>
+						  <td>${doc.data().name}</td>
+						  <td>${doc.data().created_date}</td>
+						  <td>${doc.data().location}</td>
+						  <td>${doc.data().file}</td>
+						  <td>${doc.data().image}</td>
+						  <td>${doc.data().note1}</td>
+						  <td>${doc.data().note2}</td>
+						  <td>${doc.data().note3}</td>
+						  <td><button>Delete</button></td>
+					  </tr>
+				  `;
+			  });
+		  });
+  
+	  }
+
+	  function conversation_history() {
+		wrapper2.innerHTML = `
+		  <div class="content container-fluid">
+	  
+						  <div class="crms-title row bg-white">
+							  <div class="col  p-0">
+								  <h3 class="page-title m-0">
+								  <span class="page-title-icon bg-gradient-primary text-white me-2">
+									<i class="feather-smartphone" aria-hidden="true"></i>
+								  </span> Conversation History </h3>
+							  </div>
+						  </div>
+	  
+						  <div class="row mt-4">
+							  
+							  
+							  <div class="col-xl-9 col-md-8">
+								  <div class="card invoices-settings-card">
+									  <div class="card-header px-3">
+										  <h5 class="card-title">Submit Call Time Form</h5>
+									  </div>
+									  <div class="card-body">
+									  
+										  <!-- Form -->
+										  <form action="#" class="invoices-settings-form" id = "convo_form">
+											  <div class="row align-items-center form-group">
+												  <label for="name" class="col-sm-3 col-form-label input-label">Company</label>
+												  <div class="col-sm-9">
+	  
+												  <select class ="form-control" id = "convo_company">
+													  <option value=""></option>
+													</select>
+													  
+												  </div>
+											  </div>
+											  <div class="row align-items-center form-group">
+												  <label for="name" class="col-sm-3 col-form-label input-label">Contact</label>
+												  <div class="col-sm-9">
+												  <select class ="form-control" id = "convo_contact">
+													  <option value=""></option>
+													</select>
+												  </div>
+											  </div>
+											  <div class="row align-items-center form-group">
+												  <label for="time" class="col-sm-3 col-form-label input-label">Date</label>
+												  <div class="col-sm-9">
+													  <input type="date" class="form-control" id = "convo_date">
+												  </div>
+											  </div>
+											  <div class="row align-items-center form-group">
+												  <label for="time" class="col-sm-3 col-form-label input-label">Call start time</label>
+												  <div class="col-sm-9">
+													  <input type="time" class="form-control" id = "start_time">
+												  </div>
+											  </div>
+											  <div class="row align-items-center form-group">
+												  <label for="time" class="col-sm-3 col-form-label input-label">Call end time</label>
+												  <div class="col-sm-9">
+													  <input type="time" class="form-control" id = "end_time">
+												  </div>
+											  </div>
+											  <div class="text-center py-3">
+										  <button type="button" class="border-0 btn btn-primary btn-gradient-primary btn-rounded" onclick="add_convo()">Save</button>&nbsp;&nbsp;
+									  </div>
+										  </form>
+										  <!-- /Form -->
+										  
+									  </div>
+								  </div>
+							  </div>
+							  <div class="submit-section">
+								  <div class="row">
+									  <div class="col-md-12">
+										  <div class="card mb-0">
+											  <div class="card-body">
+												  <div class="table-responsive">
+													  <table class="table table-striped table-nowrap">
+														  <thead id = "convo_table">
+															  <tr>
+															  </tr>
+														  </thead>
+													  
+													  </table>
+												  </div>
+											  </div>
+										  </div>
+									  </div>
+								  </div>
+							  </div>
+						  </div>
+					  </div>
+					  <!-- /Page Content -->
+					  
+				  </div>
+		  
+		  
+		  
+		  `;
+		
+	  
+		var companyref = db.collection("Company");
+		let sorted_company = companyref.orderBy("name");
+		sorted_company.get().then((response) => {
+		  let docs = response.docs;
+		  docs.forEach((doc) => {
+			convo_company.innerHTML += `
+				  <option value="${doc.data().name}">${doc.data().name}</option>
+			  
+			  `;
+		  });
+		});
+		var contactref = db.collection("Contacts");
+		let sorted_contacts = contactref.orderBy("contact_name");
+		sorted_contacts.get().then((response) => {
+		  let docs = response.docs;
+		  docs.forEach((doc) => {
+			convo_contact.innerHTML += `
+				  <option value="${doc.data().contact_name}">${doc.data().contact_name}</option>
+			  
+			  `;
+		  });
+		});
+		show_convo_history("date", "desc")
+	
+	  }
+	  
+function show_convo_history(thing_sorted, way_sorted){
+		convo_table.innerHTML = `
+		<th>Company <a onclick = "show_convo_history('company', 'asc')" style="cursor: pointer;">↑</a><a onclick = "show_convo_history('company', 'desc')" style="cursor: pointer;">↓</a></th>
+		<th>Contact <a onclick = "show_convo_history('contact', 'asc')" style="cursor: pointer;">↑</a><a onclick = "show_convo_history('contact', 'desc')" style="cursor: pointer;">↓</a></th>
+		<th>Date <a onclick = "show_convo_history('date', 'asc')" style="cursor: pointer;">↑</a><a onclick = "show_convo_history('date', 'desc')" style="cursor: pointer;">↓</a></th>
+		<th>Call start time</th>
+		<th>Call end time</th>
+		
+		
+		
+		
+		`
+		var convoref = db.collection("Conversation");
+		var sorted_convos = convoref.orderBy(thing_sorted, way_sorted);
+		sorted_convos.get().then((response) => {
+		  let docs = response.docs;
+		  docs.forEach((doc) => {
+			convo_table.innerHTML += `
+					<tr>	
+						<td>${doc.data().company}</td>
+						<td>${doc.data().contact}</td>
+						<td>${doc.data().date}</td>
+						<td>${doc.data().call_start}</td>
+						<td>${doc.data().call_end}</td>
+						<td><button>Delete</button></td>
+						
+			</tr>
+				`;
+		  });
+		});
+	
+	
+	
+	
 	}
 
-function conversation_history() {
-  wrapper2.innerHTML = `
-    <div class="content container-fluid">
-
-                	<div class="crms-title row bg-white">
-                		<div class="col  p-0">
-                			<h3 class="page-title m-0">
-			                <span class="page-title-icon bg-gradient-primary text-white me-2">
-			                  <i class="feather-smartphone" aria-hidden="true"></i>
-			                </span> Conversation History </h3>
-                		</div>
-                	</div>
-
-					<div class="row mt-4">
-						
-						
-						<div class="col-xl-9 col-md-8">
-							<div class="card invoices-settings-card">
-								<div class="card-header px-3">
-									<h5 class="card-title">Submit Call Time Form</h5>
-								</div>
-								<div class="card-body">
-								
-									<!-- Form -->
-									<form action="#" class="invoices-settings-form" id = "convo_form">
-										<div class="row align-items-center form-group">
-											<label for="name" class="col-sm-3 col-form-label input-label">Company</label>
-											<div class="col-sm-9">
-
-											<select class ="form-control" id = "convo_company">
-												<option value=""></option>
-									  		</select>
-												
-											</div>
-										</div>
-										<div class="row align-items-center form-group">
-											<label for="name" class="col-sm-3 col-form-label input-label">Contact</label>
-											<div class="col-sm-9">
-											<select class ="form-control" id = "convo_contact">
-												<option value=""></option>
-										  	</select>
-											</div>
-										</div>
-										<div class="row align-items-center form-group">
-											<label for="time" class="col-sm-3 col-form-label input-label">Date</label>
-											<div class="col-sm-9">
-												<input type="date" class="form-control" id = "convo_date">
-											</div>
-										</div>
-										<div class="row align-items-center form-group">
-											<label for="time" class="col-sm-3 col-form-label input-label">Call start time</label>
-											<div class="col-sm-9">
-												<input type="time" class="form-control" id = "start_time">
-											</div>
-										</div>
-										<div class="row align-items-center form-group">
-											<label for="time" class="col-sm-3 col-form-label input-label">Call end time</label>
-											<div class="col-sm-9">
-												<input type="time" class="form-control" id = "end_time">
-											</div>
-										</div>
-										<div class="invoice-setting-btn text-end">
-											<button type="submit" class="btn cancel-btn me-2">Cancel</button>
-											<button type="submit" class="btn btn-primary" onclick = "add_convo()">Save Call</button>
-										</div>
-									</form>
-									<!-- /Form -->
-									
-								</div>
-							</div>
-						</div>
-						<div class="submit-section">
-							<div class="row">
-								<div class="col-md-12">
-									<div class="card mb-0">
-										<div class="card-body">
-											<div class="table-responsive">
-												<table class="table table-striped table-nowrap">
-													<thead id = "convo_table">
-														<tr>
-															<th>Company</th>
-															<th>Contact</th>
-															<th>Date</th>
-															<th>Call start time</th>
-															<th>Call end time</th>
-														</tr>
-													</thead>
-												
-												</table>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-                </div>
-				<!-- /Page Content -->
-				
-            </div>
-    
-    
-    
-    `;
-  var convoref = db.collection("Conversation");
-  var sorted_convos = convoref.orderBy("Date", "desc");
-  convoref.get().then((response) => {
-    let docs = response.docs;
-    docs.forEach((doc) => {
-      convo_table.innerHTML += `
-			  <tr>	
-				  <td>${doc.data().company}</td>
-				  <td>${doc.data().contact}</td>
-				  <td>${doc.data().date}</td>
-				  <td>${doc.data().call_start}</td>
-				  <td>${doc.data().call_end}</td>
-				  <td><button>Delete</button></td>
-				  
-	  </tr>
-		  `;
-    });
-  });
-
-  var companyref = db.collection("Company");
-  let sorted_company = companyref.orderBy("name");
-  sorted_company.get().then((response) => {
-    let docs = response.docs;
-    docs.forEach((doc) => {
-      convo_company.innerHTML += `
-			<option value="${doc.data().name}">${doc.data().name}</option>
-		
-		`;
-    });
-  });
-
-  var contactref = db.collection("Contacts");
-  let sorted_contacts = contactref.orderBy("contact_name");
-  sorted_contacts.get().then((response) => {
-    let docs = response.docs;
-    docs.forEach((doc) => {
-      convo_contact.innerHTML += `
-			<option value="${doc.data().contact_name}">${doc.data().contact_name}</option>
-		
-		`;
-    });
-  });
-}
-
-{
-  /* <div class="col-sm-9">
-													<input type="text" class="form-control" id ="convo_company">
-												</div> */
-}
 
 function quick_notes() {
   wrapper2.innerHTML = `
@@ -902,25 +938,35 @@ function quick_notes() {
         </div>
 		<!-- /Main Wrapper -->
     `;
-	display_notes()
+	display_notes("date","desc")
 }
-function display_notes(){
-	var notesref = db.collection("Notes");
-	notesref.get().then((response) => {
-	let docs = response.docs;
-	docs.forEach((doc) => {
-		quick_notes_table.innerHTML += `
-				<tr>	
-					<td>${doc.data().company_name}</td>
-					<td>${doc.data().date}</td>
-					<td>${doc.data().comments}</td>
-					<td>${doc.data().file}</td>
-					<td><button>Delete</button></td>
-		</tr>
-			`;
-	});
-	});
-}
+
+
+function display_notes(thing_sorted, way_sorted){
+	quick_notes_table.innerHTML = `<tr>
+	</th>
+	<th>Company/contact name <a onclick = "display_notes('company_name', 'asc')" style="cursor: pointer;">↑</a><a onclick = "display_notes('company_name', 'desc')" style="cursor: pointer;">↓</a></th>
+	<th>Date <a onclick = "display_notes('date', 'asc')" style="cursor: pointer;">↑</a><a onclick = "display_notes('date', 'desc')" style="cursor: pointer;">↓</a></th>
+	<th>Comments</th>
+	<th>Files</th>
+</tr>`
+	  var notesref = db.collection("Notes");
+	  let sorted_notes = notesref.orderBy(thing_sorted,way_sorted)
+	  sorted_notes.get().then((response) => {
+	  let docs = response.docs;
+	  docs.forEach((doc) => {
+		  quick_notes_table.innerHTML += `
+				  <tr>	
+					  <td>${doc.data().company_name}</td>
+					  <td>${doc.data().date}</td>
+					  <td>${doc.data().comments}</td>
+					  <td>${doc.data().file}</td>
+					  <td><button>Delete</button></td>
+		  </tr>
+			  `;
+	  });
+	  });
+  }
 
 // contactForm.addEventListener('submit', (e)=>{
 // 	console.log("hi")
@@ -962,7 +1008,7 @@ function add_contact() {
 													<th>Mailing Address</th>
 													<th>Description</th>
 												</tr>`
-	  display_contacts();
+	  display_contacts("contact_name", "asc");
     });
 }
 
@@ -1008,7 +1054,7 @@ function add_company() {
 	  <th>Pictures</th>
 	  <th>Documents</th>
   </tr>`;
-	display_companies()
+  	display_companies("name", "asc")
     });
 }
 
@@ -1046,7 +1092,20 @@ task
 	db.collection("Task")
     .add(post_stuff)
     .then(() => {
-      task_form.reset();
+		task_form.reset();
+		tasktable.innerHTML = `<tr>
+		</th>
+		<th>Task</th>
+		<th>Client<a onclick = "display_tasks('name', 'asc')" style="cursor: pointer;">↑</a><a onclick = "display_tasks('name', 'desc')" style="cursor: pointer;">↓</a></th>
+		<th>Date<a onclick = "display_tasks('created_date', 'asc')" style="cursor: pointer;">↑</a><a onclick = "display_tasks('created_date', 'desc')" style="cursor: pointer;">↓</a></th>
+		<th>Location</th>
+		<th>Image</th>
+		<th>File</th>
+		<th>Note1</th>
+		<th>Note2</th>
+		<th>Note3</th>
+	</tr>`
+		display_tasks("created_date", "desc");
     });
 });
 
@@ -1072,7 +1131,18 @@ function add_convo() {
   db.collection("Conversation")
     .add(post_stuff)
     .then(() => {
-      convo_form.reset();
+		convo_form.reset();
+		convo_table.innerHTML = `
+		<th>Company <a onclick = "show_convo_history('company', 'asc')" style="cursor: pointer;">↑</a><a onclick = "show_convo_history('company', 'desc')" style="cursor: pointer;">↓</a></th>
+	<th>Contact <a onclick = "show_convo_history('contact', 'asc')" style="cursor: pointer;">↑</a><a onclick = "show_convo_history('contact', 'desc')" style="cursor: pointer;">↓</a></th>
+	<th>Date <a onclick = "show_convo_history('date', 'asc')" style="cursor: pointer;">↑</a><a onclick = "show_convo_history('date', 'desc')" style="cursor: pointer;">↓</a></th>
+	<th>Call start time</th>
+	<th>Call end time</th>
+	
+	
+		  
+		`
+		show_convo_history("date", "desc");
     });
 }
 
@@ -1103,8 +1173,16 @@ function add_notes() {
       db.collection("Notes")
     .add(post_moreStuff)
     .then(() => {
-      notes_form.reset();
-    });
+		notes_form.reset();
+		quick_notes_table.innerHTML = `<tr>
+		</th>
+		<th>Company/contact name <a onclick = "display_notes('company_name', 'asc')" style="cursor: pointer;">↑</a><a onclick = "display_notes('company_name', 'desc')" style="cursor: pointer;">↓</a></th>
+		<th>Date <a onclick = "display_notes('date', 'asc')" style="cursor: pointer;">↑</a><a onclick = "display_notes('date', 'desc')" style="cursor: pointer;">↓</a></th>
+		<th>Comments</th>
+		<th>Files</th>
+	</tr>`
+		display_notes();
+	});
 
     })
 	
