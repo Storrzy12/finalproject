@@ -723,9 +723,9 @@ function display_tasks(thing_sorted, way_sorted){
 					<td>${doc.data().location}</td>
 					<td><a href = ${temp_img}>${input_img}</td>
 					<td><a href = ${temp_file}>${input_file}</td>
-					<td>${doc.data().note1}</td>
-					<td>${doc.data().note2}</td>
-					<td>${doc.data().note3}</td>
+					<td>${textFold(doc.data().note1, 80)}</td>
+					<td>${textFold(doc.data().note2, 80)}</td>
+					<td>${textFold(doc.data().note3, 80)}</td>
 					<td onclick = "delete_thing('Task', '${doc.id}')"><button>Delete</button></td>
 				</tr>
 			`;
