@@ -947,35 +947,43 @@ function add_company() {
 }
 
 function add_task() {
-  let task_form = document.querySelector("#task_form");
-  let task_name = document.querySelector("#task_name").value;
-  let client_name = document.querySelector("#task_client_name").value;
-  let date = document.querySelector("#task_date").value;
-  let task_location = document.querySelector("#task_location").value;
-  let img = document.querySelector("#task_img").value;
-  let task_file = document.querySelector("#task_file").value;
-  let task_note1 = document.querySelector("#task_note1").value;
-  let task_note2 = document.querySelector("#task_note2").value;
-  let task_note3 = document.querySelector("#task_note3").value;
-  let post_stuff = {
-    company_id: "",
-    contact_id: "",
-    Task: task_name,
-    created_date: date,
-    file: task_file,
-    image: img,
-    location: task_location,
-    name: client_name,
-    note1: task_note1,
-    note2: task_note2,
-    note3: task_note3,
-  };
+	let task_form = document.querySelector("#task_form");
+	let task_name = document.querySelector("#task_name").value;
+	let client_name = document.querySelector("#task_client_name").value;
+	let date = document.querySelector("#task_date").value;
+	let task_location = document.querySelector("#task_location").value;
+	let task_file = document.querySelector("#task_file").value;
+	let task_note1 = document.querySelector("#task_note1").value;
+	let task_note2 = document.querySelector("#task_note2").value;
+	let task_note3 = document.querySelector("#task_note3").value;
 
-  db.collection("Task")
+let file = document.querySelector("#task_img").files[0];
+
+let image = new Date() + "_" + file.name;
+
+const task = ref.child(image).put(file);
+
+task
+.then((snapshot) => snapshot.ref.getDownloadURL())
+.then((url) =>{
+	let post_stuff = {
+		Task: task_name,
+		created_date: date,
+		url: url,
+		location: task_location,
+		name: client_name,
+		note1: task_note1,
+		note2: task_note2,
+		note3: task_note3,
+	};
+
+	db.collection("Task")
     .add(post_stuff)
     .then(() => {
       task_form.reset();
     });
+});
+
 }
 
 function add_convo() {
@@ -1007,54 +1015,36 @@ function add_notes() {
   let name = document.querySelector("#notes_name").value;
   let noteDate = document.querySelector("#notes_date").value;
   let cmnts = document.querySelector("#notes_comments").value;
-  let noteFile = document.querySelector("#notes_file").value;
+  let noteFile = document.querySelector("#notes_file").files[0];
 
-  let post_moreStuff = {
-    company_id: "",
-    comments: cmnts,
-    company_name: name,
-    date: noteDate,
-    file: noteFile,
-  };
 
-  db.collection("Notes")
+  let image = new Date() + "_" + file.name;
+
+  const task = ref.child(image).put(file);
+
+  task
+    .then(snapshot => snapshot.ref.getDownloadURL())
+    .then(url => {
+
+		let post_moreStuff = {
+			company_id: "",
+			comments: cmnts,
+			company_name: name,
+			date: noteDate,
+			file: noteFile,
+		  };
+
+      db.collection("Notes")
     .add(post_moreStuff)
     .then(() => {
       notes_form.reset();
     });
+
+    })
+	
 }
 
 // <input type="text" class="form-control"  name="Organization" placeholder="Organization" id= "cont_org">
 
-fileButton.addEventListener('change', function(e){ 
-    //Get files
-    for (var i = 0; i < e.target.files.length; i++) {
-        var imageFile = e.target.files[i];
 
-        uploadImageAsPromise(imageFile);
-    }
-});
-
-function uploadImageAsPromise (imageFile) {
-    return new Promise(function (resolve, reject) {
-        var storageRef = firebase.storage().ref(fullDirectory+"/"+imageFile.name);
-
-        //Upload file
-        var task = storageRef.put(imageFile);
-
-        //Update progress bar
-        task.on('state_changed',
-            function progress(snapshot){
-                var percentage = snapshot.bytesTransferred / snapshot.totalBytes * 100;
-                uploader.value = percentage;
-            },
-            function error(err){
-
-            },
-            function complete(){
-                var downloadURL = task.snapshot.downloadURL;
-            }
-        );
-    });
-}
 
