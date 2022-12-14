@@ -512,8 +512,16 @@ function display_companies(thing_sorted, way_sorted){
 				  <td>${doc.data().billing_address}</td>
 				  <td>${doc.data().shipping_address}</td>
 				  <td>${doc.data().description}</td>
-				  <td>${doc.data().file}</td>
-				  <td>${doc.data().img}</td>
+				  <td><a href="${doc.data().file}">
+							<button>
+							<img src="assets/img/filefolder.png" width="40" height="40" />
+							</button>
+							</a></td>
+				  <td><a href="${doc.data().img}">
+							<button>
+							<img src="assets/img/camera.jpg" width="40" height="40" />
+							</button>
+							</a></td>
 				  <td onclick = "delete_thing('Company', '${doc.id}')"><button>Delete</button></td>
 				  
 	  </tr>
@@ -673,8 +681,16 @@ function display_tasks(thing_sorted, way_sorted){
 						  <td>${doc.data().name}</td>
 						  <td>${doc.data().created_date}</td>
 						  <td>${doc.data().location}</td>
-						  <td>${doc.data().img}</td>
-						  <td>${doc.data().file}</td>
+						  <td><a href="${doc.data().img}">
+							<button>
+							<img src="assets/img/camera.jpg" width="40" height="40" />
+							</button>
+							</a></td>
+						  <td><a href="${doc.data().file}">
+							<button>
+							<img src="assets/img/filefolder.png" width="40" height="40" />
+							</button>
+							</a></td>
 						  <td>${doc.data().note1}</td>
 						  <td>${doc.data().note2}</td>
 						  <td>${doc.data().note3}</td>
@@ -959,7 +975,11 @@ function display_notes(thing_sorted, way_sorted){
 					  <td>${doc.data().company_name}</td>
 					  <td>${doc.data().date}</td>
 					  <td>${doc.data().comments}</td>
-					  <td>${doc.data().file}</td>
+					  <td><a href="${doc.data().noteFile}">
+					  <button>
+					  <img src="assets/img/filefolder.png" width="40" height="40" />
+					  </button>
+					  </a></td>
 					  <td onclick = "delete_thing('Notes', '${doc.id}')"><button>Delete</button></td>
 		  </tr>
 			  `;
