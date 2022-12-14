@@ -256,7 +256,9 @@ function contacts_page() {
 				  <td>${doc.data().email}</td>
 				  <td>${doc.data().phone_num}</td>
 				  <td>${doc.data().mailing_address}</td>
-				  <td>${doc.data().description}</td>
+				  <td>
+				  ${textFold(doc.data().description, 80)}
+				  </td>
 				  <td onclick = "delete_thing('Contacts', '${doc.id}')"><button>Delete</button></td>	  
 	  </tr>
 		  `;
@@ -511,7 +513,9 @@ function display_companies(thing_sorted, way_sorted){
 				  <td>${doc.data().email}</td>
 				  <td>${doc.data().billing_address}</td>
 				  <td>${doc.data().shipping_address}</td>
-				  <td>${doc.data().description}</td>
+				  <td>
+				  ${textFold(doc.data().description, 80)}
+				  </td>
 				  <td><a href="${doc.data().file}">
 							<button>
 							<img src="assets/img/filefolder.png" width="40" height="40" />
@@ -534,6 +538,24 @@ function display_companies(thing_sorted, way_sorted){
   
   }
 
+  function textFold(input, lineSize) {
+	const output = []
+	let outputCharCount = 0
+	let outputCharsInCurrentLine = 0
+	for (var i = 0; i < input.length; i++) {
+	  const inputChar = input[i]
+	  output[outputCharCount++] = inputChar
+	  if (inputChar === '<br>') {
+		outputCharsInCurrentLine = 0
+	  } else if (outputCharsInCurrentLine > lineSize-2) {
+		output[outputCharCount++] = '<br>'
+		outputCharsInCurrentLine = 0
+	  } else {
+		outputCharsInCurrentLine++
+	  }
+	}
+	return output.join('')
+  }
 
 
 
@@ -691,9 +713,15 @@ function display_tasks(thing_sorted, way_sorted){
 							<img src="assets/img/filefolder.png" width="40" height="40" />
 							</button>
 							</a></td>
-						  <td>${doc.data().note1}</td>
-						  <td>${doc.data().note2}</td>
-						  <td>${doc.data().note3}</td>
+						  <td>
+						  ${textFold(doc.data().note1, 80)}
+						  </td>
+						  <td>
+						  ${textFold(doc.data().note2, 80)}
+						  </td>
+						  <td>
+						  ${textFold(doc.data().note3, 80)}
+						  </td>
 						  <td onclick = "delete_thing('Task', '${doc.id}')"><button>Delete</button></td>
 					  </tr>
 				  `;
@@ -974,7 +1002,7 @@ function display_notes(thing_sorted, way_sorted){
 				  <tr>	
 					  <td>${doc.data().company_name}</td>
 					  <td>${doc.data().date}</td>
-					  <td>${doc.data().comments}</td>
+					  <td>${textFold(doc.data().comments, 80)}</td>
 					  <td><a href="${doc.data().noteFile}">
 					  <button>
 					  <img src="assets/img/filefolder.png" width="40" height="40" />
@@ -1172,29 +1200,26 @@ if (img != undefined && docs == undefined){
 			});
 		});
 	});
+}else{
+	let post_moreStuff = {
+		billing_address: billAdd,
+		description: desc,
+		email_domain: emailDomain,
+		name: compName,
+		phone_num: phone,
+		shipping_address: shipAdd,
+		website: compWebsite,
+	  };
+
+	  db.collection("Company")
+	  .add(post_moreStuff)
+	  .then(() => {
+		companyForm.reset();
+		reset_companies()
+		display_companies("name", "asc")
+	  });
+
 }
-
-  let post_moreStuff = {
-    billing_address: billAdd,
-    description: desc,
-    email_domain: emailDomain,
-    files: docs,
-    name: compName,
-    phone_num: phone,
-    photos: pics,
-    shipping_address: shipAdd,
-    website: compWebsite,
-  };
-
-  console.log(post_moreStuff);
-
-  db.collection("Company")
-    .add(post_moreStuff)
-    .then(() => {
-      companyForm.reset();
-	  reset_companies()
-  	display_companies("name", "asc")
-    });
 }
 
 function add_task() {
