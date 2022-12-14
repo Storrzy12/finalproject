@@ -512,8 +512,8 @@ function display_companies(thing_sorted, way_sorted){
 				  <td>${doc.data().billing_address}</td>
 				  <td>${doc.data().shipping_address}</td>
 				  <td>${doc.data().description}</td>
-				  <td>${doc.data().files}</td>
-				  <td>${doc.data().photos}</td>
+				  <td>${doc.data().file}</td>
+				  <td>${doc.data().img}</td>
 				  <td onclick = "delete_thing('Company', '${doc.id}')"><button>Delete</button></td>
 				  
 	  </tr>
@@ -673,8 +673,8 @@ function display_tasks(thing_sorted, way_sorted){
 						  <td>${doc.data().name}</td>
 						  <td>${doc.data().created_date}</td>
 						  <td>${doc.data().location}</td>
+						  <td>${doc.data().img}</td>
 						  <td>${doc.data().file}</td>
-						  <td>${doc.data().image}</td>
 						  <td>${doc.data().note1}</td>
 						  <td>${doc.data().note2}</td>
 						  <td>${doc.data().note3}</td>
@@ -968,6 +968,7 @@ function display_notes(thing_sorted, way_sorted){
   }
 
 
+
   function delete_thing(collection, doc_id){
 
 	db.collection(`${collection}`).doc(`${doc_id}`).delete().then(() => {
@@ -1047,8 +1048,111 @@ function add_company() {
   let billAdd = document.querySelector("#comp_billAdd").value;
   let shipAdd = document.querySelector("#comp_shipAdd").value;
   let desc = document.querySelector("#comp_desc").value;
-  let pics = document.querySelector("#comp_pics").value;
-  let docs = document.querySelector("#comp_docs").value;
+
+  let img = document.querySelector("#comp_pics").files[0];
+  let docs = document.querySelector("#comp_docs").files[0];
+
+if (img != undefined && docs == undefined){
+
+	let image = new Date() + "_" + img.name;
+
+	const task = ref.child(image).put(img);
+
+	task
+	.then((snapshot) => snapshot.ref.getDownloadURL())
+	.then((img) =>{
+		let post_moreStuff = {
+			billing_address: billAdd,
+			description: desc,
+			email_domain: emailDomain,
+			name: compName,
+			phone_num: phone,
+			img : img,
+			shipping_address: shipAdd,
+			website: compWebsite,
+		  };
+
+		  db.collection("Company")
+			.add(post_moreStuff)
+			.then(() => {
+			companyForm.reset();
+			reset_companies()
+			display_companies("name", "asc")
+			});
+	});
+} else if(img == undefined && docs != undefined){
+
+	let file = new Date() + "_" + docs.name;
+
+	const task = ref.child(file).put(docs);
+
+	task
+	.then((snapshot) => snapshot.ref.getDownloadURL())
+	.then((docs) =>{
+		let post_moreStuff = {
+			billing_address: billAdd,
+			description: desc,
+			email_domain: emailDomain,
+			name: compName,
+			phone_num: phone,
+			docs : docs,
+			shipping_address: shipAdd,
+			website: compWebsite,
+		  };
+
+		  db.collection("Company")
+			.add(post_moreStuff)
+			.then(() => {
+			companyForm.reset();
+			reset_companies()
+			display_companies("name", "asc")
+			});
+	});
+
+}else if(img != undefined && docs != undefined){
+
+	let image = new Date() + "_" + img.name;
+
+	const task = ref.child(image).put(img);
+
+	let file = new Date() + "_" + docs.name;
+
+	const task2 = ref.child(file).put(docs);
+
+	task
+	.then((snapshot) => snapshot.ref.getDownloadURL())
+	.then((img) =>{
+
+		let post_moreStuff = {
+			billing_address: billAdd,
+			description: desc,
+			email_domain: emailDomain,
+			name: compName,
+			phone_num: phone,
+			img : img,
+			shipping_address: shipAdd,
+			website: compWebsite,
+		  };
+		  task2
+		  .then((snapshot) => snapshot.ref.getDownloadURL())
+		  .then((docs) =>{
+			  let post_moreStuff2 = {
+				  ...post_moreStuff, 
+				  file: docs, 
+			  };
+		  
+
+
+		  db.collection("Company")
+			.add(post_moreStuff2)
+			.then(() => {
+			companyForm.reset();
+			reset_companies()
+			display_companies("name", "asc")
+			});
+		});
+	});
+}
 
   let post_moreStuff = {
     billing_address: billAdd,
@@ -1079,39 +1183,131 @@ function add_task() {
 	let client_name = document.querySelector("#task_client_name").value;
 	let date = document.querySelector("#task_date").value;
 	let task_location = document.querySelector("#task_location").value;
-	let task_file = document.querySelector("#task_file").value;
 	let task_note1 = document.querySelector("#task_note1").value;
 	let task_note2 = document.querySelector("#task_note2").value;
 	let task_note3 = document.querySelector("#task_note3").value;
 
-let file = document.querySelector("#task_img").files[0];
+	let img = document.querySelector("#task_img").files[0];
 
-let image = new Date() + "_" + file.name;
+	let filetask = document.querySelector("#task_file").files[0]
 
-const task = ref.child(image).put(file);
+if (img != undefined && filetask == undefined){
 
-task
-.then((snapshot) => snapshot.ref.getDownloadURL())
-.then((url) =>{
+	let image = new Date() + "_" + img.name;
+
+	const task = ref.child(image).put(img);
+
+	task
+	.then((snapshot) => snapshot.ref.getDownloadURL())
+	.then((img) =>{
+		let post_stuff = {
+			Task: task_name,
+			created_date: date,
+			img: img,
+			location: task_location,
+			name: client_name,
+			note1: task_note1,
+			note2: task_note2,
+			note3: task_note3,
+		};
+
+		db.collection("Task")
+		.add(post_stuff)
+		.then(() => {
+			task_form.reset();
+			reset_tasks()
+			display_tasks("created_date", "desc");
+		});
+	});
+} else if(img == undefined && filetask != undefined){
+
+	let file = new Date() + "_" + filetask.name;
+
+	const task = ref.child(file).put(filetask);
+
+	task
+	.then((snapshot) => snapshot.ref.getDownloadURL())
+	.then((filetask) =>{
+		let post_stuff = {
+			Task: task_name,
+			created_date: date,
+			file: filetask,
+			location: task_location,
+			name: client_name,
+			note1: task_note1,
+			note2: task_note2,
+			note3: task_note3,
+		};
+
+		db.collection("Task")
+		.add(post_stuff)
+		.then(() => {
+			task_form.reset();
+			reset_tasks()
+			display_tasks("created_date", "desc");
+		});
+	});
+}else if(img != undefined && filetask != undefined) {
+	let image = new Date() + "_" + img.name;
+
+	const task = ref.child(image).put(img);
+
+	let file = new Date() + "_" + filetask.name;
+
+	const task2 = ref.child(file).put(filetask);
+
+	task
+	.then((snapshot) => snapshot.ref.getDownloadURL())
+	.then((img) =>{
+		let post_stuff = {
+			Task: task_name,
+			created_date: date,
+			img: img,
+			location: task_location,
+			name: client_name,
+			note1: task_note1,
+			note2: task_note2,
+			note3: task_note3,
+		};
+		task2
+		.then((snapshot) => snapshot.ref.getDownloadURL())
+		.then((filetask) =>{
+			let post_stuff2 = {
+				...post_stuff, 
+				file: filetask, 
+			};
+	
+			db.collection("Task")
+			.add(post_stuff2)
+			.then(() => {
+				task_form.reset();
+				reset_tasks()
+				display_tasks("created_date", "desc");
+			});
+		});
+	});
+
+}
+
+ else{
 	let post_stuff = {
 		Task: task_name,
 		created_date: date,
-		url: url,
 		location: task_location,
 		name: client_name,
 		note1: task_note1,
 		note2: task_note2,
 		note3: task_note3,
 	};
-
 	db.collection("Task")
-    .add(post_stuff)
-    .then(() => {
-		task_form.reset();
-		reset_tasks()
-		display_tasks("created_date", "desc");
-    });
-});
+		.add(post_stuff)
+		.then(() => {
+			task_form.reset();
+			reset_tasks()
+			display_tasks("created_date", "desc");
+		});
+
+}
 
 }
 
@@ -1146,23 +1342,24 @@ function add_notes() {
   let name = document.querySelector("#notes_name").value;
   let noteDate = document.querySelector("#notes_date").value;
   let cmnts = document.querySelector("#notes_comments").value;
+
   let noteFile = document.querySelector("#notes_file").files[0];
 
+if (noteFile != undefined){
+  let image = new Date() + "_" + noteFile.name;
 
-  let image = new Date() + "_" + file.name;
-
-  const task = ref.child(image).put(file);
+  const task = ref.child(image).put(noteFile);
 
   task
     .then(snapshot => snapshot.ref.getDownloadURL())
-    .then(url => {
+    .then((noteFile) => {
 
 		let post_moreStuff = {
 			company_id: "",
 			comments: cmnts,
 			company_name: name,
+			noteFile: noteFile,
 			date: noteDate,
-			file: noteFile,
 		  };
 
       db.collection("Notes")
@@ -1173,11 +1370,26 @@ function add_notes() {
 		display_notes("date","desc")
 	});
 
-    })
-	
+    });
+}else{
+
+	let post_moreStuff = {
+		company_id: "",
+		comments: cmnts,
+		company_name: name,
+		date: noteDate,
+	  };	
+
+	  db.collection("Notes")
+	  .add(post_moreStuff)
+	  .then(() => {
+		  notes_form.reset();
+		  reset_notes()
+		  display_notes("date","desc")
+	  });
+}
 }
 
 // <input type="text" class="form-control"  name="Organization" placeholder="Organization" id= "cont_org">
-
 
 
