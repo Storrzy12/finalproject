@@ -501,14 +501,19 @@ function display_companies(){
 				<td>${doc.data().description}</td>
 				<td>${doc.data().files}</td>
 				<td>${doc.data().photos}</td>
-				<td><button>Delete</button></td>
+				<td onclick = "delete_thing('Company', '${doc.id}')"><button>Delete</button></td>
 				
 	</tr>
 		`;
 	  });
 	});
+}
 
+function delete_thing(collection, doc_id){
 
+	db.collection(`${collection}`).doc(`${doc_id}`).delete().then(() => {
+		location.reload();
+	  })
 
 
 }
