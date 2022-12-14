@@ -35,7 +35,6 @@
         <link rel="stylesheet" href="assets/css/style.css" class="themecls">
 
 		<!-- Bulma CSS for Login-->
-		<!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css"> -->
     </head>
     <body >
 		<!-- Main Wrapper -->
@@ -55,7 +54,7 @@
 
 				<div>
 					<button class="add btn btn-gradient-primary font-weight-bold text-white todo-list-add-btn btn-rounded" id="add-task" data-bs-toggle="modal" data-bs-target="#signinmodal">Log in</button>
-
+					<button class="add btn text-black font-weight-bold todo-list-add-btn btn-rounded" id="signoutbtn" data-bs-toggle="modal" data-bs-target="#signoutmodal">Log Out</button>
 				</div>
 
 
@@ -325,11 +324,6 @@
 
 		<script>
 			// ***THIS IS THE JAVASCRIPT FOR THE LOGIN INFORMATION****
-		// 	function close_modal(modal_id) {
-
-		// 	document.querySelector(`#${modal_id}`).classList.remove('is-active');
-
-		// 	}
 		// 	var login_button = document.querySelector("#login_button");
         // login_button.addEventListener('click', function () {
         //     var login = document.querySelector('#login');
@@ -339,25 +333,28 @@
         // loginbg.addEventListener('click', function () {
         //     login.classList.remove('is-active');
         // })
+		const signin_form = document.querySelector("#signin_form");
+		signin_form.addEventListener('submit', (e) => {
+            e.preventDefault()
 
-		// login_form.addEventListener('submit', (e) => {
-        //     e.preventDefault()
-
-        //     //grab email and password
-        //     const login_email = document.querySelector("#email_").value;
-        //     const login_password = document.querySelector("#password_").value;
+            //grab email and password
+            const login_email = document.querySelector("#user_email").value;
+            const login_password = document.querySelector("#user_password").value;
 
             
-        //     auth.signInWithEmailAndPassword(login_email, login_password)
-        //         .then((userCredentials) => {
-        //             console.log(userCredentials.user.email + " with the id " + userCredentials.user.uid +
-        //                 " is logged in!");
-        //             login.classList.remove('is-active');
+            auth.signInWithEmailAndPassword(login_email, login_password)
+                .then((userCredentials) => {
+                    console.log(userCredentials.user.email + " with the id " + userCredentials.user.uid +
+                        " is logged in!");
+                    signin_form.reset();
+                })
+        })
 
-        //             login_form.reset();
-		// 			close_modal('login');
-        //         })
-        // })
+		const signoutbtn = document.querySelector("#signoutbtn");
+		signoutbtn.addEventListener('click', () => {
+		auth.signOut();
+		console.log("User Signed out!");
+		})
 			// TODO
 			// Copy **only** your firebaseConfig from Google Firebae and add it below
 	
