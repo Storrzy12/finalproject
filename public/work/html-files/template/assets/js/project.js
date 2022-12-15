@@ -505,6 +505,23 @@ function display_companies(thing_sorted, way_sorted){
 	  sorted_companies.get().then((response) => {
 		let docs = response.docs;
 		docs.forEach((doc) => {
+	  var temp_img = doc.data().img
+	  var input_img = "<button>" + "<img src='assets/img/camera.jpg' width='40' height='40' />" + "</button>"
+	
+	  
+	  if (typeof doc.data().img == "undefined"){
+		  temp_img = ""
+		  input_img = ""
+	  }
+
+	  var temp_file = doc.data().file
+	  var input_file = "<button>" + "<img src='assets/img/filefolder.png' width='40' height='40' />" + "</button>"
+	  				
+	  
+	  if (typeof doc.data().file == "undefined"){
+		  temp_file = ""
+		  input_file = ""
+	  }
 		  company_table.innerHTML += `
 			  <tr>	
 				  <td>${doc.data().name}</td>
@@ -516,16 +533,8 @@ function display_companies(thing_sorted, way_sorted){
 				  <td>
 				  ${textFold(doc.data().description, 80)}
 				  </td>
-				  <td><a href="${doc.data().file}">
-							<button>
-							<img src="assets/img/filefolder.png" width="40" height="40" />
-							</button>
-							</a></td>
-				  <td><a href="${doc.data().img}">
-							<button>
-							<img src="assets/img/camera.jpg" width="40" height="40" />
-							</button>
-							</a></td>
+				  <td><a href = ${temp_img}>${input_img}</td>
+				  <td><a href = ${temp_file}>${input_file}</td>
 				  <td onclick = "delete_thing('Company', '${doc.id}')"><button>Delete</button></td>
 				  
 	  </tr>
@@ -733,44 +742,6 @@ function display_tasks(thing_sorted, way_sorted){
 	});
 
 }
-
-
-// function display_tasks(thing_sorted, way_sorted){
-// 		  reset_tasks()
-
-// 		  var taskref = db.collection("Task");
-// 		  let sorted_taskref = taskref.orderBy(thing_sorted, way_sorted)
-// 		  sorted_taskref.get().then((response) => {
-// 		  let docs = response.docs;
-// 		  docs.forEach((doc) => {
-// 		  tasktable.innerHTML += `
-// 					  <tr>	
-// 						  <td>${doc.data().Task}</td>
-// 						  <td>${doc.data().name}</td>
-// 						  <td>${doc.data().created_date}</td>
-// 						  <td>${doc.data().location}</td>
-// 						  <td><a href="${doc.data().img}">
-// 							<button>
-// 							<img src="assets/img/camera.jpg" width="40" height="40" />
-// 							</button>
-// 							</a></td>
-// 						  <td><a href="${doc.data().file}">
-// 							<button>
-// 							<img src="assets/img/filefolder.png" width="40" height="40" />
-// 							</button>
-// 							</a></td>
-// 						  <td>${doc.data().note1}</td>
-// 						  <td>${doc.data().note2}</td>
-// 						  <td>${doc.data().note3}</td>
-// 						  <td onclick = "delete_thing('Task', '${doc.id}')"><button>Delete</button></td>
-// 					  </tr>
-// 				  `;
-// 			  });
-// 		  });
-  
-// }
-
-
 
 
 function conversation_history() {
@@ -1038,16 +1009,22 @@ function display_notes(thing_sorted, way_sorted){
 	  sorted_notes.get().then((response) => {
 	  let docs = response.docs;
 	  docs.forEach((doc) => {
+		var temp_file = doc.data().file
+		var input_file = "<button>" + "<img src='assets/img/filefolder.png' width='40' height='40' />" + "</button>"
+						
+		
+		if (typeof doc.data().file == "undefined"){
+			temp_file = ""
+			input_file = ""
+		}
+
+
 		  quick_notes_table.innerHTML += `
 				  <tr>	
 					  <td>${doc.data().company_name}</td>
 					  <td>${doc.data().date}</td>
 					  <td>${textFold(doc.data().comments, 80)}</td>
-					  <td><a href="${doc.data().noteFile}">
-					  <button>
-					  <img src="assets/img/filefolder.png" width="40" height="40" />
-					  </button>
-					  </a></td>
+					  <td><a href = ${temp_file}>${input_file}</td>
 					  <td onclick = "delete_thing('Notes', '${doc.id}')"><button>Delete</button></td>
 		  </tr>
 			  `;
