@@ -234,6 +234,7 @@ function contacts_page() {
 													  <th>Phone</th>
 													  <th>Mailing Address</th>
 													  <th>Description</th>
+													  <th>Notes</th>
 											</tr>
 	
 	
@@ -256,6 +257,7 @@ function contacts_page() {
 				  <td>${doc.data().email}</td>
 				  <td>${doc.data().phone_num}</td>
 				  <td>${doc.data().mailing_address}</td>
+				  <td>${doc.data().notes}</td>
 				  <td>
 				  ${textFold(doc.data().description, 80)}
 				  </td>
@@ -527,7 +529,7 @@ function display_companies(thing_sorted, way_sorted){
 				  <td>${doc.data().name}</td>
 				  <td>${doc.data().phone_num}</td>
 				  <td>${doc.data().website}</td>
-				  <td>${doc.data().email}</td>
+				  <td>${doc.data().email_domain}</td>
 				  <td>${doc.data().billing_address}</td>
 				  <td>${doc.data().shipping_address}</td>
 				  <td>
@@ -601,7 +603,7 @@ function task_list_page() {
 											</div>
 											<div class="col-lg-12 col-md-12">
 												<div class="form-group">
-													<label>Date</label>
+													<label>Due Date</label>
                                                     <input type="date" class="form-control" id = "task_date">
 												</div>
 											</div>
