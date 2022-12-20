@@ -807,6 +807,9 @@ function conversation_history() {
 													  <input type="time" class="form-control" id = "end_time">
 												  </div>
 											  </div>
+											  <div class="form-group">
+                                                <textarea rows="4" class="form-control bg-grey" placeholder="Notes" id = "convo_notes"></textarea>
+                                            </div>
 											  <div class="text-center py-3">
 										  <button type="button" class="border-0 btn btn-primary btn-gradient-primary btn-rounded" onclick="add_convo()">Save</button>&nbsp;&nbsp;
 									  </div>
@@ -875,6 +878,7 @@ function reset_convos(){
 	convo_table.innerHTML = `
 	<th>Company <a onclick = "show_convo_history('company', 'asc')" style="cursor: pointer;">↑</a><a onclick = "show_convo_history('company', 'desc')" style="cursor: pointer;">↓</a></th>
 	<th>Contact <a onclick = "show_convo_history('contact', 'asc')" style="cursor: pointer;">↑</a><a onclick = "show_convo_history('contact', 'desc')" style="cursor: pointer;">↓</a></th>
+	<th>Notes</th>
 	<th>Date <a onclick = "show_convo_history('date', 'asc')" style="cursor: pointer;">↑</a><a onclick = "show_convo_history('date', 'desc')" style="cursor: pointer;">↓</a></th>
 	<th>Call start time</th>
 	<th>Call end time</th>
@@ -898,6 +902,7 @@ function show_convo_history(thing_sorted, way_sorted){
 					<tr>	
 						<td>${doc.data().company}</td>
 						<td>${doc.data().contact}</td>
+						<td>${doc.data().convo_notes}</td>
 						<td>${doc.data().date}</td>
 						<td>${doc.data().call_start}</td>
 						<td>${doc.data().call_end}</td>
@@ -1381,6 +1386,7 @@ function add_convo() {
   let call_end = document.querySelector("#end_time").value;
   let convo_company = document.querySelector("#convo_company").value;
   let convo_contact = document.querySelector("#convo_contact").value;
+  let convo_notes = document.querySelector("#convo_notes").value;
   let date = document.querySelector("#convo_date").value;
   let post_stuff = {
     comp_id: "",
@@ -1389,6 +1395,7 @@ function add_convo() {
     contact: convo_contact,
     call_start: call_start,
     call_end: call_end,
+	convo_notes: convo_notes,
     date: date,
   };
 
@@ -1409,7 +1416,10 @@ function add_notes() {
 
   let noteFile = document.querySelector("#notes_file").files[0];
 
+  
+
 if (noteFile != undefined){
+
   let image = new Date() + "_" + noteFile.name;
 
   const task = ref.child(image).put(noteFile);
