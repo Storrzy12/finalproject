@@ -1009,11 +1009,11 @@ function display_notes(thing_sorted, way_sorted){
 	  sorted_notes.get().then((response) => {
 	  let docs = response.docs;
 	  docs.forEach((doc) => {
-		var temp_file = doc.data().file
+		var temp_file = doc.data().noteFile
 		var input_file = "<button>" + "<img src='assets/img/filefolder.png' width='40' height='40' />" + "</button>"
 						
 		
-		if (typeof doc.data().file == "undefined"){
+		if (typeof doc.data().noteFile == "undefined"){
 			temp_file = ""
 			input_file = ""
 		}
