@@ -902,7 +902,7 @@ function show_convo_history(thing_sorted, way_sorted){
 					<tr>	
 						<td>${doc.data().company}</td>
 						<td>${doc.data().contact}</td>
-						<td>${doc.data().convo_notes}</td>
+						<td>${textFold(doc.data().convo_notes, 80)}</td>
 						<td>${doc.data().date}</td>
 						<td>${doc.data().call_start}</td>
 						<td>${doc.data().call_end}</td>
