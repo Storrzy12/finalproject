@@ -514,11 +514,11 @@ function display_companies(thing_sorted, way_sorted){
 		  input_img = ""
 	  }
 
-	  var temp_file = doc.data().file
+	  var temp_file = doc.data().docs
 	  var input_file = "<button>" + "<img src='assets/img/filefolder.png' width='40' height='40' />" + "</button>"
 	  				
 	  
-	  if (typeof doc.data().file == "undefined"){
+	  if (typeof doc.data().docs == "undefined"){
 		  temp_file = ""
 		  input_file = ""
 	  }
